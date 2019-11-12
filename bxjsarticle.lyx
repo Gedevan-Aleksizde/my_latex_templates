@@ -1,0 +1,274 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass bxjsarticle
+\begin_preamble
+% LyX 2.3.3 で動作確認
+% ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
+% やりたくないなら ifplatform でフォント指定分岐しているところを書き換える
+\usepackage[AutoFallBack=true]{zxjatype}
+\usepackage{ifthen}
+\usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
+
+% document 環境内で \label 使わないと LyX が使用判定してくれず, エラーになるので以下で必ず読み込み
+\usepackage{listings}
+\usepackage{color}
+\usepackage{prettyref} 
+
+% 以下4パッケージは表のデザイン用
+\usepackage{dcolumn}
+\usepackage{multicol}
+\usepackage{boites}
+\usepackage{booktabs}
+
+
+% --- color.sty で色登録 ----- %
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{myblue}{rgb}{0,0,0.6}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mygray2}{rgb}{0.2,0.2,0.2}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% -----
+
+% ---- zxjatype.sty でフォント指定 ---- %
+% 欧文フォントはフォントタブで指定できるが, オプション指定ができないので欧文・和文まとめてここに書く
+% ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
+\iflinux
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{IPAゴシック} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+\fi
+% fail-safe として *NIX になったときも Linux と同じ設定になるように
+\ifthenelse{\equal{\platformname}{*NIX}}{
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+}{}
+\ifmacosx
+  \setmainfont[Ligatures=TeX]{Times} %欧文フォント族指定
+  \setsansfont[Ligatures=TeX]{Helvetica} %欧文サンセリフフォント指定
+  \setmonofont{Ricty Diminished} %欧文等幅フォント指定
+  \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
+  \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+\fi
+\ifwindows
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Migu 1M]{Migu 1M} %和文等幅フォント
+\fi
+% document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
+% -----
+
+
+% --- 数式記号を新たに定義 ---- %
+% amsmath 等は LyX が読み込むべきか自動判断するので不要
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits} %argumented maximize
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits} %arg.minimize
+\newcommand{\indep}{\mathop{\perp\!\!\!\perp}}% independent
+\newcommand{\plim}{\mathop{\rm plim}} % plim
+\newcommand{\bi}{\boldsymbol}%bold italic
+% ------
+
+
+% amsthm.sty の各環境のラベル名を日本語に (現在は LyX が自動生成してくれるので不要)
+% ただし証明のフォーマットはハードコードされてるので以下のように強制上書き
+\ifdefined\proofname
+  \renewcommand{\proofname}{証明}
+\fi
+% 書き換える場合は以下のように
+%\providecommand{\definitionname}{定義}
+
+% ------
+
+% dcolumn.sty の表のアラインメント設定
+\@ifpackageloaded{dcolumns}{\newcolumntype{.}{D{.}{.}{-1}}}{}
+% 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
+% ------
+
+% ---- prettyref 用の設定 ----
+% label を \label{<CATEGORY>:<Reference ID>} のように書くと,
+% 参照する際に <CATEGORY> に応じてフォーマットが変わる.
+% <CATEGORY> に対応するのは以下, eq, lem, thm, ... など
+% LyX では prettyref を使うと label 挿入場所の環境に応じて自動で補ってくれる
+\@ifpackageloaded{prettyref}{
+  \newrefformat{eq}{\textup{(\ref{#1})}}%
+  \newrefformat{lem}{補題 \ref{#1}}%
+  \newrefformat{thm}{定理 \ref{#1}}%
+  \newrefformat{prop}{命題 \ref{#1}}%
+  \newrefformat{cha}{\ref{#1} 章}%
+  \newrefformat{sec}{\ref{#1} 節}%
+  \newrefformat{tab}{表\ref{#1}}%
+  \newrefformat{fig}{図 \ref{#1}}%
+  \newrefformat{alg}{アルゴリズム \ref{#1}}%
+  \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
+  \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
+}{}
+% ------
+
+% lsting の設定
+% とりあえず R で
+\lstset{ %algorithm form
+language=R,%
+escapechar=ø,%
+numbers=left,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+numbers=left,%
+breaklines=true,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+identifierstyle={\small},%
+commentstyle={\small\itshape},%
+keywordstyle={\small\bfseries},%
+ndkeywordstyle={\small},%
+stringstyle={\small\ttfamily},%
+%% set left number frame
+frame=single,%
+backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
+%fillcolor=\color{mygray},%
+rulecolor=\color{myblue},%
+framesep=2ex,%
+framexleftmargin=2.5mm,%
+%% set color style
+numberstyle=\tiny\color{mygray2},%
+commentstyle=\color{mygreen},%
+keywordstyle=\color{blue},%
+stringstyle=\color{mymauve},%
+rulecolor=\color{black},%
+showspaces=true,% 連続ブランクをそのまま表示する
+showstringspaces=true % ブランクの存在を記号で表す
+}
+% ----
+\end_preamble
+\use_default_options false
+\begin_modules
+theorems-bytype
+theorems-sec-bytype
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Format 66
+Style Enume_alph
+Category             List
+Margin                Static
+LatexType             Item_Environment
+LatexName             enumerate
+LatexParam      [(a)]
+NextNoIndent          1
+LeftMargin            MMN
+LabelSep              xx
+ItemSep               0.2
+TopSep                0.7
+BottomSep             0.7
+ParSep                0.3
+Align                 Block
+AlignPossible         Block, Left
+LabelType             enumerate
+LabelString           "aaaaaaaa"
+HTMLTag               ul
+HTMLItem              li
+HTMLLabel             NONE
+End
+\end_local_layout
+\language japanese
+\language_package none
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts true
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics xetex
+\default_output_format pdf4
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\end_layout
+
+\end_body
+\end_document

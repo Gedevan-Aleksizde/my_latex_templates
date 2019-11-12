@@ -1,0 +1,168 @@
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass{bxjsarticle}
+\usepackage{fontspec}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% LyX 2.3.3 で動作確認
+% ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
+% やりたくないなら ifplatform でフォント指定分岐しているところを書き換える
+\usepackage[AutoFallBack=true]{zxjatype}
+\usepackage{ifthen}
+\usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
+
+% document 環境内で \label 使わないと LyX が使用判定してくれず, エラーになるので以下で必ず読み込み
+\usepackage{listings}
+\usepackage{color}
+\usepackage{prettyref} 
+
+% 以下4パッケージは表のデザイン用
+\usepackage{dcolumn}
+\usepackage{multicol}
+\usepackage{boites}
+\usepackage{booktabs}
+
+
+% --- color.sty で色登録 ----- %
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{myblue}{rgb}{0,0,0.6}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mygray2}{rgb}{0.2,0.2,0.2}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+% -----
+
+% ---- zxjatype.sty でフォント指定 ---- %
+% 欧文フォントはフォントタブで指定できるが, オプション指定ができないので欧文・和文まとめてここに書く
+% ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
+\iflinux
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{IPAゴシック} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+\fi
+% fail-safe として *NIX になったときも Linux と同じ設定になるように
+\ifthenelse{\equal{\platformname}{*NIX}}{
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Migu 1M} %和文等幅フォント
+}{}
+\ifmacosx
+  \setmainfont[Ligatures=TeX]{Times} %欧文フォント族指定
+  \setsansfont[Ligatures=TeX]{Helvetica} %欧文サンセリフフォント指定
+  \setmonofont{Ricty Diminished} %欧文等幅フォント指定
+  \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
+  \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+\fi
+\ifwindows
+  \setmainfont[Ligatures=TeX]{Palatino Linotype}
+  \setsansfont[Ligatures=TeX]{Arial}
+  \setmonofont{Migu 1M}
+  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont[BoldFont=Migu 1M]{Migu 1M} %和文等幅フォント
+\fi
+% document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
+% -----
+
+
+% --- 数式記号を新たに定義 ---- %
+% amsmath 等は LyX が読み込むべきか自動判断するので不要
+\newcommand{\argmax}{\mathop{\rm arg~max}\limits} %argumented maximize
+\newcommand{\argmin}{\mathop{\rm arg~min}\limits} %arg.minimize
+\newcommand{\indep}{\mathop{\perp\!\!\!\perp}}% independent
+\newcommand{\plim}{\mathop{\rm plim}} % plim
+\newcommand{\bi}{\boldsymbol}%bold italic
+% ------
+
+
+% amsthm.sty の各環境のラベル名を日本語に (現在は LyX が自動生成してくれるので不要)
+% ただし証明のフォーマットはハードコードされてるので以下のように強制上書き
+\ifdefined\proofname
+  \renewcommand{\proofname}{証明}
+\fi
+% 書き換える場合は以下のように
+%\providecommand{\definitionname}{定義}
+
+% ------
+
+% dcolumn.sty の表のアラインメント設定
+\@ifpackageloaded{dcolumns}{\newcolumntype{.}{D{.}{.}{-1}}}{}
+% 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
+% ------
+
+% ---- prettyref 用の設定 ----
+% label を \label{<CATEGORY>:<Reference ID>} のように書くと,
+% 参照する際に <CATEGORY> に応じてフォーマットが変わる.
+% <CATEGORY> に対応するのは以下, eq, lem, thm, ... など
+% LyX では prettyref を使うと label 挿入場所の環境に応じて自動で補ってくれる
+\@ifpackageloaded{prettyref}{
+  \newrefformat{eq}{\textup{(\ref{#1})}}%
+  \newrefformat{lem}{補題 \ref{#1}}%
+  \newrefformat{thm}{定理 \ref{#1}}%
+  \newrefformat{prop}{命題 \ref{#1}}%
+  \newrefformat{cha}{\ref{#1} 章}%
+  \newrefformat{sec}{\ref{#1} 節}%
+  \newrefformat{tab}{表\ref{#1}}%
+  \newrefformat{fig}{図 \ref{#1}}%
+  \newrefformat{alg}{アルゴリズム \ref{#1}}%
+  \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
+  \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
+}{}
+% ------
+
+% lsting の設定
+% とりあえず R で
+\lstset{ %algorithm form
+language=R,%
+escapechar=ø,%
+numbers=left,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+numbers=left,%
+breaklines=true,%
+numberstyle=\scriptsize,%
+stepnumber=1,%
+columns=[l]{fullflexible},%
+basicstyle=\ttfamily,%
+identifierstyle={\small},%
+commentstyle={\small\itshape},%
+keywordstyle={\small\bfseries},%
+ndkeywordstyle={\small},%
+stringstyle={\small\ttfamily},%
+%% set left number frame
+frame=single,%
+backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
+%fillcolor=\color{mygray},%
+rulecolor=\color{myblue},%
+framesep=2ex,%
+framexleftmargin=2.5mm,%
+%% set color style
+numberstyle=\tiny\color{mygray2},%
+commentstyle=\color{mygreen},%
+keywordstyle=\color{blue},%
+stringstyle=\color{mymauve},%
+rulecolor=\color{black},%
+showspaces=true,% 連続ブランクをそのまま表示する
+showstringspaces=true % ブランクの存在を記号で表す
+}
+% ----
+
+\makeatother
+
+\begin{document}
+
+\end{document}
