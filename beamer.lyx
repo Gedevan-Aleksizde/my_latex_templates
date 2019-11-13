@@ -163,6 +163,10 @@ showspaces=true,% 連続ブランクをそのまま表示する
 showstringspaces=true % ブランクの存在を記号で表す
 }
 % ----
+
+% デフォルトでは「参考文献」がセクションタイトルとして生成され,
+% beamer で表示すると不格好になるので表示しないようにする
+\renewcommand{\bibsection}{}
 \end_preamble
 \use_default_options true
 \begin_modules
@@ -209,7 +213,7 @@ End
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
-\graphics xetex
+\graphics default
 \default_output_format pdf4
 \output_sync 0
 \bibtex_command default
