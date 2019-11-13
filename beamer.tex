@@ -201,6 +201,10 @@ showstringspaces=true % ブランクの存在を記号で表す
 }
 % ----
 
+% デフォルトでは「参考文献」がセクションタイトルとして生成され,
+% beamer で表示すると不格好になるので表示しないようにする
+\renewcommand{\bibsection}{}
+
 \makeatother
 
 \usepackage{listings}

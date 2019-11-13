@@ -1,7 +1,9 @@
 %% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass{bxjsarticle}
+\usepackage{amsmath}
 \usepackage{fontspec}
+\usepackage{color}
 \usepackage[authoryear]{natbib}
 \usepackage[unicode=true,pdfusetitle,
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
@@ -9,6 +11,9 @@
  {hyperref}
 
 \makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\numberwithin{equation}{section}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 % LyX 2.3.3 で動作確認
 % ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
@@ -122,47 +127,39 @@
 }{}
 % ------
 
-% lsting の設定
-% とりあえず R で
-\lstset{ %algorithm form
-language=R,%
-escapechar=ø,%
-numbers=left,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-numbers=left,%
-breaklines=true,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-identifierstyle={\small},%
-commentstyle={\small\itshape},%
-keywordstyle={\small\bfseries},%
-ndkeywordstyle={\small},%
-stringstyle={\small\ttfamily},%
-%% set left number frame
-frame=single,%
-backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
-%fillcolor=\color{mygray},%
-rulecolor=\color{myblue},%
-framesep=2ex,%
-framexleftmargin=2.5mm,%
-%% set color style
-numberstyle=\tiny\color{mygray2},%
-commentstyle=\color{mygreen},%
-keywordstyle=\color{blue},%
-stringstyle=\color{mymauve},%
-rulecolor=\color{black},%
-showspaces=true,% 連続ブランクをそのまま表示する
-showstringspaces=true % ブランクの存在を記号で表す
-}
-% ----
-
 \makeatother
 
+\usepackage{listings}
+\lstset{language=R,
+escapechar={ø},
+numbers=left,
+numberstyle={\scriptsize},
+stepnumber=1,
+columns={[l]{fullflexible}},
+basicstyle={\ttfamily},
+numbers=left,
+breaklines=true,
+numberstyle={\scriptsize},
+stepnumber=1,
+columns={[l]{fullflexible}},
+basicstyle={\ttfamily},
+identifierstyle={\small},
+commentstyle={\small\itshape},
+keywordstyle={\small\bfseries},
+ndkeywordstyle={\small},
+stringstyle={\small\ttfamily},
+frame=single,
+backgroundcolor={\color[rgb]{0.9,0.9,0.9}},
+rulecolor={\color{myblue}},
+framesep=2ex,
+framexleftmargin={2.5mm},
+numberstyle={\tiny\color{mygray2}},
+commentstyle={\color{mygreen}},
+keywordstyle={\color{blue}},
+stringstyle={\color{mymauve}},
+rulecolor={\color{black}},
+showspaces=true,
+showstringspaces=true}
 \begin{document}
 
 \end{document}
