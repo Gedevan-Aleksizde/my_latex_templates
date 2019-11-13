@@ -1,5 +1,6 @@
 # LyX + XeLaTeX で日本語文書作成する私的テンプレート
-LyX 2.3.x で動作させる前提.
+LyX 2.3.3 で動作させる前提.
+Ubuntu 18.04, Mac OS で動作確認
 `bxjsarticle`, `beamer` 用のテンプレート.
 
 * ZXjatype に依存
