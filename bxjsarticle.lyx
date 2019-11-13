@@ -117,50 +117,12 @@
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
 }{}
 % ------
-
-% lsting の設定
-% とりあえず R で
-\lstset{ %algorithm form
-language=R,%
-escapechar=ø,%
-numbers=left,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-numbers=left,%
-breaklines=true,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-identifierstyle={\small},%
-commentstyle={\small\itshape},%
-keywordstyle={\small\bfseries},%
-ndkeywordstyle={\small},%
-stringstyle={\small\ttfamily},%
-%% set left number frame
-frame=single,%
-backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
-%fillcolor=\color{mygray},%
-rulecolor=\color{myblue},%
-framesep=2ex,%
-framexleftmargin=2.5mm,%
-%% set color style
-numberstyle=\tiny\color{mygray2},%
-commentstyle=\color{mygreen},%
-keywordstyle=\color{blue},%
-stringstyle=\color{mymauve},%
-rulecolor=\color{black},%
-showspaces=true,% 連続ブランクをそのまま表示する
-showstringspaces=true % ブランクの存在を記号で表す
-}
-% ----
 \end_preamble
 \use_default_options false
 \begin_modules
 theorems-bytype
 theorems-sec-bytype
+eqs-within-sections
 \end_modules
 \maintain_unincluded_children false
 \begin_local_layout
@@ -203,7 +165,7 @@ End
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
-\graphics xetex
+\graphics default
 \default_output_format pdf4
 \output_sync 0
 \bibtex_command default
@@ -234,7 +196,7 @@ End
 \use_package undertilde 1
 \cite_engine natbib
 \cite_engine_type authoryear
-\biblio_style plainnat
+\biblio_style jecon
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -257,6 +219,7 @@ End
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
+\listings_params "language=R,escapechar={ø},numbers=left,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},numbers=left,breaklines=true,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},identifierstyle={\small},commentstyle={\small\itshape},keywordstyle={\small\bfseries},ndkeywordstyle={\small},stringstyle={\small\ttfamily},frame=single,backgroundcolor={\color[rgb]{0.9,0.9,0.9}},rulecolor={\color{myblue}},framesep=2ex,framexleftmargin={2.5mm},numberstyle={\tiny\color{mygray2}},commentstyle={\color{mygreen}},keywordstyle={\color{blue}},stringstyle={\color{mymauve}},rulecolor={\color{black}},showspaces=true,showstringspaces=true"
 \tracking_changes false
 \output_changes false
 \html_math_output 0
