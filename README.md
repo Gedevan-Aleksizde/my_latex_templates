@@ -16,6 +16,6 @@ Linux 系なら
 ```
 Mac なら
 ```
-~/Library/Application Support/Lyx/<VERSION>/templates
+~/Library/Application Support/Lyx-<VERSION>/templates
 ```
 に .lyx を配置する.
