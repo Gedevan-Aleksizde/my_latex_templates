@@ -168,50 +168,15 @@
 % ------
 
 
-
-% lsting の設定
-\lstset{ %algorithm form
-language=R,%
-escapechar=ø,%
-numbers=left,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-numbers=left,%
-breaklines=true,%
-numberstyle=\scriptsize,%
-stepnumber=1,%
-columns=[l]{fullflexible},%
-basicstyle=\ttfamily,%
-identifierstyle={\small},%
-commentstyle={\small\itshape},%
-keywordstyle={\small\bfseries},%
-ndkeywordstyle={\small},%
-stringstyle={\small\ttfamily},%
-%% set left number frame
-frame=single,%
-backgroundcolor=\color[rgb]{0.9,0.9,0.9},%
-%fillcolor=\color{mygray},%
-rulecolor=\color{myblue},%
-framesep=2ex,%
-framexleftmargin=2.5mm,%
-%% set color style
-numberstyle=\tiny\color{mygray2},%
-commentstyle=\color{mygreen},%
-keywordstyle=\color{blue},%
-stringstyle=\color{mymauve},%
-rulecolor=\color{black},%
-showspaces=true,% 連続ブランクをそのまま表示する
-showstringspaces=true % ブランクの存在を記号で表す
-}
-% ----
-
 % natbib を使うと「参考文献」がセクションタイトルとしてスライド本文領域に生成され,
 % beamer で表示すると不格好になるので表示しないようにする
 \@ifpackageloaded{natbib}{
   \renewcommand{\bibsection}{}
 }{}
+
+
+% 参考文献の文字は小さくしてもいいだろう
+\renewcommand*{\bibfont}{\footnotesize}
 
 \makeatother
 
