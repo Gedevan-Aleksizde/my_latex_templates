@@ -114,13 +114,13 @@
 % LyX では prettyref を使うと label 挿入場所の環境に応じて自動で補ってくれる
 \@ifpackageloaded{prettyref}{
   \newrefformat{eq}{\textup{(\ref{#1})}}%
-  \newrefformat{lem}{補題 \ref{#1}}%
-  \newrefformat{thm}{定理 \ref{#1}}%
-  \newrefformat{prop}{命題 \ref{#1}}%
-  \newrefformat{cha}{\ref{#1} 章}%
-  \newrefformat{sec}{\ref{#1} 節}%
+  \newrefformat{lem}{補題\ref{#1}}%
+  \newrefformat{thm}{定理\ref{#1}}%
+  \newrefformat{prop}{命題\ref{#1}}%
+  \newrefformat{cha}{第\ref{#1}章}%
+  \newrefformat{sec}{第\ref{#1}節}%
   \newrefformat{tab}{表\ref{#1}}%
-  \newrefformat{fig}{図 \ref{#1}}%
+  \newrefformat{fig}{図\ref{#1}}%
   \newrefformat{alg}{アルゴリズム \ref{#1}}%
   \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
