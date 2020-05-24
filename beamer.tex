@@ -1,10 +1,11 @@
-%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.4.2 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
-\documentclass{beamer}
+\documentclass[12pt]{beamer}
 \usepackage{fontspec}
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 \usepackage{pdfcolmk}
+\usepackage[numbers]{natbib}
 \PassOptionsToPackage{normalem}{ulem}
 \usepackage{ulem}
 \ifx\hypersetup\undefined
@@ -80,19 +81,19 @@
 \iflinux
   \setmainfont[Ligatures=TeX]{Palatino Linotype}
   \setsansfont[Ligatures=TeX]{Arial}
-  \setmonofont{Migu 1M}
-  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
-  \setjamonofont{Migu 1M} %和文等幅フォント
+  \setmonofont{Ricty Diminished}
+  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 % fail-safe として *NIX になったときも Linux と同じ設定になるように
 \ifthenelse{\equal{\platformname}{*NIX}}{
   \setmainfont[Ligatures=TeX]{Palatino Linotype}
   \setsansfont[Ligatures=TeX]{Arial}
   \setmonofont{Migu 1M}
-  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
-  \setjamonofont{Migu 1M} %和文等幅フォント
+  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 }{}
 
 \ifmacosx
@@ -109,7 +110,7 @@
   \setmonofont{Migu 1M}
   \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
-  \setjamonofont[BoldFont=Migu 1M]{Migu 1M} %和文等幅フォント
+  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
 \fi
 
 % document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
@@ -176,7 +177,9 @@
 
 
 % 参考文献の文字は小さくしてもいいだろう
+\ifdefined \bibfont
 \renewcommand*{\bibfont}{\footnotesize}
+\fi
 
 \makeatother
 
