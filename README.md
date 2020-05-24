@@ -8,7 +8,7 @@ Ubuntu 18.04, Mac OS で動作確認
 * ZXjatype に依存  
 http://zrbabbler.sp.land.to/zxjatype.html
 * コンパイルには `-shell-escape` が必要
-* デフォルトのテーマはmetropolis  
+* beamerのテーマデフォルトはmetropolis使用  
 https://github.com/matze/mtheme
 
 # 使い方
