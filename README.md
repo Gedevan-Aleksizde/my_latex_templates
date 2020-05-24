@@ -5,9 +5,11 @@ Ubuntu 18.04, Mac OS で動作確認
 
 `bxjsarticle`, `beamer` 用のテンプレート.
 
-* ZXjatype に依存
+* ZXjatype に依存  
 http://zrbabbler.sp.land.to/zxjatype.html
 * コンパイルには `-shell-escape` が必要
+* デフォルトのテーマはmetropolis  
+https://github.com/matze/mtheme
 
 # 使い方
 Linux 系なら
