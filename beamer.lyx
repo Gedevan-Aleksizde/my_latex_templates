@@ -25,7 +25,7 @@
 \usepackage{booktabs}
 
 % ---- theme 設定 -----
-\usetheme[progressbar=foot]{metropolis}
+\usetheme[progressbar=frametitle]{metropolis}
 % progress bar を太くする
 \setlength{\metropolis@progressinheadfoot@linewidth}{3pt}
 
