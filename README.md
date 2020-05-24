@@ -1,5 +1,5 @@
 # LyX + XeLaTeX で日本語文書作成する私的テンプレート
-LyX 2.3.3 で動作させる前提.
+LyX 2.3.4 で動作させる前提.
 
 Ubuntu 18.04, Mac OS で動作確認
 
@@ -12,7 +12,7 @@ http://zrbabbler.sp.land.to/zxjatype.html
 # 使い方
 Linux 系なら
 ```
-~/.lyx/templates
+/usr/share/lyx/templates
 ```
 Mac なら
 ```
