@@ -5,10 +5,10 @@
   + 文書用
   + スライド用(beamer)
   + LyX 2.3.4 で動作させる前提.
+  + Ubuntu 18.04, Mac OS で動作確認
 * RMarkdwon用
   + beamer_presentation用テンプレート
-Ubuntu 18.04, Mac OS で動作確認
-
+  + Ubuntu 18.04 で開発中
 
 ## LyX 用テンプレート
 `bxjsarticle`, `beamer` 用のテンプレート.
