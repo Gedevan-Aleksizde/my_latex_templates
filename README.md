@@ -9,6 +9,7 @@
 * RMarkdwon用
   + beamer_presentation用テンプレート
   + Ubuntu 18.04 で開発中
+  + たぶん OSXでも動く
 
 ## LyX 用テンプレート
 `bxjsarticle`, `beamer` 用のテンプレート.
