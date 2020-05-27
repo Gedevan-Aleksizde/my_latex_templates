@@ -128,6 +128,9 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
@@ -191,9 +194,9 @@
   \begin{itemize}
   \tightlist
   \item
-    Tokyo.R などRを使った話を発表するための資料
+    Tokyo.R などRを使った話を発表する際の資料作成
   \item
-    アカデミック寄りの話もする
+    技術・アカデミック寄りの話題を想定
   \end{itemize}
 \item
   要求されるもの
@@ -218,7 +221,7 @@
     \begin{itemize}
     \tightlist
     \item
-      動的コンテンツも求めてない
+      動的コンテンツとか装飾過剰なのとか
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -239,6 +242,8 @@
   \tightlist
   \item
     (個人の体験です)
+  \item
+    上下のみにもできる
   \end{itemize}
 \item
   htmlよりも不変な媒体にしたい
@@ -247,6 +252,14 @@
   \tightlist
   \item
     pdfが明確に優れているかは怪しい
+  \end{itemize}
+\item
+  \sout{Q: お前が使いこなせてないだけじゃないの?}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \sout{A: うるさい}
   \end{itemize}
 \end{itemize}
 
@@ -355,7 +368,7 @@
   \begin{itemize}
   \tightlist
   \item
-    できないことはないが面倒
+    不可能ではないが面倒
   \end{itemize}
 \end{itemize}
 
@@ -496,9 +509,9 @@
   \begin{itemize}
   \tightlist
   \item
-    \texttt{cripr}: 引用文献の挿入をGUIで
+    \texttt{citr}: 引用文献の挿入をGUIで
   \item
-    \texttt{citr}: 数式をGUIで
+    \texttt{bookdown}: 数式をGUIで
   \end{itemize}
 \end{itemize}
 
@@ -618,6 +631,28 @@ require(ggdag)
 & \sin^2(x) + \cos^2(x) = 1\\
 & f(x) = \frac{1}{(2\pi)^2}\int_{\mathbb{R}^n}\hat{f}(\omega)\exp(i\omega x)d\omega
 \end{aligned}\]
+
+\end{frame}
+
+\begin{frame}{数式の挿入: \texttt{bookdown} の使用}
+\protect\hypertarget{ux6570ux5f0fux306eux633fux5165-bookdown-ux306eux4f7fux7528}{}
+
+\begin{enumerate}
+\tightlist
+\item
+  RStudioのツールバー ``Addins''
+\item
+  ``Input LaTeX Math''
+\end{enumerate}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth]{img/math-input} 
+
+}
+
+\caption{bookdownの数式入力機能}\label{fig:math-input}
+\end{figure}
 
 \end{frame}
 
@@ -966,7 +1001,7 @@ B & 算数 & \(95\)\tabularnewline
 \item
   重複・書き間違えの防止
 \item
-  \texttt{clipr}パッケージを使うと楽
+  \texttt{citr}パッケージを使うと楽
 
   \begin{itemize}
   \tightlist
@@ -979,11 +1014,11 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.5\linewidth]{img/clipr} 
+{\centering \includegraphics[width=0.5\linewidth]{img/citr} 
 
 }
 
-\caption{cliprパッケージのGUI}\label{fig:clipr-image}
+\caption{citrパッケージのGUI}\label{fig:citr-image}
 \end{figure}
 
 \end{frame}

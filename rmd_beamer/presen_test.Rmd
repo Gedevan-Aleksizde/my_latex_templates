@@ -66,8 +66,8 @@ knitr::opts_chunk$set(
 ## 要件
 
 * 想定される用途
-  + Tokyo.R などRを使った話を発表するための資料
-  + アカデミック寄りの話もする
+  + Tokyo.R などRを使った話を発表する際の資料作成
+  + 技術・アカデミック寄りの話題を想定
 * 要求されるもの
   + **日本語表示**
   + ラスタまたはベクタ画像の挿入
@@ -76,14 +76,17 @@ knitr::opts_chunk$set(
   + 参考文献の相互参照/リスト自動生成
   + **LyX やoverleafより簡単であること**
   + **なんかナウでオサレな感じは求めてない**
-    + 動的コンテンツも求めてない
+    + 動的コンテンツとか装飾過剰なのとか
 
 ## `reveal.js` じゃダメなの?
 * 個人的にデザインとかあまり好きじゃない
 * 上下左右に動いて空間識失調になる
   + (個人の体験です)
+  + 上下のみにもできる
 * htmlよりも不変な媒体にしたい
   + pdfが明確に優れているかは怪しい
+* ~~Q: お前が使いこなせてないだけじゃないの?~~
+  + ~~A: うるさい~~
 
 
 ## パワーポイントじゃダメなの?
@@ -121,7 +124,7 @@ knitr::include_graphics("img/render.png")
 * `set*font`は欧文用
 * `setja*font`は和文用
 * インラインでのフォント変更は**想定してない**
-  + できないことはないが面倒
+  + 不可能ではないが面倒
 
 ```{yaml header-example1, eval=F, echo=T}
 - \setmainfont{Palatino Linotype}
@@ -180,8 +183,8 @@ require(ggdag)
 ```
 
 * 以下はインストールのみ/読み込む必要なし
-  - `cripr`: 引用文献の挿入をGUIで
-  - `citr`: 数式をGUIで
+  - `citr`: 引用文献の挿入をGUIで
+  - `bookdown`: 数式をGUIで
 
 ## ソースコードの表示: 基本事項
 * `echo=T`でチャンク内コードを表示
@@ -243,6 +246,16 @@ $$\begin{aligned}
 & f(x) = \frac{1}{(2\pi)^2}\int_{\mathbb{R}^n}\hat{f}(\omega)\exp(i\omega x)d\omega
 \end{aligned}$$
 
+
+## 数式の挿入: `bookdown` の使用
+1. RStudioのツールバー "Addins"
+2. "Input LaTeX Math"
+
+```{r math-input, fig.cap="bookdownの数式入力機能"}
+knitr::include_graphics("img/math-input.png")
+```
+
+
 # 図表の挿入
 
 ## 図の挿入: 画像ファイル貼り付け
@@ -290,7 +303,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
 * 詳しくは個別のマニュアル参照
 * 霞が関流ポンチ絵は専門外
 
-## 図の挿入: ポンチ絵の例
+## 図の挿入: ポンチ絵の例1
 * [以前作ったやつ](https://speakerdeck.com/ktgrstsh/r-and-epidemical-mathematical-models)の転載
 
 ```{r punch-chart-example, out.width="90%", out.height="70%", fig.cap="ggdagで作ったYJ-SEIRモデルの遷移図"}
@@ -313,6 +326,9 @@ diag_yjseir %>% ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
   geom_label(aes(x = (x + xend)/2, y = (y + yend)/2, label = label_edge), parse = T, size = 10) +
   theme_dag_blank() + coord_cartesian(ylim=c(-1, 1))
 ```
+
+## 図の挿入: ポンチ絵の例2
+* ベン図
 
 ## 表の挿入: データフレーム
 - Rのデータフレームとして作成して出す
@@ -395,12 +411,12 @@ Table: 得点一覧
 ## 文献引用の補助: 引用子の補完
 
 * 重複・書き間違えの防止
-* `clipr`パッケージを使うと楽
+* `citr`パッケージを使うと楽
   + ツールバーの `Addins` から選択
   + zotero連携機能あり
 
-```{r clipr-image, fig.cap="cliprパッケージのGUI"}
-knitr::include_graphics("img/clipr.png")
+```{r citr-image, fig.cap="citrパッケージのGUI"}
+knitr::include_graphics("img/citr.png")
 ```
 
 ## 文献引用の補助: 文献管理
