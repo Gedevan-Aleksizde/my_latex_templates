@@ -82,17 +82,17 @@
   \setmainfont[Ligatures=TeX]{Palatino Linotype}
   \setsansfont[Ligatures=TeX]{Arial}
   \setmonofont{Ricty Diminished}
-  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 % fail-safe として *NIX になったときも Linux と同じ設定になるように
 \ifthenelse{\equal{\platformname}{*NIX}}{
   \setmainfont[Ligatures=TeX]{Palatino Linotype}
   \setsansfont[Ligatures=TeX]{Arial}
-  \setmonofont{Migu 1M}
-  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
+  \setmonofont{Ricty Diminished}
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 }{}
 
@@ -102,15 +102,15 @@
   \setmonofont{Ricty Diminished} %欧文等幅フォント指定
   \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
   \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
-  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 \ifwindows
   \setmainfont[Ligatures=TeX]{Palatino Linotype}
   \setsansfont[Ligatures=TeX]{Arial}
   \setmonofont{Migu 1M}
-  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
-  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
+  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 
 % document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
