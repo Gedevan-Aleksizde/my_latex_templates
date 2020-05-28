@@ -25,9 +25,9 @@
 \usepackage{booktabs}
 
 % ---- theme 設定 -----
-\usetheme[progressbar=frametitle]{metropolis}
+\usetheme[progressbar=frametitle,block=fill]{metropolis}
 % progress bar を太くする
-\setlength{\metropolis@progressinheadfoot@linewidth}{3pt}
+\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
 
 % --- color.sty で色登録 ----- %
 \definecolor{mygreen}{rgb}{0,0.6,0}
