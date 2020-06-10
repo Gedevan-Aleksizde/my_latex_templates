@@ -38,5 +38,5 @@ Macでタイプセット時にたまにgraphicx関連でエラーが出る. Mac�
   + `beamer_presentation`用テンプレート
 
 ### 要件
-* TeXLive
+* TeXLive (`tinytex` **ではない**)
 * RStudio  1.3.959
