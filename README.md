@@ -37,4 +37,6 @@ Macでタイプセット時にたまにgraphicx関連でエラーが出る. Mac�
 ## RMarkdown用テンプレート
   + `beamer_presentation`用テンプレート
 
-### 使い方: RStudioで開いてください
+### 要件
+* TeXLive (`tinytex` **ではない**)
+* RStudio  1.3.959
