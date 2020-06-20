@@ -1,32 +1,36 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[14pt,ignorenonframetext,]{beamer}
+\documentclass[
+  14pt,
+  ignorenonframetext,
+]{beamer}
 \usepackage{pgfpages}
 \setbeamertemplate{caption}[numbered]
 \setbeamertemplate{caption label separator}{: }
 \setbeamercolor{caption name}{fg=normal text.fg}
 \beamertemplatenavigationsymbolsempty
-% Prevent slide breaks in the middle of a paragraph:
+% Prevent slide breaks in the middle of a paragraph
 \widowpenalties 1 10000
 \raggedbottom
 \setbeamertemplate{part page}{
-\centering
-\begin{beamercolorbox}[sep=16pt,center]{part title}
-  \usebeamerfont{part title}\insertpart\par
-\end{beamercolorbox}
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
 }
 \setbeamertemplate{section page}{
-\centering
-\begin{beamercolorbox}[sep=12pt,center]{part title}
-  \usebeamerfont{section title}\insertsection\par
-\end{beamercolorbox}
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
 }
 \setbeamertemplate{subsection page}{
-\centering
-\begin{beamercolorbox}[sep=8pt,center]{part title}
-  \usebeamerfont{subsection title}\insertsubsection\par
-\end{beamercolorbox}
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
 }
 \AtBeginPart{
   \frame{\partpage}
@@ -43,35 +47,40 @@
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            pdftitle={Rmarkdownで日本語プレゼンテーション},
-            pdfauthor={ill-identified},
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  pdftitle={R Markdownで日本語プレゼンテーション},
+  pdfauthor={ill-identified},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \newif\ifbibliography
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -115,7 +124,7 @@
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs}
 \usepackage{caption}
-% These lines are needed to make table captions work with longtable:
+% Make caption package work with longtable
 \makeatletter
 \def\fnum@table{\tablename~\thetable}
 \makeatother
@@ -128,22 +137,23 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\usepackage[normalem]{ulem}
-% avoid problems with \sout in headers with hyperref:
-\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{0}
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\usepackage[normalem]{ulem}
+% Avoid problems with \sout in headers with hyperref
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \usetheme[progressbar=frametitle,block=fill]{metropolis}
 \makeatletter
 \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+\usecolortheme{default}
+\useoutertheme{default}
+\useinnertheme{default}
 \usefonttheme{professionalfonts}
 \usepackage{zxjatype}
 \setmainfont{Palatino Linotype}
@@ -163,26 +173,20 @@
 \renewcommand*{\bibfont}{\footnotesize}
 \usepackage{fmtcount}
 \renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}
+\IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
 \usepackage[]{natbib}
 \bibliographystyle{jecon}
 
-\title{Rmarkdownで日本語\texttt{beamer}プレゼンテーション}
+\title{R Markdownで日本語\texttt{beamer}プレゼンテーション}
 \author{ill-identified}
-\date{2020-05-27}
+\date{2020-06-20}
 
 \begin{document}
 \frame{\titlepage}
 
-\begin{frame}{目次}
-\protect\hypertarget{ux76eeux6b21}{}
-
-\tableofcontents{}
-
+\begin{frame}
+  \tableofcontents[hideallsubsections]
 \end{frame}
-
-\hypertarget{ux306fux3058ux3081ux306b}{%
-\section{はじめに}\label{ux306fux3058ux3081ux306b}}
-
 \begin{frame}{要件}
 \protect\hypertarget{ux8981ux4ef6}{}
 
@@ -221,7 +225,45 @@
     \begin{itemize}
     \tightlist
     \item
-      動的コンテンツとか装飾過剰なのとか
+      自由すぎるデザインは不可
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{先行研究の紹介}
+\protect\hypertarget{ux5148ux884cux7814ux7a76ux306eux7d39ux4ecb}{}
+
+\begin{itemize}
+\tightlist
+\item
+  伊東『\href{https://www.slideshare.net/hirokito/r-markdownbeamer-88777082}{R
+  MarkdownとBeamerでプレゼンテーション資料作成}』
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \LuaLaTeX を使って日本語でBeamerスライド作成する方法
+  \end{itemize}
+\item
+  伊東先生の資料との違い:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    エンジンを\XeLaTeX に変更
+  \item
+    日本語文献bibファイル・bstファイルに対応
+  \item
+    スライド作例を多少充実させた
+  \item
+    その他体裁にこだわりたい人向け
+
+    \begin{itemize}
+    \tightlist
+    \item
+      「表X」「図X」といったキャプション
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -374,12 +416,12 @@
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{-}\NormalTok{ \textbackslash{}setmainfont}\KeywordTok{\{}\NormalTok{Palatino Linotype}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setsansfont}\KeywordTok{\{}\NormalTok{Arial}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setmonofont}\KeywordTok{\{}\NormalTok{Ricty Diminished}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjamainfont}\KeywordTok{\{}\NormalTok{Noto Serif CJK JP}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjasansfont}\KeywordTok{\{}\NormalTok{Noto Sans CJK JP}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjamonofont}\KeywordTok{\{}\NormalTok{Ricty Diminished}\KeywordTok{\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont\{Palatino Linotype\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont\{Arial\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmonofont\{Ricty Diminished\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjamainfont\{Noto Serif CJK JP\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjasansfont\{Noto Sans CJK JP\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjamonofont\{Ricty Diminished\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -407,8 +449,8 @@
 \FunctionTok{# 節見出し}
 \FunctionTok{## タイトル1}
 \NormalTok{- **太字**}
-\NormalTok{- }\FloatTok{_斜体_}
-\FloatTok{- }\BaseNTok{`タイプライタ体`}
+\NormalTok{- }\StringTok{_斜体_}
+\StringTok{- }\BaseNTok{`タイプライタ体`}
 \end{Highlighting}
 \end{Shaded}
 
@@ -431,12 +473,13 @@
 \tightlist
 \item
   伊東『\href{https://www.slideshare.net/hirokito/r-markdownbeamer-88777082}{R
-  MarkdownとBeamerでプレゼンテーション資料作成}』
+  MarkdownとBeamerでプレゼンテーション資料作成}』(\LuaLaTeX 使用)
 \item
   松田『\href{http://ayapin-film.sakura.ne.jp/LaTeX/slides.html\#beamer}{Beamer読本-講演用スライド作成のために-}』
 \item
   Kazutan『\href{https://kazutan.github.io/SappoRoR6/rmd_slide.html\#/}{R
-  Markdownによるスライド生成}』『\href{https://kazutan.github.io/kazutanR/Rmd_intro.html}{RMarkdown入門}』
+  Markdownによるスライド生成}』『\href{https://kazutan.github.io/kazutanR/Rmd_intro.html}{R
+  Markdown入門}』
 \item
   Atusy『\href{https://blog.atusy.net/2019/05/14/rmd2pdf-any-font/}{R
   Markdown + XeLaTeX で日本語含め好きなフォントを使って PDF
@@ -634,7 +677,7 @@ require(ggdag)
 
 \end{frame}
 
-\begin{frame}{数式の挿入: \texttt{bookdown} の使用}
+\begin{frame}[fragile]{数式の挿入: \texttt{bookdown} の使用}
 \protect\hypertarget{ux6570ux5f0fux306eux633fux5165-bookdown-ux306eux4f7fux7528}{}
 
 \begin{enumerate}
@@ -647,12 +690,26 @@ require(ggdag)
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.5\linewidth]{img/math-input} 
+{\centering \includegraphics[width=0.5\linewidth,height=0.4\textheight]{img/math-input} 
 
 }
 
 \caption{bookdownの数式入力機能}\label{fig:math-input}
 \end{figure}
+
+\begin{itemize}
+\tightlist
+\item
+  一部対応してない記号もある?
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\textbackslash{}mathbb\{\}}とか\texttt{\textbackslash{}hat\{\}}とか
+  \end{itemize}
+\item
+  数式のみで\texttt{\textbackslash{}aligned}等環境の入力は不可
+\end{itemize}
 
 \end{frame}
 
@@ -776,13 +833,13 @@ require(ggdag)
 \item
   詳しくは個別のマニュアル参照
 \item
-  霞が関流ポンチ絵は専門外
+  霞が関流ポンチ絵は\textbf{専門外}
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{図の挿入: ポンチ絵の例}
-\protect\hypertarget{ux56f3ux306eux633fux5165-ux30ddux30f3ux30c1ux7d75ux306eux4f8b}{}
+\begin{frame}{図の挿入: ポンチ絵の例1}
+\protect\hypertarget{ux56f3ux306eux633fux5165-ux30ddux30f3ux30c1ux7d75ux306eux4f8b1}{}
 
 \begin{itemize}
 \tightlist
@@ -797,6 +854,34 @@ require(ggdag)
 }
 
 \caption{ggdagで作ったYJ-SEIRモデルの遷移図}\label{fig:punch-chart-example}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{図の挿入: ポンチ絵の例2}
+\protect\hypertarget{ux56f3ux306eux633fux5165-ux30ddux30f3ux30c1ux7d75ux306eux4f8b2}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ggforce::geom\_circle()} を利用
+
+  \begin{itemize}
+  \tightlist
+  \item
+    参考:
+    \href{https://scriptsandstatistics.wordpress.com/2018/04/26/how-to-plot-venn-diagrams-using-r-ggplot2-and-ggforce/}{How
+    to Plot Venn Diagrams Using R, ggplot2 and ggforce}
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}
+
+{\centering \includegraphics[width=0.5\linewidth]{presen_test_files/figure-beamer/venn-1} 
+
+}
+
+\caption{ベン図の例}\label{fig:venn}
 \end{figure}
 
 \end{frame}
@@ -1056,6 +1141,71 @@ B & 算数 & \(95\)\tabularnewline
 
 \end{frame}
 
+\hypertarget{ux305dux306eux4ed6ux306eux6a5fux80fd}{%
+\section{その他の機能}\label{ux305dux306eux4ed6ux306eux6a5fux80fd}}
+
+\begin{frame}[fragile]{絵文字}
+\protect\hypertarget{ux7d75ux6587ux5b57}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://github.com/zr-tex8r/BXcoloremoji}{\texttt{BXcoloremoji}}をインストールすれば可能
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\textbackslash{}coloremoji\{\}} で絵文字表示:
+    \ifdefined\coloremoji \coloremoji{🍣} \else \fi
+  \item
+    RStudioエディタでは\textbf{表示が変な場合も}
+  \end{itemize}
+\item
+  グラフ描画には特に設定必要なし
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ソースコード上のものは文字化けする
+  \end{itemize}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{, }\DataTypeTok{pch =} \StringTok{"🍣"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics[width=0.5\linewidth]{presen_test_files/figure-beamer/sushi-plot-1} \end{center}
+
+\end{frame}
+
+\hypertarget{ux30c8ux30e9ux30d6ux30ebux30b7ux30e5ux30fcux30c6ux30a3ux30f3ux30b0}{%
+\section{トラブルシューティング}\label{ux30c8ux30e9ux30d6ux30ebux30b7ux30e5ux30fcux30c6ux30a3ux30f3ux30b0}}
+
+\begin{frame}[fragile]{エラーの原因がよくわからない}
+\protect\hypertarget{ux30a8ux30e9ux30fcux306eux539fux56e0ux304cux3088ux304fux308fux304bux3089ux306aux3044}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{キャッシュ削除すると良くなることもある}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (叩けば直るレベルのアドバイス)
+  \item
+    前回エラーで失敗したときのキャッシュが悪さしてることは結構ある
+  \item
+    または \texttt{cache\ =\ F} でキャッシュを残さないようにする
+  \item
+    エラーメッセージが実態と矛盾してるときはまず試す
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
 \hypertarget{ux307eux3068ux3081}{%
 \section{まとめ}\label{ux307eux3068ux3081}}
 
@@ -1065,7 +1215,7 @@ B & 算数 & \(95\)\tabularnewline
 \begin{itemize}
 \tightlist
 \item
-  良くなったこと
+  \textbf{良く}なったこと
 
   \begin{itemize}
   \tightlist
@@ -1077,18 +1227,18 @@ B & 算数 & \(95\)\tabularnewline
     一画面に収めるための構成だけ考えれば済むように
   \end{itemize}
 \item
-  悪くなったこと
+  \textbf{悪く}なったこと
 
   \begin{itemize}
   \tightlist
   \item
     (パワポユーザ的に)WYSIWYGでないので作りづらい?
   \item
-    数式のリアルタイムレンダリング/補完はLyXが優秀
+    数式のリアルタイムレンダリング/補完はLyXが依然優秀
   \item
     python作業中(jupyter notebookへの)\textbf{不満高まり}
   \item
-    ポンチ絵も\texttt{ggplot2}で作らねばという\textbf{強迫症状の悪化}
+    ポンチ絵も\texttt{ggplot2}で作らねばという\textbf{強迫症状}
   \end{itemize}
 \end{itemize}
 
@@ -1140,11 +1290,11 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{output:}
-  \FunctionTok{beamer_presentation:}
-    \FunctionTok{latex_engine:}\AttributeTok{ xelatex}
-    \FunctionTok{citation_package:}\AttributeTok{ natbib}
-    \FunctionTok{keep_tex:}\AttributeTok{ true}
+\FunctionTok{output}\KeywordTok{:}
+\AttributeTok{  }\FunctionTok{beamer_presentation}\KeywordTok{:}
+\AttributeTok{    }\FunctionTok{latex_engine}\KeywordTok{:}\AttributeTok{ xelatex}
+\AttributeTok{    }\FunctionTok{citation_package}\KeywordTok{:}\AttributeTok{ natbib}
+\AttributeTok{    }\FunctionTok{keep_tex}\KeywordTok{:}\AttributeTok{ }\CharTok{true}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1172,11 +1322,11 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{header-includes:}
-  \KeywordTok{-}\NormalTok{ \textbackslash{}usetheme}\KeywordTok{[}\NormalTok{progressbar=frametitle}\KeywordTok{,}\NormalTok{block=fill}\KeywordTok{]\{}\NormalTok{metropolis}\KeywordTok{\}}
-  \KeywordTok{-}\NormalTok{ \textbackslash{}makeatletter}
-  \KeywordTok{-}\NormalTok{ \textbackslash{}setlength}\KeywordTok{\{}\NormalTok{\textbackslash{}metropolis@progressinheadfoot@linewidth}\KeywordTok{\}\{}\NormalTok{2pt}\KeywordTok{\}}
-  \KeywordTok{-}\NormalTok{ \textbackslash{}usefonttheme}\KeywordTok{\{}\NormalTok{professionalfonts}\KeywordTok{\}}
+\FunctionTok{header-includes}\KeywordTok{:}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}usetheme[progressbar=frametitle,block=fill]\{metropolis\}}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}makeatletter}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}setlength\{\textbackslash{}metropolis@progressinheadfoot@linewidth\}\{2pt\}}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}usefonttheme\{professionalfonts\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1203,15 +1353,14 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-
-\KeywordTok{-}\NormalTok{ \textbackslash{}usefonttheme}\KeywordTok{\{}\NormalTok{professionalfonts}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}usepackage}\KeywordTok{\{}\NormalTok{zxjatype}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setmainfont}\KeywordTok{[}\NormalTok{Ligatures=TeX}\KeywordTok{]\{}\NormalTok{Palatino Linotype}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setsansfont}\KeywordTok{[}\NormalTok{Ligatures=TeX}\KeywordTok{]\{}\NormalTok{Arial}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setmonofont}\KeywordTok{\{}\NormalTok{Ricty Diminished}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjamainfont}\KeywordTok{\{}\NormalTok{Noto Serif CJK JP}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjasansfont}\KeywordTok{\{}\NormalTok{Noto Sans CJK JP}\KeywordTok{\}}
-\KeywordTok{-}\NormalTok{ \textbackslash{}setjamonofont}\KeywordTok{\{}\NormalTok{Ricty Diminished}\KeywordTok{\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}usefonttheme\{professionalfonts\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}usepackage\{zxjatype\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont[Ligatures=TeX]\{Palatino Linotype\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont[Ligatures=TeX]\{Arial\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmonofont\{Ricty Diminished\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjamainfont\{Noto Serif CJK JP\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjasansfont\{Noto Sans CJK JP\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setjamonofont\{Ricty Diminished\}}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1328,8 +1477,8 @@ B & 算数 & \(95\)\tabularnewline
 
 \renewcommand\refname{参考文献}
 \begin{frame}[allowframebreaks]{参考文献}
-\bibliographytrue
-\bibliography{references.bib}
+  \bibliographytrue
+  \bibliography{references.bib}
 \end{frame}
 
 \end{document}

@@ -1,19 +1,19 @@
 ---
-title: "Rmarkdownで日本語\\texttt{beamer}プレゼンテーション"
+title: "R Markdownで日本語\\texttt{beamer}プレゼンテーション"
 author: "ill-identified"
 date: "`r Sys.Date()`"
 output:
   beamer_presentation:
+    toc: true
+    number_sections: false
+    incremental: false
+    fig_crop: true
+    fig_caption: true
+    highlight: tango
     latex_engine: xelatex
     citation_package: natbib
     keep_tex: true
-  revealjs::revealjs_presentation:
-    slide_level: 1
-    toc: true
-    increment: false
-    transition: none
-    reveal_option:
-      controls: false
+    keep_md: false
 bibliography: references.bib
 biblio-style: jecon
 fontsize: 14pt
@@ -21,6 +21,9 @@ header-includes:
   - \usetheme[progressbar=frametitle,block=fill]{metropolis}
   - \makeatletter
   - \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+  - \usecolortheme{default}
+  - \useoutertheme{default}
+  - \useinnertheme{default}
   - \usefonttheme{professionalfonts}
   - \usepackage{zxjatype}
   - \setmainfont{Palatino Linotype}
@@ -40,12 +43,14 @@ header-includes:
   - \renewcommand*{\bibfont}{\footnotesize}
   - \usepackage{fmtcount}
   - \renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}
+  - \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
+
 ---
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
 knitr::opts_chunk$set(
-  include = T, echo = F, message = F, warning = F, digits = 3, cache = T, comment=NA, # 標準出力の ## を消す
+  include = T, echo = F, message = F, warning = F, digits = 3, cache = T, comment = NA, # 標準出力の ## を消す
   # チャンク内コード40字で折り返す (不完全?マルチバイト文字に対応してない?)
   tidy.opts=list(width.cutoff=40), 
   tidy=T,
@@ -55,13 +60,6 @@ knitr::opts_chunk$set(
   dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = 25) 
   )
 ```
-
-
-## 目次
-
-\tableofcontents{}
-
-# はじめに
 
 ## 要件
 
@@ -76,7 +74,17 @@ knitr::opts_chunk$set(
   + 参考文献の相互参照/リスト自動生成
   + **LyX やoverleafより簡単であること**
   + **なんかナウでオサレな感じは求めてない**
-    + 動的コンテンツとか装飾過剰なのとか
+    + 自由すぎるデザインは不可
+
+## 先行研究の紹介
+* 伊東『[R MarkdownとBeamerでプレゼンテーション資料作成](https://www.slideshare.net/hirokito/r-markdownbeamer-88777082)』
+  + \LuaLaTeX を使って日本語でBeamerスライド作成する方法
+* 伊東先生の資料との違い:
+  + エンジンを\XeLaTeX に変更
+  + 日本語文献bibファイル・bstファイルに対応
+  +  スライド作例を多少充実させた
+  + その他体裁にこだわりたい人向け
+    - 「表X」「図X」といったキャプション
 
 ## `reveal.js` じゃダメなの?
 * 個人的にデザインとかあまり好きじゃない
@@ -107,7 +115,6 @@ knitr::opts_chunk$set(
   + 細かいオプション, 特に`metropolis`特有の仕様
 * RStudio Cloud で動くかは未確認
   + 日本語表示がおかしい説あり
-
   
 # 使い方
 
@@ -155,9 +162,9 @@ knitr::include_graphics("img/render.png")
 - `タイプライタ体`
 
 ## BeamerやRMarkdown使用に役立つ資料
-* 伊東『[R MarkdownとBeamerでプレゼンテーション資料作成](https://www.slideshare.net/hirokito/r-markdownbeamer-88777082)』
+* 伊東『[R MarkdownとBeamerでプレゼンテーション資料作成](https://www.slideshare.net/hirokito/r-markdownbeamer-88777082)』(\LuaLaTeX 使用)
 * 松田『[Beamer読本-講演用スライド作成のために-](http://ayapin-film.sakura.ne.jp/LaTeX/slides.html#beamer)』
-* Kazutan『[R Markdownによるスライド生成](https://kazutan.github.io/SappoRoR6/rmd_slide.html#/)』『[RMarkdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html)』
+* Kazutan『[R Markdownによるスライド生成](https://kazutan.github.io/SappoRoR6/rmd_slide.html#/)』『[R Markdown入門](https://kazutan.github.io/kazutanR/Rmd_intro.html)』
 * Atusy『[R Markdown + XeLaTeX で日本語含め好きなフォントを使って PDF を出力する](https://blog.atusy.net/2019/05/14/rmd2pdf-any-font/)』
 * R Markdown 2.0 チートシートの[日本語訳](https://rstudio.com/wp-content/uploads/2016/11/Rmarkdown-cheatsheet-2.0_ja.pdf), Takahashi, M.訳
 
@@ -214,7 +221,6 @@ require(ggdag)
 ```
 
 
-
 # 数式関係
 
 ## 数式の挿入: 行内(インライン)
@@ -251,10 +257,12 @@ $$\begin{aligned}
 1. RStudioのツールバー "Addins"
 2. "Input LaTeX Math"
 
-```{r math-input, fig.cap="bookdownの数式入力機能"}
+```{r math-input, out.height="40%", fig.cap="bookdownの数式入力機能"}
 knitr::include_graphics("img/math-input.png")
 ```
-
+* 一部対応してない記号もある?
+  + `\mathbb{}`とか`\hat{}`とか
+* 数式のみで`\aligned`等環境の入力は不可
 
 # 図表の挿入
 
@@ -301,7 +309,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
 * `ggforce` は[ベン図の描画に応用可能](https://rpubs.com/sdutky/559050)
   + 世間的にはグラフの部分拡大用パッケージ?
 * 詳しくは個別のマニュアル参照
-* 霞が関流ポンチ絵は専門外
+* 霞が関流ポンチ絵は**専門外**
 
 ## 図の挿入: ポンチ絵の例1
 * [以前作ったやつ](https://speakerdeck.com/ktgrstsh/r-and-epidemical-mathematical-models)の転載
@@ -328,9 +336,23 @@ diag_yjseir %>% ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
 ```
 
 ## 図の挿入: ポンチ絵の例2
-* ベン図
+
+* `ggforce::geom_circle()` を利用
+  + 参考: [How to Plot Venn Diagrams Using R, ggplot2 and ggforce](https://scriptsandstatistics.wordpress.com/2018/04/26/how-to-plot-venn-diagrams-using-r-ggplot2-and-ggforce/)
+
+```{r venn, fig.cap="ベン図の例"}
+require(ggforce)
+df.venn <- data.frame(
+  x = c(-.5, 0, .5), y = c(0, .8, 0), r = c(1, 1, 1), labels = c('コーディング', 'デザイン', 'タイポグラフィ'))
+ggplot(df.venn, aes(x0 = x, y0 = y, r = r, fill = labels)) +
+  geom_circle(alpha = .3, size = 1, colour = 'grey') +
+  annotate("text", x = 0, y = .2, label = "LaTeX", size = 5 * ggplot2::.pt) +
+  coord_fixed() + scale_fill_pander() +
+  theme_void() + theme(legend.title = element_blank(), legend.position = "bottom")
+```
 
 ## 表の挿入: データフレーム
+
 - Rのデータフレームとして作成して出す
   + はみ出す場合は縮小
   + 最低限の情報だけ掲載するのは大前提
@@ -428,18 +450,41 @@ knitr::include_graphics("img/citr.png")
   + Rでbibファイルをパースしたりする
   + 文献管理用には既存ソフトで十分?
 
+# その他の機能
+
+## 絵文字
+
+* [`BXcoloremoji`](https://github.com/zr-tex8r/BXcoloremoji)をインストールすれば可能
+  + `\coloremoji{}` で絵文字表示: \ifdefined\coloremoji \coloremoji{🍣} \else \fi
+  + RStudioエディタでは**表示が変な場合も**
+* グラフ描画には特に設定必要なし
+  + ソースコード上のものは文字化けする
+```{r sushi-plot, echo=T}
+plot(1:10, pch = "🍣")
+```
+
+
+# トラブルシューティング
+
+## エラーの原因がよくわからない
+* **キャッシュ削除すると良くなることもある**
+  + (叩けば直るレベルのアドバイス)
+  + 前回エラーで失敗したときのキャッシュが悪さしてることは結構ある
+  + または `cache = F` でキャッシュを残さないようにする
+  + エラーメッセージが実態と矛盾してるときはまず試す
+
 # まとめ
 
 ## 結果どうなったか
-* 良くなったこと
+* **良く**なったこと
   + `lstlisting.sty`**より見やすい**シンタックスハイライト
   + Rの画像や数値出力を**コピペしなくて済む**
   + 一画面に収めるための構成だけ考えれば済むように
-* 悪くなったこと
+* **悪く**なったこと
   + (パワポユーザ的に)WYSIWYGでないので作りづらい?
-  + 数式のリアルタイムレンダリング/補完はLyXが優秀
+  + 数式のリアルタイムレンダリング/補完はLyXが依然優秀
   + python作業中(jupyter notebookへの)**不満高まり**
-  + ポンチ絵も`ggplot2`で作らねばという**強迫症状の悪化**
+  + ポンチ絵も`ggplot2`で作らねばという**強迫症状**
 
 ## 改良したいところ
 
@@ -489,7 +534,6 @@ header-includes:
 * 和文欧文サイズ比調整などは[開発者のサイト](http://zrbabbler.sp.land.to/zxjatype.html)等参照
 
 ```{yaml header-example2, eval=F, echo=T}
-
 - \usefonttheme{professionalfonts}
 - \usepackage{zxjatype}
 - \setmainfont[Ligatures=TeX]{Palatino Linotype}
