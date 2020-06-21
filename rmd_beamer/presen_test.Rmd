@@ -346,9 +346,10 @@ df.venn <- data.frame(
   x = c(-.5, 0, .5), y = c(0, .8, 0), r = c(1, 1, 1), labels = c('コーディング', 'デザイン', 'タイポグラフィ'))
 ggplot(df.venn, aes(x0 = x, y0 = y, r = r, fill = labels)) +
   geom_circle(alpha = .3, size = 1, colour = 'grey') +
+  geom_label(aes(x = x, y = y, label = labels)) +
   annotate("text", x = 0, y = .2, label = "LaTeX", size = 5 * ggplot2::.pt) +
   coord_fixed() + scale_fill_pander() +
-  theme_void() + theme(legend.title = element_blank(), legend.position = "bottom")
+  theme_void() + theme(legend.position = "none")
 ```
 
 ## 表の挿入: データフレーム
@@ -455,7 +456,7 @@ knitr::include_graphics("img/citr.png")
 ## 絵文字
 
 * [`BXcoloremoji`](https://github.com/zr-tex8r/BXcoloremoji)をインストールすれば可能
-  + `\coloremoji{}` で絵文字表示: \ifdefined\coloremoji \coloremoji{🍣} \else \fi
+  + `\coloremoji{}` で絵文字表示: \ifdefined\coloremoji \coloremoji{🍣} \else (ここに絵文字) \fi
   + RStudioエディタでは**表示が変な場合も**
 * グラフ描画には特に設定必要なし
   + ソースコード上のものは文字化けする
