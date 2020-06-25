@@ -3,7 +3,7 @@
 \PassOptionsToPackage{hyphens}{url}
 %
 \documentclass[
-  14pt,
+  12pt,
   ignorenonframetext,
 ]{beamer}
 \usepackage{pgfpages}
@@ -179,7 +179,7 @@
 
 \title{R Markdownで日本語\texttt{beamer}プレゼンテーション}
 \author{ill-identified}
-\date{2020-06-21}
+\date{2020-06-25}
 
 \begin{document}
 \frame{\titlepage}
@@ -1194,7 +1194,7 @@ B & 算数 & \(95\)\tabularnewline
   \begin{itemize}
   \tightlist
   \item
-    (叩けば直るレベルのアドバイス)
+    (\textbf{叩けば直る}レベルの雑アドバイス)
   \item
     前回エラーで失敗したときのキャッシュが悪さしてることは結構ある
   \item
@@ -1244,8 +1244,8 @@ B & 算数 & \(95\)\tabularnewline
 
 \end{frame}
 
-\begin{frame}{改良したいところ}
-\protect\hypertarget{ux6539ux826fux3057ux305fux3044ux3068ux3053ux308d}{}
+\begin{frame}{改良・機能追加したいところ}
+\protect\hypertarget{ux6539ux826fux6a5fux80fdux8ffdux52a0ux3057ux305fux3044ux3068ux3053ux308d}{}
 
 \begin{itemize}
 \tightlist
@@ -1264,6 +1264,11 @@ B & 算数 & \(95\)\tabularnewline
   他の言語のシンタックスハイライト
 \item
   最低限のテーマ変更オプションの追加
+\item
+  グラフ描画の作業負担を減らす工夫
+\item
+  \href{https://github.com/Gedevan-Aleksizde/my_latex_templates/labels/enhancement}{issues}
+  に詳細
 \end{itemize}
 
 \end{frame}
@@ -1386,7 +1391,7 @@ B & 算数 & \(95\)\tabularnewline
     表示は選択式
   \end{itemize}
 \item
-  その他いろいろな微調整
+  その他いろいろな微調整をtexのプリアンブルで設定
 \end{itemize}
 
 \end{frame}
@@ -1402,9 +1407,11 @@ B & 算数 & \(95\)\tabularnewline
   \begin{itemize}
   \tightlist
   \item
-    \BibTeX はマルチバイト文字未対応
+    マルチバイト文字未対応 の\BibTeX 
   \item
-    \upBibTeX が必要
+    日本語は \upBibTeX 必要
+  \item
+    \texttt{biblatex} ではフォーマットに不満
   \end{itemize}
 \item
   \texttt{knitr}は日本語書誌情報処理未対応
@@ -1414,7 +1421,7 @@ B & 算数 & \(95\)\tabularnewline
   \item
     内部では自前の設定で\texttt{latexmk}を呼び出し
   \item
-    呼び出しているラッパにオプションがない
+    呼び出しているラッパにオプションなし
   \item
     積極的に改修の気配なし(\href{https://github.com/yihui/tinytex/issues/70}{参考})
   \end{itemize}
@@ -1430,47 +1437,6 @@ B & 算数 & \(95\)\tabularnewline
   \item
     \textbf{Rmdと同じディレクトリに}上記を置く
   \end{itemize}
-\item
-  もっとシンプルな方法を\textbf{検討中}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}[fragile]{些細だが気に入らないこと(試行錯誤中)}
-\protect\hypertarget{ux4e9bux7d30ux3060ux304cux6c17ux306bux5165ux3089ux306aux3044ux3053ux3068ux8a66ux884cux932fux8aa4ux4e2d}{}
-
-\begin{itemize}
-\tightlist
-\item
-  番号式の引用子の設定方法
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \texttt{citation\_package="natbib"}指定した上で\texttt{\textbackslash{}usepackage{[}number{]}\{natbib\}}
-  \item
-    前者を指定しないと\BibTeX を使わない仕様?
-  \end{itemize}
-\item
-  逆にテーマのオプションは\texttt{render(theme=)}に指定不可
-
-  \begin{itemize}
-  \tightlist
-  \item
-    二重定義はエラーの原因になるため
-  \end{itemize}
-\item
-  自作beamerテンプレと比較して微妙にフォントサイズが違う(なぜ?)
-\item
-  相互参照機能
-
-  \begin{itemize}
-  \tightlist
-  \item
-    \href{https://stackoverflow.com/questions/54041552/impossible-to-cross-referring-figures-and-tables-with-beamer-presentation-opti}{こういう方法}でできるらしい
-  \end{itemize}
-\item
-  面倒な下準備せずに\upBibTeX 使いたい
 \end{itemize}
 
 \end{frame}

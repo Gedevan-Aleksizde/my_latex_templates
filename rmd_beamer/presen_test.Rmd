@@ -16,7 +16,7 @@ output:
     keep_md: false
 bibliography: references.bib
 biblio-style: jecon
-fontsize: 14pt
+fontsize: 12pt
 header-includes:
   - \usetheme[progressbar=frametitle,block=fill]{metropolis}
   - \makeatletter
@@ -469,7 +469,7 @@ plot(1:10, pch = "🍣")
 
 ## エラーの原因がよくわからない
 * **キャッシュ削除すると良くなることもある**
-  + (叩けば直るレベルのアドバイス)
+  + (**叩けば直る**レベルの雑アドバイス)
   + 前回エラーで失敗したときのキャッシュが悪さしてることは結構ある
   + または `cache = F` でキャッシュを残さないようにする
   + エラーメッセージが実態と矛盾してるときはまず試す
@@ -487,14 +487,15 @@ plot(1:10, pch = "🍣")
   + python作業中(jupyter notebookへの)**不満高まり**
   + ポンチ絵も`ggplot2`で作らねばという**強迫症状**
 
-## 改良したいところ
+## 改良・機能追加したいところ
 
 * 手動セットアップ作業の削減
   * 例: [ヘッダのテンプレート化](https://atusy.github.io/tokyor85-original-rmd-format)
 * 細かいレイアウト修正
 * 他の言語のシンタックスハイライト
 * 最低限のテーマ変更オプションの追加
-
+* グラフ描画の作業負担を減らす工夫
+* [issues](https://github.com/Gedevan-Aleksizde/my_latex_templates/labels/enhancement) に詳細
 
 
 # 細かい技術的な話
@@ -552,31 +553,20 @@ header-includes:
 * 参考文献リストのフォントサイズ縮小
 * コードチャンクに行番号
   + 表示は選択式
-* その他いろいろな微調整
+* その他いろいろな微調整をtexのプリアンブルで設定
 
 ## 日本語文献にどう対応しているか
 * [`jecon.bst`](https://github.com/ShiroTakeda/jecon-bst/blob/master/jecon.bst)を使いたい
-  + \BibTeX はマルチバイト文字未対応
-  + \upBibTeX が必要
+  + マルチバイト文字未対応 の\BibTeX 
+  + 日本語は \upBibTeX 必要
+  + `biblatex` ではフォーマットに不満
 * `knitr`は日本語書誌情報処理未対応
   + 内部では自前の設定で`latexmk`を呼び出し
-  + 呼び出しているラッパにオプションがない
+  + 呼び出しているラッパにオプションなし
   + 積極的に改修の気配なし([参考](https://github.com/yihui/tinytex/issues/70))
 * 自前の設定を使用する([参考](https://github.com/kenjimyzk/bookdown_ja_template))
   + `tinytex.latexmk.emulation = F`
   + [ここ](https://texwiki.texjp.org/?Latexmk)を参考に`.latexmkrc`設定
   + **Rmdと同じディレクトリに**上記を置く
-* もっとシンプルな方法を**検討中**
-
-## 些細だが気に入らないこと(試行錯誤中)
-* 番号式の引用子の設定方法
-  + `citation_package="natbib"`指定した上で`\usepackage[number]{natbib}`
-  + 前者を指定しないと\BibTeX を使わない仕様?
-* 逆にテーマのオプションは`render(theme=)`に指定不可
-  + 二重定義はエラーの原因になるため
-* 自作beamerテンプレと比較して微妙にフォントサイズが違う(なぜ?)
-* 相互参照機能
-  + [こういう方法](https://stackoverflow.com/questions/54041552/impossible-to-cross-referring-figures-and-tables-with-beamer-presentation-opti)でできるらしい
-* 面倒な下準備せずに\upBibTeX 使いたい
 
 # 参考文献
