@@ -156,8 +156,8 @@
 \useinnertheme{default}
 \usefonttheme{professionalfonts}
 \usepackage{zxjatype}
-\setmainfont{Palatino Linotype}
-\setsansfont{Arial}
+\setmainfont{Roboto Slab}
+\setsansfont{Roboto}
 \setmonofont{Ricty Diminished}
 \setjamainfont{Noto Serif CJK JP}
 \setjasansfont{Noto Sans CJK JP}
@@ -179,7 +179,7 @@
 
 \title{R Markdownで日本語\texttt{beamer}プレゼンテーション}
 \author{ill-identified}
-\date{2020-06-25}
+\date{2020-06-28}
 
 \begin{document}
 \frame{\titlepage}
@@ -187,23 +187,39 @@
 \begin{frame}
   \tableofcontents[hideallsubsections]
 \end{frame}
-\begin{frame}{要件}
-\protect\hypertarget{ux8981ux4ef6}{}
+\begin{frame}[fragile]{このスライドは何?}
+\protect\hypertarget{ux3053ux306eux30b9ux30e9ux30a4ux30c9ux306fux4f55}{}
 
 \begin{itemize}
 \tightlist
 \item
-  想定される用途
+  あまり情報が流れていない,
+  rmarkdownとbeamerで日本語を含むスライドを作るためのテンプレート兼ヒント集
+\item
+  \texttt{reveal.js}などhtml媒体は他の資料を参照
 
   \begin{itemize}
   \tightlist
   \item
-    Tokyo.R などRを使った話を発表する際の資料作成
-  \item
-    技術・アカデミック寄りの話題を想定
+    \href{https://kazutan.github.io/SappoRoR6/rmd_slide.html\#/}{ここ}や\href{https://kazutan.github.io/fukuokaR11/intro_rmarkdown_d.html}{ここ}を見よ
   \end{itemize}
 \item
-  要求されるもの
+  もともとは自分用に作ったテンプレだったものを万人向けに修正
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{想定される用途}
+\protect\hypertarget{ux60f3ux5b9aux3055ux308cux308bux7528ux9014}{}
+
+\begin{itemize}
+\tightlist
+\item
+  Tokyo.R などRを使った話を発表する際の資料作成
+\item
+  技術・アカデミック寄りの話題を想定
+\item
+  具体的に要求されるもの
 
   \begin{itemize}
   \tightlist
@@ -378,6 +394,37 @@
 \hypertarget{ux4f7fux3044ux65b9}{%
 \section{使い方}\label{ux4f7fux3044ux65b9}}
 
+\begin{frame}{セットアップ}
+\protect\hypertarget{ux30bbux30c3ux30c8ux30a2ux30c3ux30d7}{}
+
+\begin{enumerate}
+\tightlist
+\item
+  TeXLive (2018 以降)のインストール
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  分からなければ\href{https://texwiki.texjp.org/?TeX\%20Live}{TeX wiki
+  のページ}を参考に
+\end{itemize}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \href{https://github.com/matze/mtheme}{metropolisテーマ}のインストール
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  一部の設定を消せば他のテーマも使用可能
+\end{itemize}
+
+\end{frame}
+
 \begin{frame}{基本}
 \protect\hypertarget{ux57faux672c}{}
 
@@ -399,11 +446,14 @@
 \begin{itemize}
 \tightlist
 \item
-  以下の箇所を適当に変える
+  使うマシンに応じて以下の箇所を適当に変える
 \item
   \texttt{set*font}は欧文用
 \item
   \texttt{setja*font}は和文用
+\item
+  初期設定はRictyを除き全て\href{https://fonts.google.com/?category=Sans+Serif\#standard-styles}{Google
+  Fonts}で入手可
 \item
   インラインでのフォント変更は\textbf{想定してない}
 
@@ -416,8 +466,8 @@
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont\{Palatino Linotype\}}
-\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont\{Arial\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont\{Roboto Slab\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont\{Roboto\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setmonofont\{Ricty Diminished\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setjamainfont\{Noto Serif CJK JP\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setjasansfont\{Noto Sans CJK JP\}}
@@ -448,20 +498,20 @@
 \begin{Highlighting}[]
 \FunctionTok{# 節見出し}
 \FunctionTok{## タイトル1}
-\NormalTok{- **太字**}
-\NormalTok{- }\StringTok{_斜体_}
-\StringTok{- }\BaseNTok{`タイプライタ体`}
+\NormalTok{- **太字** **bold**}
+\NormalTok{- }\StringTok{_強調_ _emph_}
+\StringTok{- }\BaseNTok{`タイプライタ体`}\StringTok{ }\BaseNTok{`mono`}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{太字}
+  \textbf{太字} \textbf{bold}
 \item
-  \emph{斜体}
+  \emph{強調} \emph{emph}
 \item
-  \texttt{タイプライタ体}
+  \texttt{タイプライタ体} \texttt{mono}
 \end{itemize}
 
 \end{frame}
@@ -541,6 +591,7 @@
 \KeywordTok{require}\NormalTok{(tidyverse)}
 \KeywordTok{require}\NormalTok{(ggthemes)}
 \KeywordTok{require}\NormalTok{(ggdag)}
+\KeywordTok{require}\NormalTok{(patchwork)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -784,6 +835,9 @@ require(ggdag)
     \texttt{theme()}が反映されるのはあくまでRStudio上のもの
   \item
     pdfでは相対的フォントサイズが変わる問題
+  \item
+    \texttt{fig.cap=}でキャプションを設定可能.
+    \texttt{labs(title\ =\ )}と違い自動相互参照あり
   \end{itemize}
 \end{itemize}
 
@@ -795,6 +849,35 @@ require(ggdag)
 
 \caption{ggplot2の出力例: irisデータ}\label{fig:plot-example}
 \end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{図の挿入: 文字の大きさをそろえるには}
+\protect\hypertarget{ux56f3ux306eux633fux5165-ux6587ux5b57ux306eux5927ux304dux3055ux3092ux305dux308dux3048ux308bux306bux306f}{}
+
+\begin{itemize}
+\tightlist
+\item
+  よくあるトラブル
+
+  \begin{itemize}
+  \tightlist
+  \item
+    RStudio と出力された画像ファイルが違う!
+  \item
+    本文と図に描いた文字の大きさが違う!
+  \end{itemize}
+\item
+  beamer側でpt単位で指定した前提
+\item
+  \texttt{cairo\_pdf(pointsize)} はビルトインデバイスのサイズ
+\item
+  \texttt{base\_size} は pt単位
+\end{itemize}
+
+参考: \url{https://uribo.hatenablog.com/entry/2018/06/11/232041}
+
+\begin{center}\includegraphics[width=0.5\linewidth,height=0.5\textheight]{presen_test_files/figure-beamer/plot-size-1} \end{center}
 
 \end{frame}
 
@@ -1360,8 +1443,8 @@ B & 算数 & \(95\)\tabularnewline
 \begin{Highlighting}[]
 \KeywordTok{-}\AttributeTok{ \textbackslash{}usefonttheme\{professionalfonts\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}usepackage\{zxjatype\}}
-\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont[Ligatures=TeX]\{Palatino Linotype\}}
-\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont[Ligatures=TeX]\{Arial\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setmainfont[Ligatures=TeX]\{EB Garamond\}}
+\KeywordTok{-}\AttributeTok{ \textbackslash{}setsansfont[Ligatures=TeX]\{Roboto\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setmonofont\{Ricty Diminished\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setjamainfont\{Noto Serif CJK JP\}}
 \KeywordTok{-}\AttributeTok{ \textbackslash{}setjasansfont\{Noto Sans CJK JP\}}
@@ -1441,8 +1524,13 @@ B & 算数 & \(95\)\tabularnewline
 
 \end{frame}
 
-\renewcommand\refname{参考文献}
-\begin{frame}[allowframebreaks]{参考文献}
+\begin{frame}
+
+\section*{参考文献}
+
+\end{frame}
+
+\begin{frame}[allowframebreaks]{}
   \bibliographytrue
   \bibliography{references.bib}
 \end{frame}

@@ -26,8 +26,8 @@ header-includes:
   - \useinnertheme{default}
   - \usefonttheme{professionalfonts}
   - \usepackage{zxjatype}
-  - \setmainfont{Palatino Linotype}
-  - \setsansfont{Arial}
+  - \setmainfont{Roboto Slab}
+  - \setsansfont{Roboto}
   - \setmonofont{Ricty Diminished}
   - \setjamainfont{Noto Serif CJK JP}
   - \setjasansfont{Noto Sans CJK JP}
@@ -49,6 +49,7 @@ header-includes:
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
+base_size <- 12
 knitr::opts_chunk$set(
   include = T, echo = F, message = F, warning = F, digits = 3, cache = T, comment = NA, # 標準出力の ## を消す
   # チャンク内コード40字で折り返す (不完全?マルチバイト文字に対応してない?)
@@ -57,16 +58,22 @@ knitr::opts_chunk$set(
   # 画像関係: 中央寄せ, 幅50%, 水平並べ
   fig.align = "center", out.width = "50%",  fig.show='hold',
   # ggplot2の日本語埋め込みに必要
-  dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = 25) 
+  # pointsize は組み込みグラフィックデバイスにのみ反映される
+  dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base_size)
   )
 ```
 
-## 要件
+## このスライドは何?
+* あまり情報が流れていない, rmarkdownとbeamerで日本語を含むスライドを作るためのテンプレート兼ヒント集
+* `reveal.js`などhtml媒体は他の資料を参照
+  + [ここ](https://kazutan.github.io/SappoRoR6/rmd_slide.html#/)や[ここ](https://kazutan.github.io/fukuokaR11/intro_rmarkdown_d.html)を見よ
+* もともとは自分用に作ったテンプレだったものを万人向けに修正
 
-* 想定される用途
-  + Tokyo.R などRを使った話を発表する際の資料作成
-  + 技術・アカデミック寄りの話題を想定
-* 要求されるもの
+## 想定される用途
+
+* Tokyo.R などRを使った話を発表する際の資料作成
+* 技術・アカデミック寄りの話題を想定
+* 具体的に要求されるもの
   + **日本語表示**
   + ラスタまたはベクタ画像の挿入
   + 表の挿入
@@ -118,6 +125,12 @@ knitr::opts_chunk$set(
   
 # 使い方
 
+## セットアップ
+1. TeXLive (2018 以降)のインストール
+  + 分からなければ[TeX wiki のページ](https://texwiki.texjp.org/?TeX%20Live)を参考に
+2. [metropolisテーマ](https://github.com/matze/mtheme)のインストール
+  + 一部の設定を消せば他のテーマも使用可能
+
 ## 基本
 1. RStudioのツールバーの"knit"
 2. またはドロップダウンして"Knit to PDF (Beamer)"
@@ -127,15 +140,16 @@ knitr::include_graphics("img/render.png")
 ```
 
 ## フォント指定
-* 以下の箇所を適当に変える
+* 使うマシンに応じて以下の箇所を適当に変える
 * `set*font`は欧文用
 * `setja*font`は和文用
+* 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
 * インラインでのフォント変更は**想定してない**
   + 不可能ではないが面倒
 
 ```{yaml header-example1, eval=F, echo=T}
-- \setmainfont{Palatino Linotype}
-- \setsansfont{Arial}
+- \setmainfont{Roboto Slab}
+- \setsansfont{Roboto}
 - \setmonofont{Ricty Diminished}
 - \setjamainfont{Noto Serif CJK JP}
 - \setjasansfont{Noto Sans CJK JP}
@@ -152,14 +166,14 @@ knitr::include_graphics("img/render.png")
 ```{md enum, eval=F, echo=T}
 # 節見出し
 ## タイトル1
-- **太字**
-- _斜体_
-- `タイプライタ体`
+- **太字** **bold**
+- _強調_ _emph_
+- `タイプライタ体` `mono`
 ```
 
-- **太字**
-- _斜体_
-- `タイプライタ体`
+- **太字** **bold**
+- _強調_ _emph_
+- `タイプライタ体` `mono`
 
 ## BeamerやRMarkdown使用に役立つ資料
 * 伊東『[R MarkdownとBeamerでプレゼンテーション資料作成](https://www.slideshare.net/hirokito/r-markdownbeamer-88777082)』(\LuaLaTeX 使用)
@@ -187,6 +201,7 @@ require(conflicted)
 require(tidyverse)
 require(ggthemes)
 require(ggdag)
+require(patchwork)
 ```
 
 * 以下はインストールのみ/読み込む必要なし
@@ -288,10 +303,11 @@ knitr::include_graphics(c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png"))
   + pdfとして出すのでフォント埋め込みに注意
   + `theme()`が反映されるのはあくまでRStudio上のもの
   + pdfでは相対的フォントサイズが変わる問題
+  + `fig.cap=`でキャプションを設定可能. `labs(title = )`と違い自動相互参照あり
 
 ```{r plot-example, fig.cap="ggplot2の出力例: irisデータ"}
 theme_set(
-  theme_classic(base_size = 30) +
+  theme_classic(base_size = 12 * .pt) +
   theme(legend.position = "top",
         axis.title.y = element_text(angle = 90, vjust = .5), legend.title = element_blank()))
 data(iris)
@@ -299,6 +315,24 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() + labs(x = "萼長", y = "萼幅")
 ```
 
+## 図の挿入: 文字の大きさをそろえるには
+* よくあるトラブル
+  + RStudio と出力された画像ファイルが違う!
+  + 本文と図に描いた文字の大きさが違う!
+* beamer側でpt単位で指定した前提
+* `cairo_pdf(pointsize)` はビルトインデバイスのサイズ
+* `base_size` は pt単位
+
+参考: https://uribo.hatenablog.com/entry/2018/06/11/232041
+
+```{r plot-size, out.height="50%"}
+thm <-theme_bw(base_size = 12)
+d <- tibble(x = 1, y = 1, label = "🍣")
+g1 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text() + thm + labs(title = "サイズ指定なし")
+g2 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text(size = 1) + thm + labs(title = "size = 1")
+g3 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text(size = 11) + thm + labs(title = "size = 11")
+(g1 / g2 / g3) + patchwork::plot_annotation(title = "base_size = 11")
+```
 
 ## 図の挿入: 再現可能なポンチ絵
 * 概念図とかの図示はどうするか
@@ -538,8 +572,8 @@ header-includes:
 ```{yaml header-example2, eval=F, echo=T}
 - \usefonttheme{professionalfonts}
 - \usepackage{zxjatype}
-- \setmainfont[Ligatures=TeX]{Palatino Linotype}
-- \setsansfont[Ligatures=TeX]{Arial}
+- \setmainfont[Ligatures=TeX]{EB Garamond}
+- \setsansfont[Ligatures=TeX]{Roboto}
 - \setmonofont{Ricty Diminished}
 - \setjamainfont{Noto Serif CJK JP}
 - \setjasansfont{Noto Sans CJK JP}
@@ -569,4 +603,14 @@ header-includes:
   + [ここ](https://texwiki.texjp.org/?Latexmk)を参考に`.latexmkrc`設定
   + **Rmdと同じディレクトリに**上記を置く
 
-# 参考文献
+----
+`r if (knitr::is_latex_output()) '
+\\section*{参考文献}
+'`
+
+```{r references, include=F}
+knitr::write_bib(c(
+  .packages(), 'knitr', 'rmarkdown', 'htmlwidgets', 'webshot', 'DT',
+  'miniUI', 'tufte', 'servr', 'citr', 'rticles'
+), 'packages.bib')
+```
