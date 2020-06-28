@@ -2,52 +2,16 @@
 title: "R Markdownで日本語\\texttt{beamer}プレゼンテーション"
 author: "ill-identified"
 date: "`r Sys.Date()`"
-output:
-  beamer_presentation:
-    slide_level: 2
-    toc: false
-    number_sections: false
-    incremental: false
-    fig_crop: true
-    fig_caption: true
-    highlight: tango
-    latex_engine: xelatex
-    citation_package: natbib
-    keep_tex: true
-    keep_md: false
+output:  rmdja::beamer_presentation_zxja
+mainfont: Hiragino Mincho ProN W3
+sansfont: Hiragino Maru Gothic ProN W4
+monofont: SF Mono
+mainfont-ja: Hiragino Mincho ProN W3
+sansfont-ja: Hiragino Maru Gothic ProN W4
+monofont-ja: SF Mono
+fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
-fontsize: 12pt
-header-includes:
-  - \usetheme[progressbar=frametitle,block=fill]{metropolis}
-  - \makeatletter
-  - \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
-  - \usefonttheme{professionalfonts}
-  - \usecolortheme{default}
-  - \useinnertheme{default}
-  - \useoutertheme{default}
-  - \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
-  - \makeatother
-  - \usepackage{zxjatype}
-  - \setmainfont{Roboto Slab}
-  - \setsansfont{Roboto}
-  - \setmonofont{Ricty Diminished}
-  - \setjamainfont{Noto Serif CJK JP}
-  - \setjasansfont{Noto Sans CJK JP}
-  - \setjamonofont{Ricty Diminished}
-  - \usepackage {hyperref}
-  - \hypersetup {colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
-  - \renewcommand{\figurename}{図}
-  - \renewcommand{\tablename}{表}
-  - \usepackage{bxtexlogo}
-  - \colorlet{shadecolor}{gray!20}
-  - \usepackage[numbers]{natbib}
-  - \ifdefined\bibsection\renewcommand{\bibsection}{}\fi
-  - \ifdefined\bibfont\renewcommand*{\bibfont}{\footnotesize}\fi
-  - \usepackage{fmtcount}
-  - \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi
-  - \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
-
 ---
 
 ```{r setup-document, include=F}
@@ -60,10 +24,12 @@ knitr::opts_chunk$set(
   tidy=F,
   # 画像関係: 中央寄せ, 幅50%, 水平並べ
   # 画像サイズはbeamerの画面サイズに合わせている
-  fig.align = "center", out.width = "100%",  fig.show='hold', fig.width = 5.03937, fig.height = 3.77953,
+  fig.align = "center", out.width = "100%",  fig.show='hold'
+  # fig.width, fig.height はここで設定可能
   # デバイス=cairo_pdfは日本語フォント埋め込みに必要
   # pointsize は組み込みグラフィックデバイスにのみ反映される
-  dev = "cairo_pdf", dev.args = list(pointsize = base_size)
+  # dev = "cairo_pdf",
+  # dev.args = list(pointsize = base_size)
   )
 ```
 

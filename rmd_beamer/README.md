@@ -20,3 +20,8 @@ https://www.slideshare.net/hirokito/r-markdownbeamer-88777082
 2. `.Rmd` と同じディレクトリに `.latexmkrc`を置く
 2. 自分のスライドを作る
 3. knitする
+
+# 謝辞
+* 以下に触発されて作りました
+* https://atusy.github.io/tokyor85-original-rmd-format
+* https://github.com/atusy/tokyor85down
