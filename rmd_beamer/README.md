@@ -18,5 +18,6 @@ https://www.slideshare.net/hirokito/r-markdownbeamer-88777082
 # 使い方
 1. `.Rmd` ファイルを開く
 2. `.Rmd` と同じディレクトリに `.latexmkrc`を置く
-2. 自分のスライドを作る
-3. knitする
+3. フォントおよびbeamerテーマを自分の環境で使えるものに変更する
+4. 自分のスライドを作る
+5. knitする
