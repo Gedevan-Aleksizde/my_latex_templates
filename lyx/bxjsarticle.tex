@@ -48,8 +48,8 @@
 % 欧文フォントはフォントタブで指定できるが, オプション指定ができないので欧文・和文まとめてここに書く
 % ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
 \iflinux
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
   \setmonofont{Ricty Diminished}
   \setjamainfont{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
@@ -57,28 +57,28 @@
 \fi
 % fail-safe として *NIX になったときも Linux と同じ設定になるように
 \ifthenelse{\equal{\platformname}{*NIX}}{
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
   \setmonofont{Ricty Diminished}
   \setjamainfont{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 }{}
 \ifmacosx
-  \setmainfont[Ligatures=TeX]{Times} %欧文フォント族指定
-  \setsansfont[Ligatures=TeX]{Helvetica} %欧文サンセリフフォント指定
+  \setmainfont[Ligatures=TeX]{Roboto Slab} %欧文フォント族指定
+  \setsansfont[Ligatures=TeX]{Roboto} %欧文サンセリフフォント指定
   \setmonofont{Ricty Diminished} %欧文等幅フォント指定
   \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
   \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
   \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
 \fi
 \ifwindows
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
   \setmonofont{Ricty Diminished}
-  \setjamainfont[BoldFont=Noto Sans CJK JP]{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont[BoldFont=Noto Sans CJK JP]{Noto Sans CJK JP} %和文サンセリフ指定
-  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+  \setjamainfont{游明朝} %和文フォント指定
+  \setjasansfont{游ゴシック} %和文サンセリフ指定
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 % document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
 % -----

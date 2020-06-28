@@ -1,0 +1,23 @@
+
+((=- Default to the notebook output style -=))
+((*- if not cell_style is defined -*))
+    ((* set cell_style = 'style_jupyter.tplx' *))
+((*- endif -*))
+
+((=- Inherit from the specified cell style. -=))
+((* extends cell_style *))
+
+
+%===============================================================================
+% Latex Article
+%===============================================================================
+
+((*- block docclass -*))
+% Python 3.6 article template
+\documentclass{bxjsarticle}
+\usepackage{zxjatype}
+%\setjamainfont{Noto Serif CJK JP}
+\setjamainfont{IPAexMincho}
+%\setjasansfont{Noto Sans CJK JP}
+\setjasansfont{IPAexGothic}
+((*- endblock docclass -*))

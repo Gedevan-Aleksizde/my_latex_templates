@@ -4,14 +4,14 @@
 \begin_header
 \save_transient_properties true
 \origin unavailable
-\textclass beamer
+\textclass bxjsarticle
 \begin_preamble
 % LyX 2.3.3 で動作確認
 % ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
 % やりたくないなら ifplatform でフォント指定分岐しているところを書き換える
+\usepackage[AutoFallBack=true]{zxjatype}
 \usepackage{ifthen}
 \usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
-\usepackage[AutoFallBack=true]{zxjatype} % bsjs* でないので明示的に指定が必要
 
 % document 環境内で \label 使わないと LyX が使用判定してくれず, エラーになるので以下で必ず読み込み
 \usepackage{listings}
@@ -24,10 +24,6 @@
 \usepackage{boites}
 \usepackage{booktabs}
 
-% ---- theme 設定 -----
-\usetheme[progressbar=frametitle,block=fill]{metropolis}
-% progress bar を太くする
-\setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
 
 % --- color.sty で色登録 ----- %
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -39,11 +35,10 @@
 
 % ---- zxjatype.sty でフォント指定 ---- %
 % 欧文フォントはフォントタブで指定できるが, オプション指定ができないので欧文・和文まとめてここに書く
-% なお, フォントタブで「非TeXフォント使用」にチェックを入れると fontspec.sty を読み込むコードが自動で追加される.
 % ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
 \iflinux
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
   \setmonofont{Ricty Diminished}
   \setjamainfont{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
@@ -51,32 +46,31 @@
 \fi
 % fail-safe として *NIX になったときも Linux と同じ設定になるように
 \ifthenelse{\equal{\platformname}{*NIX}}{
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
   \setmonofont{Ricty Diminished}
   \setjamainfont{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 }{}
-
 \ifmacosx
-  \setmainfont[Ligatures=TeX]{Times} %欧文フォント族指定
-  \setsansfont[Ligatures=TeX]{Helvetica} %欧文サンセリフフォント指定
+  \setmainfont[Ligatures=TeX]{Roboto Slab} %欧文フォント族指定
+  \setsansfont[Ligatures=TeX]{Roboto} %欧文サンセリフフォント指定
   \setmonofont{Ricty Diminished} %欧文等幅フォント指定
   \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
   \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
-  \setjamonofont{Ricty Diminished} %和文等幅フォント
+  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
 \fi
 \ifwindows
-  \setmainfont[Ligatures=TeX]{Palatino Linotype}
-  \setsansfont[Ligatures=TeX]{Arial}
-  \setmonofont{Migu 1M}
-  \setjamainfont{Noto Serif CJK JP} %和文フォント指定
-  \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
+  \setmainfont[Ligatures=TeX]{Roboto Slab}
+  \setsansfont[Ligatures=TeX]{Roboto}
+  \setmonofont{Ricty Diminished}
+  \setjamainfont{游明朝} %和文フォント指定
+  \setjasansfont{游ゴシック} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
-
 % document 内では \textranwen{ dararara } で任意の文を欧文として処理できる
+% -----
 
 
 % --- 数式記号を新たに定義 ---- %
@@ -94,15 +88,14 @@
 \ifdefined\proofname
   \renewcommand{\proofname}{証明}
 \fi
-% それ以外を書き換える場合は以下のように:
+% 書き換える場合は以下のように
 %\providecommand{\definitionname}{定義}
 
 % ------
 
-
-% Figure 1, Table 1 といった見出しを日本語の「図1」「表1」 に変更
-\renewcommand{\figurename}{図}
-\renewcommand{\tablename}{表}
+% dcolumn.sty の表のアラインメント設定
+\@ifpackageloaded{dcolumns}{\newcolumntype{.}{D{.}{.}{-1}}}{}
+% 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
 % ------
 
 % ---- prettyref 用の設定 ----
@@ -112,41 +105,24 @@
 % LyX では prettyref を使うと label 挿入場所の環境に応じて自動で補ってくれる
 \@ifpackageloaded{prettyref}{
   \newrefformat{eq}{\textup{(\ref{#1})}}%
-  \newrefformat{lem}{補題 \ref{#1}}%
-  \newrefformat{thm}{定理 \ref{#1}}%
-  \newrefformat{prop}{命題 \ref{#1}}%
-  \newrefformat{cha}{\ref{#1} 章}%
-  \newrefformat{sec}{\ref{#1} 節}%
+  \newrefformat{lem}{補題\ref{#1}}%
+  \newrefformat{thm}{定理\ref{#1}}%
+  \newrefformat{prop}{命題\ref{#1}}%
+  \newrefformat{cha}{第\ref{#1}章}%
+  \newrefformat{sec}{第\ref{#1}節}%
   \newrefformat{tab}{表\ref{#1}}%
-  \newrefformat{fig}{図 \ref{#1}}%
+  \newrefformat{fig}{図\ref{#1}}%
   \newrefformat{alg}{アルゴリズム \ref{#1}}%
   \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
 }{}
 % ------
-
-
-% dcolumn.sty の表のアラインメント設定
-\@ifpackageloaded{dcolumns}{\newcolumntype{.}{D{.}{.}{-1}}}{}
-% 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
-% ------
-
-
-% natbib を使うと「参考文献」がセクションタイトルとしてスライド本文領域に生成され,
-% beamer で表示すると不格好になるので表示しないようにする
-\@ifpackageloaded{natbib}{
-  \renewcommand{\bibsection}{}
-}{}
-
-
-% 参考文献の文字は小さくしてもいいだろう
-\ifdefined \bibfont
-\renewcommand*{\bibfont}{\footnotesize}
-\fi
 \end_preamble
-\use_default_options true
+\use_default_options false
 \begin_modules
 theorems-bytype
+theorems-sec-bytype
+eqs-within-sections
 \end_modules
 \maintain_unincluded_children false
 \begin_local_layout
@@ -194,7 +170,7 @@ End
 \output_sync 0
 \bibtex_command default
 \index_command default
-\paperfontsize 12
+\paperfontsize default
 \spacing single
 \use_hyperref true
 \pdf_bookmarks true
@@ -202,13 +178,13 @@ End
 \pdf_bookmarksopen false
 \pdf_bookmarksopenlevel 1
 \pdf_breaklinks false
-\pdf_pdfborder false
+\pdf_pdfborder true
 \pdf_colorlinks true
 \pdf_backref false
 \pdf_pdfusetitle true
-\pdf_quoted_options "citecolor=red,linkcolor=blue"
+\pdf_quoted_options "linkcolor=cyan,citecolor=cyan,urlcolor=magenta"
 \papersize default
-\use_geometry true
+\use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
 \use_package cancel 1
@@ -220,8 +196,8 @@ End
 \use_package stmaryrd 1
 \use_package undertilde 1
 \cite_engine natbib
-\cite_engine_type numerical
-\biblio_style plainnat
+\cite_engine_type authoryear
+\biblio_style jecon
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -244,9 +220,9 @@ End
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
-\listings_params "language=R,escapechar={ø},numbers=left,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},numbers=left,breaklines=true,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},identifierstyle={\small},commentstyle={\small\itshape},keywordstyle={\small\bfseries},ndkeywordstyle={\small},stringstyle={\small\ttfamily},frame={single},backgroundcolor={\color[rgb]{0.9,0.9,0.9}},rulecolor={\color{myblue}},framesep=2ex,framexleftmargin={2.5mm},numberstyle={{\tiny\color{mygray2}}},commentstyle={\color{mygreen}},keywordstyle={\color{blue}},stringstyle={\color{mymauve}},rulecolor={\color{black}},showspaces=true,showstringspaces=true"
+\listings_params "language=R,escapechar={ø},numbers=left,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},numbers=left,breaklines=true,numberstyle={\scriptsize},stepnumber=1,columns={[l]{fullflexible}},basicstyle={\ttfamily},identifierstyle={\small},commentstyle={\small\itshape},keywordstyle={\small\bfseries},ndkeywordstyle={\small},stringstyle={\small\ttfamily},frame=single,backgroundcolor={\color[rgb]{0.9,0.9,0.9}},rulecolor={\color{myblue}},framesep=2ex,framexleftmargin={2.5mm},numberstyle={\tiny\color{mygray2}},commentstyle={\color{mygreen}},keywordstyle={\color{blue}},stringstyle={\color{mymauve}},rulecolor={\color{black}},showspaces=true,showstringspaces=true"
 \tracking_changes false
-\output_changes true
+\output_changes false
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
