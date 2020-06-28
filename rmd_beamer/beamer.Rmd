@@ -411,7 +411,7 @@ diag_yjseir %>% ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
 * `ggforce::geom_circle()` を利用
   + 参考: [How to Plot Venn Diagrams Using R, ggplot2 and ggforce](https://scriptsandstatistics.wordpress.com/2018/04/26/how-to-plot-venn-diagrams-using-r-ggplot2-and-ggforce/)
 
-```{r venn, fig.cap="ベン図の例"}
+```{r venn, fig.cap="ベン図の例", out.height="60%"}
 require(ggforce)
 df.venn <- data.frame(
   x = c(-.5, 0, .5), y = c(0, .8, 0), r = c(1, 1, 1), labels = c('コーディング', 'デザイン', 'タイポグラフィ'))
@@ -420,7 +420,7 @@ ggplot(df.venn, aes(x0 = x, y0 = y, r = r, fill = labels)) +
   geom_label(aes(x = x, y = y, label = labels)) +
   annotate("text", x = 0, y = .2, label = "LaTeX", size = 11 / .pt) +
   coord_fixed() + scale_fill_pander() +
-  theme_void() + theme(legend.position = "none")
+  theme_void(base_size = 11) + theme(legend.position = "none")
 ```
 
 ## 表の挿入: データフレーム
@@ -555,7 +555,7 @@ plot(1:10, pch = "🍣")
 dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base_size)
 ```
 
-## テーマ変更
+## スライドのテーマ変更
 * この辺を変える
 
 ```{yaml themes, eval=F, echo=T}
@@ -568,7 +568,8 @@ dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base
 - \usefonttheme{professionalfonts}
 ```
 
-* シンタックスハイライトのテーマ変更は以下
+## シンタックスハイライトのテーマ変更
+* テーマは以下が用意されている
   + `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`, `textmate`
     + 参考[Xie Yihui のドキュメント](https://bookdown.org/yihui/rmarkdown/html-document.html)
 ```{yaml syntax, eval=F, echo=T}
