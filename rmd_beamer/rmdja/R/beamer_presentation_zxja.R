@@ -51,7 +51,12 @@ beamer_presentation_zxja <- function(
   monofont_ja = "Ricty Diminished", monofont_ja_options = NULL,
   self_contained = TRUE,
   figurename = "図",
-  tablename = "表"
+  tablename = "表",
+  linkcolor = "blue",
+  citecolor = "blue",
+  urlcolor = "magenta",
+  citation_package = "natbib",
+  citation_options = "numbers"
 ){
   settings_fonts <- list(
     main = list(font = mainfont, option = mainfont_options),
@@ -103,12 +108,12 @@ beamer_presentation_zxja <- function(
     "\\usepackage{zxjatype}",
     as.character(lapply(settings_fonts, function(x) x$set)),
     "\\usepackage {hyperref}",
-    "\\hypersetup {colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}",
+    "\\hypersetup {colorlinks=true,linkcolor=", linkcolor, ",citecolor=", citecolor, ",urlcolor=", urlcolor, "magenta}",
     paste0("\\renewcommand{\\figurename}{", figurename, "}"),
     paste0("\\renewcommand{\\tablename}{", tablename, "}"),
     "\\usepackage{bxtexlogo}",
     "\\colorlet{shadecolor}{gray!20}",
-    "\\usepackage[numbers]{natbib}",
+    "\\usepackage[", citation_options, "]{", citation_package, "}",
     "\\ifdefined\\bibsection\\renewcommand{\\bibsection}{}\\fi",
     "\\ifdefined\\bibfont\\renewcommand*{\\bibfont}{\\footnotesize}\\fi",
     "\\usepackage{fmtcount}",
