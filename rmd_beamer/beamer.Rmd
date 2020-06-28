@@ -4,7 +4,8 @@ author: "ill-identified"
 date: "`r Sys.Date()`"
 output:
   beamer_presentation:
-    toc: true
+    slide_level: 2
+    toc: false
     number_sections: false
     incremental: false
     fig_crop: true
@@ -25,6 +26,8 @@ header-includes:
   - \useoutertheme{default}
   - \useinnertheme{default}
   - \usefonttheme{professionalfonts}
+  - \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
+  - \makeatother  
   - \usepackage{zxjatype}
   - \setmainfont{Roboto Slab}
   - \setsansfont{Roboto}
@@ -39,10 +42,10 @@ header-includes:
   - \usepackage{bxtexlogo}
   - \colorlet{shadecolor}{gray!20}
   - \usepackage[numbers]{natbib}
-  - \renewcommand{\bibsection}{}
-  - \renewcommand*{\bibfont}{\footnotesize}
+  - \ifdefined\bibsection\renewcommand{\bibsection}{}\fi
+  - \ifdefined\bibfont\renewcommand*{\bibfont}{\footnotesize}\fi
   - \usepackage{fmtcount}
-  - \renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}
+  - \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi
   - \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
 
 ---
@@ -54,17 +57,23 @@ knitr::opts_chunk$set(
   include = T, echo = F, message = F, warning = F, digits = 3, cache = T, comment = NA, # 標準出力の ## を消す
   # チャンク内コード40字で折り返す (不完全?マルチバイト文字に対応してない?)
   tidy.opts=list(width.cutoff=40), 
-  tidy=T,
+  tidy=F,
   # 画像関係: 中央寄せ, 幅50%, 水平並べ
-  fig.align = "center", out.width = "50%",  fig.show='hold',
-  # ggplot2の日本語埋め込みに必要
+  # 画像サイズはbeamerの画面サイズに合わせている
+  fig.align = "center", out.width = "100%",  fig.show='hold', fig.width = 5.03937, fig.height = 3.77953,
+  # デバイス=cairo_pdfは日本語フォント埋め込みに必要
   # pointsize は組み込みグラフィックデバイスにのみ反映される
-  dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base_size)
+  dev = "cairo_pdf", dev.args = list(pointsize = base_size)
   )
 ```
 
+## 目次
+\tableofcontents[hideallsubsections]
+
+# イントロダクション
+
 ## このスライドは何?
-* あまり情報が流れていない, rmarkdownとbeamerで日本語を含むスライドを作るためのテンプレート兼ヒント集
+* あまり情報が流れていない, rmarkdownとbeamerで日本語を含むスライドを作るためのテンプレート兼用例集
 * `reveal.js`などhtml媒体は他の資料を参照
   + [ここ](https://kazutan.github.io/SappoRoR6/rmd_slide.html#/)や[ここ](https://kazutan.github.io/fukuokaR11/intro_rmarkdown_d.html)を見よ
 * もともとは自分用に作ったテンプレだったものを万人向けに修正
@@ -141,11 +150,11 @@ knitr::include_graphics("img/render.png")
 
 ## フォント指定
 * 使うマシンに応じて以下の箇所を適当に変える
-* `set*font`は欧文用
-* `setja*font`は和文用
+* `\set*font{}`は欧文用
+* `\setja*font{}`は和文用
 * 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
 * インラインでのフォント変更は**想定してない**
-  + 不可能ではないが面倒
+  + やりたい人は[このページ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)等を参考に
 
 ```{yaml header-example1, eval=F, echo=T}
 - \setmainfont{Roboto Slab}
@@ -155,8 +164,6 @@ knitr::include_graphics("img/render.png")
 - \setjasansfont{Noto Sans CJK JP}
 - \setjamonofont{Ricty Diminished}
 ```
-
-
 
 ## 基本構文
 - markdown的な書き方でできる
@@ -245,7 +252,7 @@ require(ggdag)
 * 例: `らんま$\frac{1}{2}$`
   + 出力: らんま$\frac{1}{2}$
   + 注: 行内で分数はスラッシュ使ったほうが見やすい
-* セリフフォント使用
+* 数式にはセリフフォント使用
   + スライドはサンセリフが良いとされる
   + しかし数式の統一感がない
   + (個人の好み?) 
@@ -268,7 +275,7 @@ $$\begin{aligned}
 \end{aligned}$$
 
 
-## 数式の挿入: `bookdown` の使用
+## 数式の挿入: `bookdown` パッケージのアドインで補完
 1. RStudioのツールバー "Addins"
 2. "Input LaTeX Math"
 
@@ -282,7 +289,12 @@ knitr::include_graphics("img/math-input.png")
 # 図表の挿入
 
 ## 図の挿入: 画像ファイル貼り付け
-* チャンクヘッダの`out.width=`/`out.height=`でサイズ調整
+* チャンクの`out.width=`/`out.height=`で調整
+* htmlと違い**アスペクト比は固定**
+* jpeg, png, eps, pdf に対応
+  + gif, svg は上記いずれかに**手動で変換する**必要
+  + \LaTeX (\XeLaTeX) の制約
+
 
 ```{r, echo=T, fig.cap="いつもの虎(TeXLiveより)", out.width="20%"}
 knitr::include_graphics(c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png"))
@@ -298,41 +310,66 @@ knitr::include_graphics(c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png"))
 ![The Tiger](img/tiger.pdf){ height=30% }
 
 
-## 図の挿入: Rのグラフ
-* `ggplot2` を出力
-  + pdfとして出すのでフォント埋め込みに注意
-  + `theme()`が反映されるのはあくまでRStudio上のもの
-  + pdfでは相対的フォントサイズが変わる問題
-  + `fig.cap=`でキャプションを設定可能. `labs(title = )`と違い自動相互参照あり
+## 図の挿入: `ggplot2`のグラフ
+* `fig.cap=`でキャプションを設定可能. `labs(title = )`と違い自動相互参照あり
 
-```{r plot-example, fig.cap="ggplot2の出力例: irisデータ"}
+```{r plot-example,  out.height="60%", fig.cap="ggplot2の出力例: irisデータ"}
 theme_set(
-  theme_classic(base_size = 12 * .pt) +
+  theme_classic(base_size = 11) +
   theme(legend.position = "top",
         axis.title.y = element_text(angle = 90, vjust = .5), legend.title = element_blank()))
 data(iris)
-ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+g <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
   geom_point() + labs(x = "萼長", y = "萼幅")
+g
 ```
 
 ## 図の挿入: 文字の大きさをそろえるには
-* よくあるトラブル
-  + RStudio と出力された画像ファイルが違う!
-  + 本文と図に描いた文字の大きさが違う!
-* beamer側でpt単位で指定した前提
-* `cairo_pdf(pointsize)` はビルトインデバイスのサイズ
-* `base_size` は pt単位
+* RStudioと出力された画像ファイルが違う!
+* グラフの文字小さすぎ!!
+* その原因は
+1. **自動縮小される**ため
+  + 込み入った話なので**次のスライドへ**
+2. **単位が違う**ため
+  + beamerは主に **pt**単位
+  + `ggplot2` は `aanotate()`のみ**mm**単位
+* 補足
+  * `cairo_pdf()`の`pointsize`はビルトインデバイスにのみ影響
+  * 『[ggplot2のsizeが意味するもの](https://uribo.hatenablog.com/entry/2018/06/11/232041)』
 
-参考: https://uribo.hatenablog.com/entry/2018/06/11/232041
+## 図の挿入: 画像サイズの基本ルール
+* Rが作図したファイルを一旦保存し貼り付けられる
+* `fig.width`/`fig.height` は**保存時**のサイズ
+* `out.width`/`out.height` は**表示する**サイズ
+* 保存した画像がスライドに収まるよう拡大縮小される
+  + スライドは**128 mm (5.04 in) x 96 mm (3.78 in)**(4:3)がデフォルト
+* `ggsave()`はデフォルトで **9.11 x 5.77** インチで保存
+* RStudioのビューアは文字の大きさ**固定**で**サイズを画面に合わせる**
+  + **違和感の正体**(?)
 
-```{r plot-size, out.height="50%"}
-thm <-theme_bw(base_size = 12)
-d <- tibble(x = 1, y = 1, label = "🍣")
-g1 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text() + thm + labs(title = "サイズ指定なし")
-g2 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text(size = 1) + thm + labs(title = "size = 1")
-g3 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text(size = 11) + thm + labs(title = "size = 11")
-(g1 / g2 / g3) + patchwork::plot_annotation(title = "base_size = 11")
+## 図の挿入: 幅100%で出力
+* 注: `out.width="100%"`はスライドサイズではなく**本文領域の相対サイズ**
+````{r plot-size-test1, out.width="100%", fig.width=9.11, fig.height=5.77}
+g + labs(title = "Iris") + theme_classic(base_size =11) + theme(axis.text = element_text(size = 11))
 ```
+
+## 図の挿入: beamerサイズで保存, 幅100%で出力
+
+````{r plot-size-test2, out.width="100%"}
+g + labs(title = "Iris") + theme_classic(base_size =11) + theme(axis.text = element_text(size = 11))
+```
+
+
+## 図の挿入: オススメのやり方
+
+* 基準をbeamerに合わせる方法
+  1. 保存時サイズをbeamerの画面サイズと同じにする
+  + このテンプレートのデフォルト設定
+  2. `theme_*()`で`base_size`をbeamerの文字サイズと同じにする
+* out.width="100%"のとき, グラフタイトルと本文のサイズが一致
+* 拡大縮小に合わせて文字の大きさを調整する
+* 横長のグラフなら`fig.width=` を調整する
+
 
 ## 図の挿入: 再現可能なポンチ絵
 * 概念図とかの図示はどうするか
@@ -346,7 +383,7 @@ g3 <- ggplot(d, aes(x = x, y = y, label = label)) + geom_point() + geom_text(siz
 * 霞が関流ポンチ絵は**専門外**
 
 ## 図の挿入: ポンチ絵の例1
-* [以前作ったやつ](https://speakerdeck.com/ktgrstsh/r-and-epidemical-mathematical-models)の転載
+* [以前作ったやつ](https://speakerdeck.com/ktgrstsh/r-and-epidemical-mathematical-models)の修正
 
 ```{r punch-chart-example, out.width="90%", out.height="70%", fig.cap="ggdagで作ったYJ-SEIRモデルの遷移図"}
 diag_yjseir <- dagify(
@@ -356,13 +393,13 @@ diag_yjseir <- dagify(
   E ~ S,
   I ~ E + Y,
   R ~ J + I,
-  labels = c("Y" = "Suspected", "J" = "間接接触", "S" = "感受性", "E" = "潜伏", "I" = "感染", "R" = "回復"),
+  labels = c("Y" = "懐疑", "J" = "間接接触", "S" = "感受性", "E" = "潜伏", "I" = "感染", "R" = "回復"),
   coords = list(x = c(Y = 1.5, J = 2, S = 0, E = 1, I = 2, R =3),
                 y = c(Y = .5, J = -.5, S = 0, E = 0, I = 0, R = 0)
                 )
   ) %>% tidy_dagitty() %>% mutate(label_edge = c("beta", NA, NA, "gamma", NA, "lambda",  NA, NA, NA))
 diag_yjseir %>% ggplot(aes(x = x, y = y, xend = xend, yend = yend)) +
-  geom_dag_node(size = 30) +
+  geom_dag_node(size = 9 * .pt) +
   geom_dag_edges(edge_width = 2, arrow_directed = grid::arrow(length = grid::unit(.05, "npc"), type = "closed")) +
   geom_dag_text(aes(label = label)) +
   geom_label(aes(x = (x + xend)/2, y = (y + yend)/2, label = label_edge), parse = T, size = 10) +
@@ -381,7 +418,7 @@ df.venn <- data.frame(
 ggplot(df.venn, aes(x0 = x, y0 = y, r = r, fill = labels)) +
   geom_circle(alpha = .3, size = 1, colour = 'grey') +
   geom_label(aes(x = x, y = y, label = labels)) +
-  annotate("text", x = 0, y = .2, label = "LaTeX", size = 5 * ggplot2::.pt) +
+  annotate("text", x = 0, y = .2, label = "LaTeX", size = 11 / .pt) +
   coord_fixed() + scale_fill_pander() +
   theme_void() + theme(legend.position = "none")
 ```
@@ -393,7 +430,7 @@ ggplot(df.venn, aes(x0 = x, y0 = y, r = r, fill = labels)) +
   + 最低限の情報だけ掲載するのは大前提
   + `df_print: kable` では`caption`指定が[ややこしい](https://stackoverflow.com/questions/48410861/how-to-add-table-caption-using-df-print)
 
-```{r kable-iris, eval=F, echo=T, tidy=F}
+```{r kable-iris, eval=F, echo=T}
 data(iris)
 knitr::kable(head(iris[, 1:3]),
              caption="kable()による表示")
@@ -401,23 +438,25 @@ knitr::kable(head(iris[, 1:3]),
 
 ## 表の挿入: データフレームを`kable()`で表示
 
-```{r kable-iris-display, echo=T, tidy=F}
+```{r kable-iris-display, echo=T}
 data(iris)
 knitr::kable(head(iris[, 1:3]),
              caption="kable()による表示")
 ```
 
-## 表の挿入: LaTeXコード
-- latex のコード
-  + そのまま貼り付けることができる
+## 表の挿入: \LaTeX コード
+* \LaTeX のコードを貼り付けて表を掲載
   + `\input{tab.tex}` でコピペなしで貼り付け可
-  + `stargazer`とかが生成したやつを貼れる
-  + 凝ったことをしたいならこっち?
+  + `stargazer`との併用
+  + **リサイズは手動で**
+* 以下, 表を`.tex`で出力してから読み込む
   
-```{r tex-tab, echo=T, tidy=F}
-xtable::xtable(head(iris)) %>%
+```{r tex-tab, echo=T}
+xtable::xtable(
+  head(iris), caption = "xtableでexport") %>%
   print(file = "tab.tex")
 ```
+
 \input{tab.tex}
 
 ## 表の挿入: markdown
@@ -458,12 +497,10 @@ Table: 得点一覧
 * 以下引用テスト
 
 ```{markdown eval=F, echo=T, tidy=F}
-[@R-base; @R-bookdown; @R-citr;
- @varian2014Intermediate; @wickham2016Data]
+[@R-base; @R-bookdown; @R-citr; @wickham2016Data]
 ```
 
-[@R-base; @R-bookdown; @R-citr;
-@varian2014Intermediate; @wickham2016Data]
+[@R-base; @R-bookdown; @R-citr; @wickham2016Data]
 
 ## 文献引用の補助: 引用子の補完
 
@@ -491,22 +528,109 @@ knitr::include_graphics("img/citr.png")
 
 * [`BXcoloremoji`](https://github.com/zr-tex8r/BXcoloremoji)をインストールすれば可能
   + `\coloremoji{}` で絵文字表示: \ifdefined\coloremoji \coloremoji{🍣} \else (ここに絵文字) \fi
-  + RStudioエディタでは**表示が変な場合も**
 * グラフ描画には特に設定必要なし
   + ソースコード上のものは文字化けする
-```{r sushi-plot, echo=T}
+```{r sushi-plot, echo=T, out.width="40%"}
 plot(1:10, pch = "🍣")
 ```
 
+# 基本的なカスタマイズ
+
+## フォントの変更
+* `\set*font{}`は欧文用
+* `\setja*font{}`は和文用
+
+```{yaml header-example1-re, eval=F, echo=T}
+- \setmainfont{Roboto Slab}
+- \setsansfont{Roboto}
+- \setmonofont{Ricty Diminished}
+- \setjamainfont{Noto Serif CJK JP}
+- \setjasansfont{Noto Sans CJK JP}
+- \setjamonofont{Ricty Diminished}
+```
+
+* 画像内フォントは以下で修正
+
+```{yaml dev-font, eval=F, echo=T}
+dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base_size)
+```
+
+## テーマ変更
+* この辺を変える
+
+```{yaml themes, eval=F, echo=T}
+- \usetheme[progressbar=frametitle,block=fill]{metropolis}
+- \makeatletter
+- \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+- \usecolortheme{default}
+- \useoutertheme{default}
+- \useinnertheme{default}
+- \usefonttheme{professionalfonts}
+```
+
+* シンタックスハイライトのテーマ変更は以下
+  + `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`, `textmate`
+    + 参考[Xie Yihui のドキュメント](https://bookdown.org/yihui/rmarkdown/html-document.html)
+```{yaml syntax, eval=F, echo=T}
+highlight: tango
+```
+
+## 色の変更
+
+* ハイパーリンクの色を変えたい場合は以下をいじる
+  + `linkcolor=` スライド内リンク
+  + `citecolor=` 参考文献リストへのリンク
+  + `urlcolor=` urlリンク
+* デフォルトで使用できる色名は[ここ](http://www.latex-cmd.com/style/color.html)を参照
+
+```{yaml refcolors, eval=F, echo=T}
+  - \hypersetup {colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
+```
+
+## 引用形式の変更
+* デフォルトでは `[1]` のような番号形式
+* 著者(年) 形式にしたい場合は, 以下の`[numbers]`を`[authoryear]`に
+  + その他のオプションは[natnotes.pdf](http://texdoc.net/texmf-dist/doc/latex/natbib/natnotes.pdf)を参照
+
+```{yaml natbib-number, eval=F,echo=T}
+- \usepackage[numbers]{natbib}
+```
+
+* natbib以外を使いたい場合は, 以下の箇所も変更
+
+```{yaml citation-package, eval=F, echo=T}
+citation_package: natbib
+```
+
+## 参考文献リストの変更
+* `.bib`, `.bst` は以下にファイルパスを指定する
+* `.bst` は TeX側が認識していればフルパス・相対パスである必要なし
+```{yaml, eval=F, echo=T}
+bibliography: references.bib
+biblio-style: jecon
+```
+
+## 「図」「表」の表示
+* 図や表を掲載すると自動で「図X」「表Y」などと表示される
+  + "Fig.", "Tab." などと表示したい場合は以下を変更する
+
+```{yaml, eval=F, echo=T}
+- \renewcommand{\figurename}{図}
+- \renewcommand{\tablename}{表}
+```
 
 # トラブルシューティング
 
-## エラーの原因がよくわからない
-* **キャッシュ削除すると良くなることもある**
+## Q: エラーの原因がよくわからない
+* A: **キャッシュ削除すると良くなることもある**
   + (**叩けば直る**レベルの雑アドバイス)
-  + 前回エラーで失敗したときのキャッシュが悪さしてることは結構ある
-  + または `cache = F` でキャッシュを残さないようにする
+  + `{ファイル名}_cache` というディレクトリが作られている
+  + 前回失敗した際のキャッシュが悪さしてることは結構ある
+  + または `cache = F` でキャッシュを残さない
   + エラーメッセージが実態と矛盾してるときはまず試す
+* A: `rmarkdown`/`knitr`と\LaTeX どちらのエラーか確認
+  + `output file: {ファイル名}.md` と出ればpandocまでは機能している
+  + pandocの変換が意図したものでない可能性はある
 
 # まとめ
 
@@ -530,7 +654,6 @@ plot(1:10, pch = "🍣")
 * 最低限のテーマ変更オプションの追加
 * グラフ描画の作業負担を減らす工夫
 * [issues](https://github.com/Gedevan-Aleksizde/my_latex_templates/labels/enhancement) に詳細
-
 
 # 細かい技術的な話
 
@@ -572,14 +695,13 @@ header-includes:
 ```{yaml header-example2, eval=F, echo=T}
 - \usefonttheme{professionalfonts}
 - \usepackage{zxjatype}
-- \setmainfont[Ligatures=TeX]{EB Garamond}
+- \setmainfont[Ligatures=TeX]{Roboto Slab}
 - \setsansfont[Ligatures=TeX]{Roboto}
 - \setmonofont{Ricty Diminished}
 - \setjamainfont{Noto Serif CJK JP}
 - \setjasansfont{Noto Sans CJK JP}
 - \setjamonofont{Ricty Diminished}
 ```
-
 
 ## \LaTeX プリアンブル: その他の設定
 * ハイパーリンクの色を見やすく変更
@@ -607,10 +729,3 @@ header-includes:
 `r if (knitr::is_latex_output()) '
 \\section*{参考文献}
 '`
-
-```{r references, include=F}
-knitr::write_bib(c(
-  .packages(), 'knitr', 'rmarkdown', 'htmlwidgets', 'webshot', 'DT',
-  'miniUI', 'tufte', 'servr', 'citr', 'rticles'
-), 'packages.bib')
-```
