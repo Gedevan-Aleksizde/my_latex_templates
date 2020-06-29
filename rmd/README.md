@@ -17,9 +17,14 @@ https://www.slideshare.net/hirokito/r-markdownbeamer-88777082
 
 # 使い方
 1. `.Rmd` ファイルを開く
-2. `.Rmd` と同じディレクトリに `.latexmkrc`を置く
-2. 自分のスライドを作る
-3. knitする
+2.  フォーマットを選択する
+
+```yaml
+output: rmdzxja::beamer_presentation_zxja
+```
+
+3. 自分のスライドを作る
+4. knitする
 
 # 謝辞
 * 以下に触発されて作りました
