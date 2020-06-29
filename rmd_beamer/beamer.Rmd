@@ -15,7 +15,7 @@ output:
     citation_package: natbib
     keep_tex: true
     keep_md: false
-bibliography: examples.bib
+bibliography: "`r 'examples.bib'`"
 biblio-style: jecon
 fontsize: 12pt
 header-includes:
