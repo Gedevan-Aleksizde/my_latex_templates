@@ -12,12 +12,15 @@ remotes::install_github('Gedevan-Aleksizde/my_latex_templates/rmdzxja')
 ```
 
 # サンプル
-`examples/` 以下にサンプルが存在
+
+`examples/` 以下にサンプルが存在します.
 
 
 * `beamer_linux.Rmd` (linuxというよりubuntu)
 * `beamer_macos.Rmd`
 * `beamer_windows.Rmd`
+
+`*.pdf` はそれぞれに対応する出力例です.
 
 各OSでよく使われるフォントを指定している以外は上記は全て同じです. 適当なディレクトリに上記いずれをコピーしてknitしてみてください.
 コピーする際には
