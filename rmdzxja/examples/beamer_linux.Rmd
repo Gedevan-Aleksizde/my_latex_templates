@@ -128,7 +128,7 @@ knitr::include_graphics(file.path(extdata, "img/render.png"))
 * 使うマシンに応じて以下の箇所を適当に変える
 * 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
 * インラインでのフォント変更は**想定してない**
-  + やりたい人は[このページ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)等を参考に
+  + やりたい人は[ここ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)や[ここ](http://zrbabbler.sp.land.to/zxjatype.html)等を参考に
 
 ```yaml
 mainfont: Roboto Slab
