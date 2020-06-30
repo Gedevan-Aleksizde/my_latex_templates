@@ -8,7 +8,7 @@
 インストールする
 
 ```
-remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzxja')
+remotes::install_github('Gedevan-Aleksizde/my_latex_templates/rmdzxja')
 ```
 
 # サンプル
