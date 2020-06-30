@@ -6,14 +6,14 @@ output:
   rmdzxja::beamer_presentation_zxja:
     keep_md: false
     theme: metropolis
-    jamainfont: Noto Serif CJK JP
-    jasansfont: Noto Sans CJK JP
-    jamonofont: Ricty Discord
-    mainfont: Roboto Slab
+    jamainfont: Hiragino Mincho ProN W3
+    jasansfont: Hiragino Maru Gothic ProN W4
+    jamonofont: SF Mono
+    mainfont: Hiragino Mincho ProN W3
     mainfontoptions: Ligatures=TeX,Scale=MatchUppercase
-    sansfont: Roboto
+    sansfont: Hiragino Maru Gothic ProN W4
     sansfontoptions: Scale=MatchUppercase
-    monofont: Ricty Discord
+    monofont: SF Mono
     highlight: tango
     citation_options: numbers
 fontsize: 12pt

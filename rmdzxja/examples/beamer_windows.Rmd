@@ -6,14 +6,14 @@ output:
   rmdzxja::beamer_presentation_zxja:
     keep_md: false
     theme: metropolis
-    jamainfont: Noto Serif CJK JP
-    jasansfont: Noto Sans CJK JP
-    jamonofont: Ricty Discord
-    mainfont: Roboto Slab
+    jamainfont: 游明朝
+    jasansfont: 游ゴシック
+    jamonofont: Verdana
+    mainfont: Arial
     mainfontoptions: Ligatures=TeX,Scale=MatchUppercase
-    sansfont: Roboto
+    sansfont: Times New Roman
     sansfontoptions: Scale=MatchUppercase
-    monofont: Ricty Discord
+    monofont: MSゴシック
     highlight: tango
     citation_options: numbers
 fontsize: 12pt
