@@ -19,9 +19,18 @@ remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzxj
 * `beamer_macos.Rmd`
 * `beamer_windows.Rmd`
 
-各OSでよく使われるフォントを指定している以外は上記は全て同じです. 適当なディレクトリに上記いずれかと `examples.bib` をコピーしてknitしてみてください.
+各OSでよく使われるフォントを指定している以外は上記は全て同じです. 適当なディレクトリに上記いずれをコピーしてknitしてみてください.
+コピーする際には
 
-**NOTE**: 用例の一環として, knit時に同一フォルダに `tab.tex` というファイルが生成されます. 上書きに注意してください.
+```
+file.copy(file.path(system.file("examples", package = "rmdzxja"), "beamer_*.Rmd"), "HOGEHOGE")
+```
+
+でコピーすると楽です.
+
+**NOTE**: 用例の一環として, knit時に同じフォルダに `tab.tex`, `examples.bib`, `.latexmkrc` というファイルが生成されます. 上書きに注意してください.
+
+**NOTE**: `monofont`/`jamonofont`はソースコードの掲載に使われます. [M+](http://mix-mplus-ipa.osdn.jp/)や[Ricty](https://rictyfonts.github.io/)などのインストールを推奨します
 
 # 謝辞
 

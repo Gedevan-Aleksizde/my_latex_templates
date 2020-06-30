@@ -183,5 +183,8 @@ beamer_presentation_zxja <- function(
       ),
     pandoc = NULL,
     base_format = base)
+  if(!file.exists("./.latexmkrc")){
+    file.copy(file.path(system.file("extdata", package = "rmdzxja"), "latexmk/.latexmkrc"), to = "./")
+  }
   return(out)
 }
