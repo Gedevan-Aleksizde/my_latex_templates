@@ -6,14 +6,14 @@ output:
   rmdzxja::beamer_presentation_zxja:
     keep_md: false
     theme: metropolis
-    jamainfont: Noto Serif CJK JP
-    jasansfont: Noto Sans CJK JP
-    jamonofont: Ricty Diminished
-    mainfont: Roboto Slab
+    jamainfont: Hiragino Mincho ProN W3
+    jasansfont: Hiragino Maru Gothic ProN W4
+    jamonofont: SF Mono
+    mainfont: Hiragino Mincho ProN W3
     mainfontoptions: Ligatures=TeX,Scale=MatchUppercase
-    sansfont: Roboto
+    sansfont: Hiragino Maru Gothic ProN W4
     sansfontoptions: Scale=MatchUppercase
-    monofont: Ricty Diminished
+    monofont: SF Mono
     highlight: tango
     citation_options: numbers
 fontsize: 12pt
@@ -23,11 +23,15 @@ biblio-style: jecon
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
-file.copy(file.path(system.file(package = "rmdzxja"), "extdata/.latexmkrc"), to = "./")
-# 上記2つは日本語引用文献リストのために必要
+file.copy(file.path(system.file("extdata", package = "rmdzxja"), "latexmk/.latexmkrc"), to = "./")
+# 上記は日本語引用文献リストのために必要
+
+# サンプル画像等を参照するパス
+file_loc <- system.file("extdata", package = "rmdzxja")
+# サンプル引用文献リストを取得する
+file.copy(file.path(file_loc, "examples.bib"), to = "./")
+
 knitr::opts_chunk$set(cache = T)
-extdata <-  file.path(system.file(package = "rmdzxja"), "extdata") # サンプル画像のディレクトリパス
-# extdata <- getwd()
 ```
 
 ## 目次
@@ -121,14 +125,14 @@ output:  rmdzxja::beamer_presentation_zxja
 2. RStudioのツールバーの"Knit"を押す
 
 ```{r knit-image, out.width="80%"}
-knitr::include_graphics(file.path(extdata, "img/render.png"))
+knitr::include_graphics(file.path(file_loc, "img/render.png"))
 ```
 
 ## フォント指定
 * 使うマシンに応じて以下の箇所を適当に変える
 * 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
 * インラインでのフォント変更は**想定してない**
-  + やりたい人は[このページ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)等を参考に
+  + やりたい人は[ここ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)や[ここ](http://zrbabbler.sp.land.to/zxjatype.html)等を参考に
 
 ```yaml
 mainfont: Roboto Slab
@@ -252,7 +256,7 @@ $$\begin{aligned}
 2. "Input LaTeX Math"
 
 ```{r math-input, out.height="40%", fig.cap="bookdownの数式入力機能"}
-knitr::include_graphics(file.path(extdata, "img/math-input.png"))
+knitr::include_graphics(file.path(file_loc, "img/math-input.png"))
 ```
 * 一部対応してない記号もある?
   + `\mathbb{}`とか`\hat{}`とか
@@ -270,7 +274,7 @@ knitr::include_graphics(file.path(extdata, "img/math-input.png"))
 
 
 ```{r, echo=T, fig.cap="いつもの虎(TeXLiveより)", out.width="20%"}
-knitr::include_graphics(file.path(extdata, c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png")))
+knitr::include_graphics(file.path(file_loc, c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png")))
 ```
 
 ## 図の挿入: markdown構文で貼り付け
@@ -281,7 +285,7 @@ knitr::include_graphics(file.path(extdata, c("img/tiger.eps", "img/tiger.pdf", "
 ```markdown
 ![The Tiger](img/tiger.pdf){ height=30% }
 ```
-![The Tiger](`r file.path(extdata, "img/tiger.pdf")`){ height=30% }
+![The Tiger](`r file.path(file_loc, "img/tiger.pdf")`){ height=30% }
 
 
 ## 図の挿入: `ggplot2`のグラフ
@@ -446,7 +450,7 @@ knitr::kable(head(iris[, 1:3]),
 ```{r tex-tab, echo=T}
 xtable::xtable(
   head(iris), caption = "xtableでexport") %>%
-  print(file = file.path(extdata, "tab.tex"))
+  print(file = "tab.tex")
 ```
 
 \input{tab.tex}
@@ -482,7 +486,7 @@ Table: 得点一覧
 * markdown方式のリンク
   + `[RStudio](https://rstudio.com/)`
   + [RStudio](https://rstudio.com/)
-* 画像にハイパーリンク [![RStudio](`r file.path(extdata, "img/RStudio-Logo-flat.pdf")`){ height=10% }](https://rstudio.com/) を貼ることも可
+* 画像にハイパーリンク [![RStudio](`r file.path(file_loc, "img/RStudio-Logo-flat.pdf")`){ height=10% }](https://rstudio.com/) を貼ることも可
 
 ## 文献引用の方法
 
@@ -505,7 +509,7 @@ Table: 得点一覧
   + zotero連携機能あり
 
 ```{r citr-image, fig.cap="citrパッケージのGUI", out.width="50%"}
-knitr::include_graphics(file.path(extdata, "img/citr.png"))
+knitr::include_graphics(file.path(file_loc, "img/citr.png"))
 ```
 
 ## 文献引用の補助: 文献管理
@@ -618,9 +622,9 @@ tablename: Tab.
 ## Q: エラーの原因がよくわからない
 * A: **キャッシュ削除すると良くなることもある**
   + (**叩けば直る**レベルの雑アドバイス)
-  + `{ファイル名}_cache` というディレクトリが作られている
+  + `{ファイル名}_cache`, `{ファイル名}_files` というディレクトリを消す
   + 前回失敗した際のキャッシュが悪さしてることは結構ある
-  + または `cache = F` でキャッシュを残さない
+  + または `cache = F`, `keep_tex: False`, `keep_md: False` でキャッシュを残さない
   + エラーメッセージが実態と矛盾してるときはまず試す
 * A: `rmarkdown`/`knitr`と\LaTeX どちらのエラーか確認
   + `output file: {ファイル名}.md` と出ればpandocまでは機能している
@@ -732,10 +736,10 @@ header-includes:
 
 ## 謝辞
 
-これを作るにあたって参考になったところ
+これを作るにあたって大いに参考になった資料
 
-* kazutan [R Markdownの内部とテンプレート開発](https://kazutan.github.io/HijiyamaR6/intoTheRmarkdown.html)
-* atusy [R Markdownのオリジナルフォーマットを作ろう](https://atusy.github.io/tokyor85-original-rmd-format/#/)
+* kazutan: 『[R Markdownの内部とテンプレート開発](https://kazutan.github.io/HijiyamaR6/intoTheRmarkdown.html)』
+* atusy:『[R Markdownのオリジナルフォーマットを作ろう](https://atusy.github.io/tokyor85-original-rmd-format/#/)』
 
 ----
 `r if (knitr::is_latex_output()) '

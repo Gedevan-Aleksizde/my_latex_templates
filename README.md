@@ -2,13 +2,15 @@
 
 ## 内容物
 * LyX 用テンプレート (`lyx/`)
-	+ BXJsarticle 用
-	+ Beamer 用
-* Rmarkdown用テンプレート (`rmd/`)
-	+ XeLaTeX + beamer で作成するためのテンプレート
-* RMarkdown用フォーマットのパッケージ(`rmdzxja`)
+	+ `bxjsarticle.lyx`: BXJsarticle 用
+	+ `beamer.lyx` Beamer 用
+* Rmarkdown用beamerテンプレート (`rmdzxja/`)
+	+ XeLaTeX + beamer で作成するためのパッケージ
+	+ `rmd_old/beamer/beamer.Rmd` はパッケージ化前のテンプレート
+	+ `rmd_old/bookdown/` は作りかけ
 * Jupyter Notebook 用 (`jupyter/`)
 	+ Jupyter Notebook で日本語埋め込んでエクスポートするためのテンプレート
+	+ かなりやっつけ
 
 ## 使い方
 各フォルダの `README.md` 参照
