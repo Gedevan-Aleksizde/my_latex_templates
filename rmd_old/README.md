@@ -8,6 +8,8 @@ https://www.slideshare.net/hirokito/r-markdownbeamer-88777082
 1. LuaLaTeX ではなく XeLaTeX を使っている
 2. 図表の表示, 絵文字の表示, 参考文献リストの表示など, 用例を充実
 
+**beamerの細かい設定が面倒と言う人は [`rmdzxja`](https://github.com/Gedevan-Aleksizde/my_latex_templates/tree/master/rmdbxja) を見てください**
+
 # 要件
 * 最新のRおよびRStudio
 * `rmarkdown`, `knitr` などの関連パッケージc
@@ -20,8 +22,3 @@ https://www.slideshare.net/hirokito/r-markdownbeamer-88777082
 2. `.Rmd` と同じディレクトリに `.latexmkrc`を置く
 2. 自分のスライドを作る
 3. knitする
-
-# 謝辞
-* 以下に触発されて作りました
-* https://atusy.github.io/tokyor85-original-rmd-format
-* https://github.com/atusy/tokyor85down
