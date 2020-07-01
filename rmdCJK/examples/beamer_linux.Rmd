@@ -3,31 +3,27 @@ title: "R Markdownで日本語\\texttt{beamer}プレゼンテーション"
 author: "ill-identified"
 date: "`r Sys.Date()`"
 output:
-  rmdzxja::beamer_presentation_zxja:
+  rmdzxja::beamer_presentation_CJK:
     keep_md: false
     theme: metropolis
-    jamainfont: Noto Serif CJK JP
-    jasansfont: Noto Sans CJK JP
-    jamonofont: Ricty Discord
-    mainfont: Roboto Slab
-    mainfontoptions: Ligatures=TeX,Scale=MatchUppercase
-    sansfont: Roboto
-    sansfontoptions: Scale=MatchUppercase
-    monofont: Ricty Discord
     highlight: tango
     citation_options: numbers
 fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
+mainfont: Roboto
+sansfont: Noto Sans CJK JP
+monofont: Ricty Diminished
+CJKmainfont: Noto Sans CJK JP
 ---
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
-file.copy(file.path(system.file("extdata", package = "rmdzxja"), "latexmk/.latexmkrc"), to = "./")
+file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
 # 上記は日本語引用文献リストのために必要
 
 # サンプル画像等を参照するパス
-file_loc <- system.file("extdata", package = "rmdzxja")
+file_loc <- system.file("extdata", package = "rmdCJK")
 # サンプル引用文献リストを取得する
 file.copy(file.path(file_loc, "examples.bib"), to = "./")
 
@@ -108,7 +104,7 @@ knitr::opts_chunk$set(cache = T)
 ```{r install, eval=F, echo=T}
 remotes::install_github(
   "Gedevan-Aleksizde/my_latex_templates",
-  subdir = "rmdzxja")
+  subdir = "rmdCJK")
 ```
 
 2. TeXLive (>= 2018)のインストール
