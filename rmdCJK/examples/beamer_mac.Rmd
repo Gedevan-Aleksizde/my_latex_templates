@@ -11,9 +11,9 @@ output:
 fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
-mainfont: Hiragino Maru Gothic ProN W3
+mainfont: Hiragino Maru Gothic ProN W4
 monofont: SF Mono
-CJKmainfont: Hiragino Maru Gothic ProN W3
+CJKmainfont: Hiragino Maru Gothic ProN W4
 ---
 
 ```{r setup-document, include=F}
