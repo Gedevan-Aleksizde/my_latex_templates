@@ -3,31 +3,27 @@ title: "R Markdownで日本語\\texttt{beamer}プレゼンテーション"
 author: "ill-identified"
 date: "`r Sys.Date()`"
 output:
-  rmdzxja::beamer_presentation_zxja:
+  rmdCJK::beamer_presentation_CJK:
     keep_md: false
     theme: metropolis
-    jamainfont: Hiragino Mincho ProN W3
-    jasansfont: Hiragino Maru Gothic ProN W4
-    jamonofont: SF Mono
-    mainfont: Hiragino Mincho ProN W3
-    mainfontoptions: Ligatures=TeX,Scale=MatchUppercase
-    sansfont: Hiragino Maru Gothic ProN W4
-    sansfontoptions: Scale=MatchUppercase
-    monofont: SF Mono
     highlight: tango
     citation_options: numbers
 fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
+mainfont: Roboto
+sansfont: Noto Sans CJK JP
+monofont: Ricty Diminished
+CJKmainfont: Noto Sans CJK JP
 ---
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
-file.copy(file.path(system.file("extdata", package = "rmdzxja"), "latexmk/.latexmkrc"), to = "./")
+file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
 # 上記は日本語引用文献リストのために必要
 
 # サンプル画像等を参照するパス
-file_loc <- system.file("extdata", package = "rmdzxja")
+file_loc <- system.file("extdata", package = "rmdCJK")
 # サンプル引用文献リストを取得する
 file.copy(file.path(file_loc, "examples.bib"), to = "./")
 
@@ -108,7 +104,7 @@ knitr::opts_chunk$set(cache = T)
 ```{r install, eval=F, echo=T}
 remotes::install_github(
   "Gedevan-Aleksizde/my_latex_templates",
-  subdir = "rmdzxja")
+  subdir = "rmdCJK")
 ```
 
 2. TeXLive (>= 2018)のインストール
@@ -119,7 +115,7 @@ remotes::install_github(
 1. yamlヘッダに以下を書く
 
 ```yaml
-output:  rmdzxja::beamer_presentation_zxja
+output:  rmdCKL::beamer_presentation_CJK
 ```
 
 2. RStudioのツールバーの"Knit"を押す
@@ -132,15 +128,12 @@ knitr::include_graphics(file.path(file_loc, "img/render.png"))
 * 使うマシンに応じて以下の箇所を適当に変える
 * 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
 * インラインでのフォント変更は**想定してない**
-  + やりたい人は[ここ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)や[ここ](http://zrbabbler.sp.land.to/zxjatype.html)等を参考に
 
 ```yaml
-mainfont: Roboto Slab
-sansfont: Roboto
+mainfont: Roboto
+sansfont: Noto Sans CJK JP
 monofont: Ricty Diminished
-mainfont-ja: Noto Serif CJK JP
-sansfont-ja: Noto Sans CJK JP
-monofont-ja: Ricty Diminished
+CJKmainfont: Noto Sans CJK JP
 ```
 
 ## 基本構文
@@ -537,13 +530,15 @@ plot(1:10, pch = "🍣")
 
 # 基本的なカスタマイズ
 
-## フォントオプション
+## フォント変更
 
-* `-options` で `fontspec`/`zxjatype`のオプションを使用可能
+* `XeCJK` パッケージで制御している
 
 ```yaml
-mainfont-options: Ligature=TeX
-mainfont-ja-options: BoldFont=Noto Sanc CJK JP
+mainfont: Roboto
+sansfont: Noto Sans CJK JP
+monofont: Ricty Diminished
+CJKmainfont: Noto Sans CJK JP
 ```
 
 ## スライドのテーマ変更
@@ -553,11 +548,13 @@ mainfont-ja-options: BoldFont=Noto Sanc CJK JP
   + metropolis はあまり変化がない
 
 ```yaml
-theme: metropolis
-colortheme: yellow
-outertheme: default
-innertheme: default
-fonttheme: default
+output:
+  rmdCJK::beamer_presentation_CJK:
+    theme: metropolis
+    colortheme: yellow
+    outertheme: default
+    innertheme: default
+    fonttheme: default
 ```
 
 ## シンタックスハイライトのテーマ変更
@@ -567,7 +564,9 @@ fonttheme: default
     + 参考[Xie Yihui のドキュメント](https://bookdown.org/yihui/rmarkdown/html-document.html)
 
 ```yaml
-highlight: tango
+output:
+  rmdCJK::beamer_presentation_CJK:
+  highlight: tango
 ```
 
 ## 色の変更
@@ -579,9 +578,11 @@ highlight: tango
 * デフォルトで使用できる色名は[ここ](http://www.latex-cmd.com/style/color.html)を参照
 
 ```yaml
-linkcolor: blue
-citecolor: green
-urlcolor: red
+output:
+  rmdCJK::beamer_presentation_CJK:
+    linkcolor: blue
+    citecolor: green
+    urlcolor: red
 ```
 
 ## 引用形式の変更
@@ -593,8 +594,10 @@ urlcolor: red
 * `biblatex`/`biber` の使用は**想定していない**
 
 ```yaml
-citation-package: natbib
-citation-options: authoryear
+output:
+  rmdCJK::beamer_presentation_CJK:
+    citation-package: natbib
+    citation-options: authoryear
 ```
 
 ## 参考文献リストの変更
@@ -613,8 +616,10 @@ biblio-style: jecon
   + "Fig.", "Tab." などと表示したい場合は以下のように変更
 
 ```yaml
-figurename: Fig.
-tablename: Tab.
+output:
+  rmdCJK::beamer_presentation_CJK:
+    figurename: Fig.
+    tablename: Tab.
 ```
 
 # トラブルシューティング
@@ -694,21 +699,8 @@ header-includes:
 
 ## \LaTeX プリアンブル: 日本語フォント設定
 
-* `zxjatype` で日本語フォント読み込み
-  + `mainfont: <HOGEHOGE>` も可
-  + しかし欧文和文で別にしたい
-* 和文欧文サイズ比調整などは[開発者のサイト](http://zrbabbler.sp.land.to/zxjatype.html)等参照
-
-```yaml
-- \usefonttheme{professionalfonts}
-- \usepackage{zxjatype}
-- \setmainfont[Ligatures=TeX]{Roboto Slab}
-- \setsansfont[Ligatures=TeX]{Roboto}
-- \setmonofont{Ricty Diminished}
-- \setjamainfont{Noto Serif CJK JP}
-- \setjasansfont{Noto Sans CJK JP}
-- \setjamonofont{Ricty Diminished}
-```
+* `zxjatype` で日本語フォント読み込み**たかった**
+  + 最新版で競合があるので `XeCJK` を使う
 
 ## \LaTeX プリアンブル: その他の設定
 

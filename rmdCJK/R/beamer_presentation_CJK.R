@@ -1,11 +1,11 @@
-#' XeLaTeX + beamer + zxjatype 
+#' XeLaTeX + beamer + XeCJK 
 #'
 #' @inheritParams rmarkdown::beamer_presentation
 #' @title R Markdown 上で XeLaTeX を使い日本語 beamer スライドを作成するフォーマット
 #' @description  rmarkdownで \LaTeX を使う場合, 日本語を適切に表示するためにいろいろ必要だった調整を済ませたフォーマット
 #' 基本的なオプションだけに限定することで簡単にポンチ絵スライドになってしまうことを回避する画期的な機能もあります
 #' 
-#' @param theme chracter. beamer テーマ. デフォルトは "metropolis"
+#' @param theme chracter. beamer テーマ. デフォルトは "default"
 #' @param fig_width numeric. 画像保存時の幅. 単位インチ. デフォルトはbeamerのデフォルト幅と同じ 5.03937
 #' @param fig_height numeric. 画像保存時の高さ. 単位インチ. デフォルトはbeamerのデフォルト高と同じ 3.77953
 #' @param fig_caption logical. 画像キャプションの有無. デフォルト: TRUE
@@ -15,18 +15,6 @@
 #' @param innertheme character.  `colortheme` に同じ
 #' @param outertheme character. `outertheme` に同じ
 #' @param fontsize character. beamer の規定フォントサイズ. デフォルト: "11pt"
-#' @param mainfont character. セリフフォント名. デフォルト: "Roboto Slab"
-#' @param sansfont character. `font_serif` に同じ. デフォルト: "Roboto"
-#' @param monofont character. `font_serif` に同じ. デフォルト: "Ricty Diminished"
-#' @param jamainfont character. 日本語用セリフフォント(明朝体). 詳しくは `ZxJatype` のドキュメント参照. デフォルト: "Noto Serif CJK JP"
-#' @param jasansfont character. `jamainfont` に同じ. デフォルト: Noto Sans CJK JP
-#' @param jamonofont character. `jamainfont` に同じ.
-#' @param mainfont_options character. セリフフォントのオプション. デフォルト: NULL
-#' @param sansfont_options character. `mainfont_options` に同じ.
-#' @param monofont_options character. `mainfont_options` に同じ.
-#' @param jamainfont_options character. 他のオプションと同じ.
-#' @param jasansfont_options character. 他のオプションと同じ.
-#' @param jamonofont_options character. 他のオプションと同じ.
 #' @param fig_width numeric. 画像保存時の幅. 単位インチ. デフォルトはbeamerのデフォルト幅と同じ. デフォルト: 5.03937
 #' @param fig_height numeric. `fig_width` 参照. デフォルト: 3.77953
 #' @param out.width character. 画像を貼り付ける際のサイズ. チャンクごとに指定することも可能. デフォルト: "100%"
@@ -47,20 +35,14 @@
 #' @return rmarkdown_output_format
 
 #' @export
-beamer_presentation_zxja <- function(
-  theme = "metropolis",
+beamer_presentation_CJK <- function(
+  theme = "default",
   theme_options = "progressbar=frametitle,block=fill",
   fonttheme = "professionalfonts",
   colortheme = "default",
   innertheme = "default",
   outertheme = "default",
   fontsize = "12pt",
-  mainfont = "", mainfontoptions = NULL,
-  sansfont = "", sansfontoptions = NULL,
-  monofont = "", monofontoptions = NULL,
-  jamainfont = "", jamainfontoptions = NULL,
-  jasansfont = "", jasansfontoptions = NULL,
-  jamonofont = "", jamonofontoptions = NULL,
   fig_width = 5.03937,
   fig_height = 3.77953,
   out.width = "100%",
@@ -80,14 +62,6 @@ beamer_presentation_zxja <- function(
   keep_md = FALSE,
   self_contained = TRUE
 ){
-  settings_fonts <- list(
-    main = list(font = mainfont, option = mainfontoptions),
-    sans = list(font = sansfont, option = sansfontoptions),
-    mono = list(font = monofont, option = monofontoptions),
-    jamain = list(font = jamainfont, option = jamainfontoptions),
-    jasans = list(font = jasansfont, option = jasansfontoptions),
-    jamono = list(font = jamonofont, option = jamonofontoptions)
-  )
   settings_subthemes <- list(
     fonttheme = list(theme = fonttheme),
     colortheme = list(theme = colortheme),
@@ -104,15 +78,6 @@ beamer_presentation_zxja <- function(
   }
   header_theme <- paste0("\\usetheme", header_theme)
   # add sub themes
-  
-  # add options
-  for(i in names(settings_fonts)){
-    if(is.null(settings_fonts[[i]]$option) || is.na(settings_fonts[[i]]$option) || settings_fonts[[i]]$option == ""){
-      settings_fonts[[i]]$set <- paste0("\\set", i, "font{", settings_fonts[[i]]$font, "}")
-    } else {
-      settings_fonts[[i]]$set <- paste0("\\set", i, "font[", settings_fonts[[i]]$option, "]{", settings_fonts[[i]]$font ,"}")
-    }
-  }
   for(thm in names(settings_subthemes)){
     if(is.null(settings_subthemes[[thm]]) || is.na(settings_subthemes[[thm]]) || settings_subthemes[[thm]] == ""){
       settings_subthemes[[thm]]$use <- paste0("\\use", thm, "{default}")
@@ -127,8 +92,6 @@ beamer_presentation_zxja <- function(
     as.character(lapply(settings_subthemes, function(x) x$use)),
     "\\patchcmd{\\beamer@sectionintoc}{\\vskip1.5em}{\\vskip0.5em}{}{}",
     "\\makeatother",
-    "\\usepackage{zxjatype}",
-    as.character(lapply(settings_fonts, function(x) x$set)),
     "\\usepackage {hyperref}",
     paste0("\\hypersetup {colorlinks=true,linkcolor=", linkcolor, ",citecolor=", citecolor, ",urlcolor=", urlcolor, "}"),
     paste0("\\renewcommand{\\figurename}{", figurename, "}"),
@@ -184,7 +147,7 @@ beamer_presentation_zxja <- function(
     pandoc = NULL,
     base_format = base)
   if(!file.exists("./.latexmkrc")){
-    file.copy(file.path(system.file("extdata", package = "rmdzxja"), "latexmk/.latexmkrc"), to = "./")
+    file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
   }
   return(out)
 }

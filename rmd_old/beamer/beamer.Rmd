@@ -14,10 +14,13 @@ output:
     latex_engine: xelatex
     citation_package: natbib
     keep_tex: true
-    keep_md: false
-bibliography: "`r 'examples.bib'`"
+    keep_md: true
+bibliography: examples.bib
 biblio-style: jecon
 fontsize: 12pt
+sansfont: Roboto
+monofont: Ricty Diminished
+CJKmainfont: Noto Sans CJK JP
 header-includes:
   - \usetheme[progressbar=frametitle,block=fill]{metropolis}
   - \makeatletter
@@ -28,15 +31,8 @@ header-includes:
   - \useoutertheme{default}
   - \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
   - \makeatother
-  - \usepackage{zxjatype}
-  - \setmainfont{Roboto Slab}
-  - \setsansfont{Roboto}
-  - \setmonofont{Ricty Diminished}
-  - \setjamainfont{Noto Serif CJK JP}
-  - \setjasansfont{Noto Sans CJK JP}
-  - \setjamonofont{Ricty Diminished}
-  - \usepackage {hyperref}
-  - \hypersetup {colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
+  - \usepackage{hyperref}
+  - \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
   - \renewcommand{\figurename}{図}
   - \renewcommand{\tablename}{表}
   - \usepackage{bxtexlogo}
@@ -47,7 +43,6 @@ header-includes:
   - \usepackage{fmtcount}
   - \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi
   - \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
-
 ---
 
 ```{r setup-document, include=F}
@@ -156,7 +151,7 @@ knitr::include_graphics("img/render.png")
 * インラインでのフォント変更は**想定してない**
   + やりたい人は[このページ](https://astr.phys.saga-u.ac.jp/~funakubo/research/recipe/xelatex-presen.html)等を参考に
 
-```{yaml header-example1, eval=F, echo=T}
+```yaml
 - \setmainfont{Roboto Slab}
 - \setsansfont{Roboto}
 - \setmonofont{Ricty Diminished}
@@ -170,7 +165,7 @@ knitr::include_graphics("img/render.png")
 - "`## `タイトル" でスライドの開始
   + \LaTeX コマンドも挿入可能
 
-```{md enum, eval=F, echo=T}
+```md
 # 節見出し
 ## タイトル1
 - **太字** **bold**
@@ -199,7 +194,7 @@ knitr::include_graphics("img/render.png")
 * このファイル作成には以下を使用している
   + 図表作成とか最低限必要なものだけ
 
-```{R load-packages, echo=T, class.source = "numberLines LineAnchors"}
+```{r load-packages, echo=T, class.source = "numberLines LineAnchors"}
 require(conflicted) # パッケージの競合防止用
 require(tidyverse)  # 全般
 require(ggthemes)   # ggplot2のデザイン変更
@@ -230,7 +225,7 @@ require(ggdag)
 cat(text)
 ```
 
-```{R load-packages2, echo=T, class.source = "numberLines LineAnchors", eval=F}
+```{r load-packages2, echo=T, class.source = "numberLines LineAnchors", eval=F}
 require(conflicted)
 require(tidyverse)
 require(ggthemes)
@@ -256,7 +251,7 @@ require(ggdag)
 
 * `$$`で挟んだ範囲に\LaTeX 構文
 
-```{latex, eval=F, echo=T}
+```latex
 $$\begin{aligned}
 & \sin^2(x) + \cos^2(x) = 1\\
 & f(x) = \frac{1}{(2\pi)^2}\int_{\mathbb{R}^n}
@@ -299,7 +294,7 @@ knitr::include_graphics(c("img/tiger.eps", "img/tiger.pdf", "img/tiger.png"))
 * `out.width=`/`out.height=`が適用されない
 * pandoc構文でサイズ指定
 
-```{markdown, eval=F, echo=T}
+```md
 ![The Tiger](img/tiger.pdf){ height=30% }
 ```
 ![The Tiger](img/tiger.pdf){ height=30% }
@@ -455,8 +450,9 @@ xtable::xtable(
 \input{tab.tex}
 
 ## 表の挿入: markdown
+
 \small
-```{markdown, eval=F, echo=T}
+```md
 Table: 得点一覧
 
   クラス 科目   平均
@@ -491,7 +487,7 @@ Table: 得点一覧
 * `[@ref1; @ref1]` で連番引用 `[1, 2]`
 * 以下引用テスト
 
-```{markdown eval=F, echo=T, tidy=F}
+```md
 [@R-base; @R-bookdown; @R-citr; @wickham2016Data]
 ```
 
@@ -535,7 +531,7 @@ plot(1:10, pch = "🍣")
 * `\set*font{}`は欧文用
 * `\setja*font{}`は和文用
 
-```{yaml header-example1-re, eval=F, echo=T}
+```yaml
 - \setmainfont{Roboto Slab}
 - \setsansfont{Roboto}
 - \setmonofont{Ricty Diminished}
@@ -546,14 +542,14 @@ plot(1:10, pch = "🍣")
 
 * 画像内フォントは以下で修正
 
-```{yaml dev-font, eval=F, echo=T}
+```yaml
 dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base_size)
 ```
 
 ## スライドのテーマ変更
 * この辺を変える
 
-```{yaml themes, eval=F, echo=T}
+```yaml
 - \usetheme[progressbar=frametitle,block=fill]{metropolis}
 - \makeatletter
 - \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
@@ -567,7 +563,7 @@ dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base
 * テーマは以下が用意されている
   + `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`, `textmate`
     + 参考[Xie Yihui のドキュメント](https://bookdown.org/yihui/rmarkdown/html-document.html)
-```{yaml syntax, eval=F, echo=T}
+```yaml
 highlight: tango
 ```
 
@@ -579,7 +575,7 @@ highlight: tango
   + `urlcolor=` urlリンク
 * デフォルトで使用できる色名は[ここ](http://www.latex-cmd.com/style/color.html)を参照
 
-```{yaml refcolors, eval=F, echo=T}
+```yaml
   - \hypersetup {colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
 ```
 
@@ -588,20 +584,21 @@ highlight: tango
 * 著者(年) 形式にしたい場合は, 以下の`[numbers]`を`[authoryear]`に
   + その他のオプションは[natnotes.pdf](http://texdoc.net/texmf-dist/doc/latex/natbib/natnotes.pdf)を参照
 
-```{yaml natbib-number, eval=F,echo=T}
+```yaml
 - \usepackage[numbers]{natbib}
 ```
 
 * natbib以外を使いたい場合は, 以下の箇所も変更
 
-```{yaml citation-package, eval=F, echo=T}
+```yaml
 citation_package: natbib
 ```
 
 ## 参考文献リストの変更
 * `.bib`, `.bst` は以下にファイルパスを指定する
 * `.bst` は TeX側が認識していればフルパス・相対パスである必要なし
-```{yaml, eval=F, echo=T}
+
+```yaml
 bibliography: references.bib
 biblio-style: jecon
 ```
@@ -610,7 +607,7 @@ biblio-style: jecon
 * 図や表を掲載すると自動で「図X」「表Y」などと表示される
   + "Fig.", "Tab." などと表示したい場合は以下を変更する
 
-```{yaml, eval=F, echo=T}
+```yaml
 - \renewcommand{\figurename}{図}
 - \renewcommand{\tablename}{表}
 ```
@@ -659,7 +656,7 @@ biblio-style: jecon
   + \LuaLaTeX 使用者が多数派?
 * "`keep_tex: true`" エラー発生時の原因特定に
 
-```{yaml output-example, eval=F, echo=T}
+```yaml
 output:
   beamer_presentation:
     latex_engine: xelatex
@@ -674,7 +671,7 @@ output:
   + 他のモダンなテーマは*日本語と相性悪い*
   + "`beamer_presentation:`" 内で指定すると**オプション指定できない**
 
-```{yaml preemble-theme, eval=F, echo=T}
+```yaml
 header-includes:
   - \usetheme[progressbar=frametitle,block=fill]{metropolis}
   - \makeatletter
@@ -688,7 +685,7 @@ header-includes:
   + しかし欧文和文で別にしたい
 * 和文欧文サイズ比調整などは[開発者のサイト](http://zrbabbler.sp.land.to/zxjatype.html)等参照
 
-```{yaml header-example2, eval=F, echo=T}
+```yaml
 - \usefonttheme{professionalfonts}
 - \usepackage{zxjatype}
 - \setmainfont[Ligatures=TeX]{Roboto Slab}
