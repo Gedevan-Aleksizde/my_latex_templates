@@ -11,7 +11,7 @@ output:
     fig_crop: true
     fig_caption: true
     highlight: tango
-    latex_engine: xelatex
+    latex_engine: lualatex
     citation_package: natbib
     keep_tex: true
     keep_md: true
@@ -19,20 +19,22 @@ bibliography: examples.bib
 biblio-style: jecon
 fontsize: 12pt
 sansfont: Roboto
-monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+monofont: Ricty
+linkcolor: green
+citecolor: red
+urlcolor: blue
 header-includes:
   - \usetheme[progressbar=frametitle,block=fill]{metropolis}
   - \makeatletter
   - \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
-  - \usefonttheme{professionalfonts}
+  - \usefonttheme{default}
   - \usecolortheme{default}
   - \useinnertheme{default}
   - \useoutertheme{default}
   - \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
   - \makeatother
-  - \usepackage{hyperref}
-  - \hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=magenta}
+  - \usepackage{luatexja-fontspec}
+  - \usepackage[ipa]{luatexja-preset}
   - \renewcommand{\figurename}{図}
   - \renewcommand{\tablename}{表}
   - \usepackage{bxtexlogo}
