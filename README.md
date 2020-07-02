@@ -4,9 +4,10 @@
 * LyX 用テンプレート (`lyx/`)
 	+ `bxjsarticle.lyx`: BXJsarticle 用
 	+ `beamer.lyx` Beamer 用
-* Rmarkdown用beamerテンプレート (`rmdzxja/`)
+* Rmarkdown用beamerテンプレート (`rmdCJK/`)
 	+ XeLaTeX + beamer で作成するためのパッケージ
-	+ `rmd_old/beamer/beamer.Rmd` はパッケージ化前のテンプレート
+* コピペ用だけで使えるテンプレート (`rmd_old`)
+	+ `rmd_old/beamer/beamer.Rmd` は上記のパッケージ化前のテンプレート
 	+ `rmd_old/bookdown/` は作りかけ
 * Jupyter Notebook 用 (`jupyter/`)
 	+ Jupyter Notebook で日本語埋め込んでエクスポートするためのテンプレート
