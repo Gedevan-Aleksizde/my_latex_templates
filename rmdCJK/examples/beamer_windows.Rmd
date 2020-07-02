@@ -15,11 +15,13 @@ mainfont: Arial
 sansfont: Arial
 monofont: Verdana
 CJKmainfont: 游ゴシック
+linkcolor: blue
+citecolor: blue
+urlcolor: magenta
 ---
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
-file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
 # 上記は日本語引用文献リストのために必要
 
 # サンプル画像等を参照するパス

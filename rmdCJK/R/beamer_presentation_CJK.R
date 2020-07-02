@@ -19,9 +19,6 @@
 #' @param fig_height numeric. `fig_width` 参照. デフォルト: 3.77953
 #' @param out.width character. 画像を貼り付ける際のサイズ. チャンクごとに指定することも可能. デフォルト: "100%"
 #' @param out.heigt character. `out.height` 参照. デフォルト: "100%"
-#' @param linkcolor character. 相互参照リンクの色. デフォルト: blue
-#' @param citecolor character. 参考文献リストへのリンクの色. デフォルト: blue
-#' @param urlcolor character. URLリンクの色. デフォルト: magenta
 #' @param fig_crop logical. pdfcrop を使ってpdf画像の余白を削るかどうか. デフォルト: TRUE
 #' @param fig_caption logical. 画像にキャプションを付けるか否か. デフォルト: TRUE
 #' @param highlight character. シンタックスハイライトのデザイン. `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`, `textmate` から指定する.
@@ -49,9 +46,6 @@ beamer_presentation_CJK <- function(
   out.height = "100%",
   fig_crop = TRUE,
   fig_caption = TRUE,
-  linkcolor = "blue",
-  citecolor = "blue",
-  urlcolor = "magenta",
   highlight = "default",
   citation_package = "natbib",
   citation_options = "numbers",
@@ -92,8 +86,6 @@ beamer_presentation_CJK <- function(
     as.character(lapply(settings_subthemes, function(x) x$use)),
     "\\patchcmd{\\beamer@sectionintoc}{\\vskip1.5em}{\\vskip0.5em}{}{}",
     "\\makeatother",
-    "\\usepackage {hyperref}",
-    paste0("\\hypersetup {colorlinks=true,linkcolor=", linkcolor, ",citecolor=", citecolor, ",urlcolor=", urlcolor, "}"),
     paste0("\\renewcommand{\\figurename}{", figurename, "}"),
     paste0("\\renewcommand{\\tablename}{", tablename, "}"),
     "\\usepackage{bxtexlogo}",
