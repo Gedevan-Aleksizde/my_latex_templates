@@ -36,7 +36,7 @@ remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzCJ
 コピーする際には
 
 ```
-file.copy(file.path(system.file("examples", package = "rmdCKL"), "beamer_*.Rmd"), "HOGEHOGE")
+file.copy(file.path(system.file("examples", package = "rmdCJK"), "beamer_*.Rmd"), "HOGEHOGE")
 ```
 
 でコピーすると楽です.
