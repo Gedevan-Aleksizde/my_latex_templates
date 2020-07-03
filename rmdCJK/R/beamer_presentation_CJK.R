@@ -62,10 +62,10 @@ beamer_presentation_CJK <- function(
     innertheme = list(theme = innertheme),
     outertheme = list(theme = outertheme)
   )
-  if(is.null(theme) || theme == "" || is.na(theme)){
+  if(is.null(theme) || theme == "" || missing(theme)){
     theme <- "default"
   }
-  if(is.null(theme_options) || is.na(theme_options) || theme_options == ""){
+  if(is.null(theme_options) || missing(theme_options) || theme_options == ""){
     header_theme <- paste0("{",  theme, "}")
   } else {
     header_theme <- paste0("[", theme_options, "]{",  theme, "}")
