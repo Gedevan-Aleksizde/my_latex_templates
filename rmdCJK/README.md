@@ -14,7 +14,7 @@
 2. このパッケージをインストールする
 
 ```
-remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzCJK')
+remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdCJK')
 ```
 
 3. `output::rmdCJK::beamer_presentation_CJK` でフォーマット指定
