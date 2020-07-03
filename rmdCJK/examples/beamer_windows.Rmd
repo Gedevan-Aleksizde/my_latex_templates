@@ -580,9 +580,11 @@ output:
 * デフォルトで使用できる色名は[ここ](http://www.latex-cmd.com/style/color.html)を参照
 
 ```yaml
-linkcolor: blue
-citecolor: green
-urlcolor: red
+output:
+  rmdCJK::beamer_presentation_CJK:
+    linkcolor: blue
+    citecolor: green
+    urlcolor: red
 ```
 
 ## 引用形式の変更
