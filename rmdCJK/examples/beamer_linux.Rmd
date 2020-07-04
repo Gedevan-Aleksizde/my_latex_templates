@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output:
   rmdCJK::beamer_presentation_CJK:
     keep_md: false
+    keep_tex: true
     theme: metropolis
     highlight: tango
     citation_options: numbers
@@ -12,12 +13,14 @@ fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
 mainfont: Roboto
-sansfont: Noto Sans CJK JP
+sansfont: Roboto
 monofont: Ricty Diminished
 CJKmainfont: Noto Sans CJK JP
 linkcolor: blue
 citecolor: blue
 urlcolor: magenta
+header-includes:
+  - \newfontfamily\IPAMin{IPAMincho}
 ---
 
 ```{r setup-document, include=F}
@@ -33,6 +36,7 @@ knitr::opts_chunk$set(cache = T)
 ```
 
 ## 目次
+
 \tableofcontents[hideallsubsections]
 
 # イントロダクション
@@ -111,13 +115,13 @@ remotes::install_github(
 
 2. TeXLive (>= 2018)のインストール
   + 分からなければ[TeX wiki のページ](https://texwiki.texjp.org/?TeX%20Live)を参考に
-3. (オプション) [metropolisテーマ](https://github.com/matze/mtheme)のインストール
 
 ## 基本
 1. yamlヘッダに以下を書く
+  + 詳しくは`example/`のテンプレートを参考に
 
 ```yaml
-output:  rmdCKL::beamer_presentation_CJK
+output: rmdCJK::beamer_presentation_CJK
 ```
 
 2. RStudioのツールバーの"Knit"を押す
@@ -128,8 +132,8 @@ knitr::include_graphics(file.path(file_loc, "img/render.png"))
 
 ## フォント指定
 * 使うマシンに応じて以下の箇所を適当に変える
-* 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
-* インラインでのフォント変更は**想定してない**
+  + 参考: [Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)でフリーフォント入手可能
+  + インラインでのフォント変更は面倒(後述)
 
 ```yaml
 mainfont: Roboto
@@ -535,13 +539,38 @@ plot(1:10, pch = "🍣")
 ## フォント変更
 
 * `XeCJK` パッケージで制御している
+  + 本当は `zxjatype`でやりたかった
+* `mainfont`は**セリフフォント**を指定する必要
+  + スライドでもサンセリフを使ってしまうため
 
 ```yaml
 mainfont: Roboto
-sansfont: Noto Sans CJK JP
+sansfont: Roboto
 monofont: Ricty Diminished
 CJKmainfont: Noto Sans CJK JP
 ```
+
+## 一部だけフォントを変更する
+
+* \LaTeX コマンドを埋め込む必要あり
+  + 参考: [詳しい話](http://zrbabbler.sp.land.to/xelatex.html)
+1. yamlヘッダ末尾に以下の記述追加
+
+```yaml
+header-includes:
+  - \usepackage{fontspec}
+  - \newfontfamily\IPAMin{IPAMincho}
+```
+
+2. 本文中で以下のようにして一部のみ変更
+  + フォント名や指定コマンドは自由に変更可
+
+```md
+ここは標準フォント. `{\IPAMin ここだけIPA明朝}`{=latex}
+```
+
+ここは標準フォント. `{\IPAMin ここだけIPA明朝}`{=latex}
+
 
 ## スライドのテーマ変更
 

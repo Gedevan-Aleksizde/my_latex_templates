@@ -57,7 +57,7 @@
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
   \setmainfont[]{Roboto}
-  \setsansfont[]{Noto Sans CJK JP}
+  \setsansfont[]{Roboto}
   \setmonofont[]{Ricty Diminished}
   \ifxetex
     \usepackage{xeCJK}
@@ -68,6 +68,7 @@
     \setmainjfont[]{Noto Sans CJK JP}
   \fi
 \fi
+\usetheme[]{metropolis}
 \usefonttheme{serif} % use mainfont rather than sansfont for slide text
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -165,7 +166,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-\usetheme[progressbar=frametitle,block=fill]{metropolis}
+\usetheme{metropolis}
 \makeatletter
 \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
 \usefonttheme{professionalfonts}
@@ -184,16 +185,20 @@
 \usepackage{fmtcount}
 \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi
 \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
+\usepackage{fontspec}
 \usepackage[]{natbib}
 \bibliographystyle{jecon}
 
 \title{R Markdownで日本語\texttt{beamer}プレゼンテーション}
 \author{ill-identified}
-\date{2020-07-03}
+\date{2020-07-04}
 
 \begin{document}
 \frame{\titlepage}
 
+\begin{frame}
+  \tableofcontents[hideallsubsections]
+\end{frame}
 \begin{frame}{目次}
 \protect\hypertarget{ux76eeux6b21}{}
 
@@ -446,14 +451,6 @@
   のページ}を参考に
 \end{itemize}
 
-\begin{enumerate}
-\setcounter{enumi}{2}
-\tightlist
-\item
-  (オプション)
-  \href{https://github.com/matze/mtheme}{metropolisテーマ}のインストール
-\end{enumerate}
-
 \end{frame}
 
 \begin{frame}[fragile]{基本}
@@ -465,9 +462,15 @@
   yamlヘッダに以下を書く
 \end{enumerate}
 
+\begin{itemize}
+\tightlist
+\item
+  詳しくは\texttt{example/}のテンプレートを参考に
+\end{itemize}
+
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{output}\KeywordTok{:}\AttributeTok{  rmdCKL::beamer_presentation_CJK}
+\FunctionTok{output}\KeywordTok{:}\AttributeTok{ rmdCJK::beamer_presentation_CJK}
 \end{Highlighting}
 \end{Shaded}
 
@@ -478,7 +481,7 @@
   RStudioのツールバーの``Knit''を押す
 \end{enumerate}
 
-\begin{center}\includegraphics[width=0.8\linewidth]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/render} \end{center}
+\begin{center}\includegraphics[width=0.8\linewidth,height=1\textheight]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/render} \end{center}
 
 \end{frame}
 
@@ -489,11 +492,16 @@
 \tightlist
 \item
   使うマシンに応じて以下の箇所を適当に変える
-\item
-  初期設定はRictyを除き全て\href{https://fonts.google.com/?category=Sans+Serif\#standard-styles}{Google
-  Fonts}で入手可
-\item
-  インラインでのフォント変更は\textbf{想定してない}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    参考:
+    \href{https://fonts.google.com/?category=Sans+Serif\#standard-styles}{Google
+    Fonts}でフリーフォント入手可能
+  \item
+    インラインでのフォント変更は面倒(後述)
+  \end{itemize}
 \end{itemize}
 
 \begin{Shaded}
@@ -817,7 +825,7 @@ require(ggdag)
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.2\linewidth]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} \includegraphics[width=0.2\linewidth]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} \includegraphics[width=0.2\linewidth]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} 
+{\centering \includegraphics[width=0.2\linewidth,height=1\textheight]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} \includegraphics[width=0.2\linewidth,height=1\textheight]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} \includegraphics[width=0.2\linewidth,height=1\textheight]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/tiger} 
 
 }
 
@@ -971,7 +979,7 @@ require(ggdag)
   \texttt{out.width="100\%"}はスライドサイズではなく\textbf{本文領域の相対サイズ}
 \end{itemize}
 
-\begin{center}\includegraphics[width=1\linewidth]{beamer_linux_files/figure-beamer/plot-size-test1-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth,height=1\textheight]{beamer_linux_files/figure-beamer/plot-size-test1-1} \end{center}
 
 \end{frame}
 
@@ -984,7 +992,7 @@ require(ggdag)
   相対的に文字が大きくなった
 \end{itemize}
 
-\begin{center}\includegraphics[width=1\linewidth]{beamer_linux_files/figure-beamer/plot-size-test2-1} \end{center}
+\begin{center}\includegraphics[width=1\linewidth,height=1\textheight]{beamer_linux_files/figure-beamer/plot-size-test2-1} \end{center}
 
 \end{frame}
 
@@ -1064,7 +1072,7 @@ require(ggdag)
 
 \end{frame}
 
-\begin{frame}{図の挿入: ポンチ絵の例1}
+\begin{frame}[fragile]{図の挿入: ポンチ絵の例1}
 \protect\hypertarget{ux56f3ux306eux633fux5165-ux30ddux30f3ux30c1ux7d75ux306eux4f8b1}{}
 
 \begin{itemize}
@@ -1072,6 +1080,10 @@ require(ggdag)
 \item
   \href{https://speakerdeck.com/ktgrstsh/r-and-epidemical-mathematical-models}{以前作ったやつ}の修正
 \end{itemize}
+
+\begin{verbatim}
+Warning: Removed 6 rows containing missing values (geom_label).
+\end{verbatim}
 
 \begin{figure}
 
@@ -1349,7 +1361,7 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.5\linewidth]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/citr} 
+{\centering \includegraphics[width=0.5\linewidth,height=1\textheight]{/home/ks/R/x86_64-pc-linux-gnu-library/3.6/rmdCJK/extdata/img/citr} 
 
 }
 
@@ -1424,7 +1436,7 @@ B & 算数 & \(95\)\tabularnewline
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics[width=0.4\linewidth]{beamer_linux_files/figure-beamer/sushi-plot-1} \end{center}
+\begin{center}\includegraphics[width=0.4\linewidth,height=1\textheight]{beamer_linux_files/figure-beamer/sushi-plot-1} \end{center}
 
 \end{frame}
 
@@ -1438,16 +1450,82 @@ B & 算数 & \(95\)\tabularnewline
 \tightlist
 \item
   \texttt{XeCJK} パッケージで制御している
+
+  \begin{itemize}
+  \tightlist
+  \item
+    本当は \texttt{zxjatype}でやりたかった
+  \end{itemize}
+\item
+  \texttt{mainfont}は\textbf{セリフフォント}を指定する必要
+
+  \begin{itemize}
+  \tightlist
+  \item
+    スライドでもサンセリフを使ってしまうため
+  \end{itemize}
 \end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{mainfont}\KeywordTok{:}\AttributeTok{ Roboto}
-\FunctionTok{sansfont}\KeywordTok{:}\AttributeTok{ Noto Sans CJK JP}
+\FunctionTok{sansfont}\KeywordTok{:}\AttributeTok{ Roboto}
 \FunctionTok{monofont}\KeywordTok{:}\AttributeTok{ Ricty Diminished}
 \FunctionTok{CJKmainfont}\KeywordTok{:}\AttributeTok{ Noto Sans CJK JP}
 \end{Highlighting}
 \end{Shaded}
+
+\end{frame}
+
+\begin{frame}[fragile]{一部だけフォントを変更する}
+\protect\hypertarget{ux4e00ux90e8ux3060ux3051ux30d5ux30a9ux30f3ux30c8ux3092ux5909ux66f4ux3059ux308b}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \LaTeX コマンドを埋め込む必要あり
+
+  \begin{itemize}
+  \tightlist
+  \item
+    参考: \href{http://zrbabbler.sp.land.to/xelatex.html}{詳しい話}
+  \end{itemize}
+\end{itemize}
+
+\begin{enumerate}
+\tightlist
+\item
+  yamlヘッダ末尾に以下の記述追加
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{header-includes}\KeywordTok{:}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}usepackage\{fontspec\}}
+\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}newfontfamily\textbackslash{}IPAMin\{IPAMincho\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  本文中で以下のようにして一部のみ変更
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  フォント名や指定コマンドは自由に変更可
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ここは標準フォント. }\BaseNTok{`\{\textbackslash{}IPAMin ここだけIPA明朝\}`}\NormalTok{\{=latex\}}
+\end{Highlighting}
+\end{Shaded}
+
+ここは標準フォント. {\IPAMin ここだけIPA明朝}
 
 \end{frame}
 
