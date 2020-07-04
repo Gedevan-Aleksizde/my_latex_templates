@@ -68,7 +68,6 @@
     \setmainjfont[]{Noto Sans CJK JP}
   \fi
 \fi
-\usetheme[]{metropolis}
 \usefonttheme{serif} % use mainfont rather than sansfont for slide text
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -166,7 +165,7 @@
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-\usetheme{metropolis}
+\usetheme[progressbar=frametitle,block=fill]{metropolis}
 \makeatletter
 \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
 \usefonttheme{professionalfonts}
@@ -191,7 +190,7 @@
 
 \title{R Markdownで日本語\texttt{beamer}プレゼンテーション}
 \author{ill-identified}
-\date{2020-07-04}
+\date{2020-07-05}
 
 \begin{document}
 \frame{\titlepage}
@@ -485,13 +484,17 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{フォント指定}
-\protect\hypertarget{ux30d5ux30a9ux30f3ux30c8ux6307ux5b9a}{}
+\begin{frame}[fragile]{最低限必要な設定}
+\protect\hypertarget{ux6700ux4f4eux9650ux5fc5ux8981ux306aux8a2dux5b9a}{}
 
 \begin{itemize}
 \tightlist
 \item
-  使うマシンに応じて以下の箇所を適当に変える
+  yamlヘッダは見本として書いただけで実際は\textbf{細かい設定不要}
+\item
+  文献引用をしないなら \texttt{biblio*} も不要
+\item
+  使えるフォントはマシン依存
 
   \begin{itemize}
   \tightlist
@@ -500,16 +503,19 @@
     \href{https://fonts.google.com/?category=Sans+Serif\#standard-styles}{Google
     Fonts}でフリーフォント入手可能
   \item
-    インラインでのフォント変更は面倒(後述)
+    インラインでのフォント変更は\textbf{未実装}(\texttt{rmarkdown}の修正待ち)
   \end{itemize}
 \end{itemize}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mainfont}\KeywordTok{:}\AttributeTok{ Roboto}
-\FunctionTok{sansfont}\KeywordTok{:}\AttributeTok{ Noto Sans CJK JP}
-\FunctionTok{monofont}\KeywordTok{:}\AttributeTok{ Ricty Diminished}
-\FunctionTok{CJKmainfont}\KeywordTok{:}\AttributeTok{ Noto Sans CJK JP}
+\FunctionTok{output}\KeywordTok{:}
+\AttributeTok{  rmdCJK:}\FunctionTok{:beamer_presentation_CJK}\KeywordTok{:}
+\FunctionTok{bibliography}\KeywordTok{: }\AttributeTok{<.bibファイル}\CharTok{>}
+\FunctionTok{biblio-style}\KeywordTok{: }\AttributeTok{<.bstファイル}\CharTok{>}
+\FunctionTok{mainfont}\KeywordTok{: }\AttributeTok{<欧文フォント}\CharTok{>}
+\FunctionTok{monofont}\KeywordTok{: }\AttributeTok{<等幅フォント}\CharTok{>}
+\FunctionTok{CJKmainfont}\KeywordTok{: }\AttributeTok{<和文フォント}\CharTok{>}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1468,64 +1474,12 @@ B & 算数 & \(95\)\tabularnewline
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{mainfont}\KeywordTok{:}\AttributeTok{ Roboto}
-\FunctionTok{sansfont}\KeywordTok{:}\AttributeTok{ Roboto}
-\FunctionTok{monofont}\KeywordTok{:}\AttributeTok{ Ricty Diminished}
-\FunctionTok{CJKmainfont}\KeywordTok{:}\AttributeTok{ Noto Sans CJK JP}
+\FunctionTok{mainfont}\KeywordTok{: }\AttributeTok{<欧文フォント}\CharTok{>}
+\FunctionTok{sansfont}\KeywordTok{: }\AttributeTok{<欧文サンセリフ体フォント}\CharTok{>}
+\FunctionTok{monofont}\KeywordTok{: }\AttributeTok{<等幅フォント}\CharTok{>}
+\FunctionTok{CJKmainfont}\KeywordTok{: }\AttributeTok{<和文フォント}\CharTok{>}
 \end{Highlighting}
 \end{Shaded}
-
-\end{frame}
-
-\begin{frame}[fragile]{一部だけフォントを変更する}
-\protect\hypertarget{ux4e00ux90e8ux3060ux3051ux30d5ux30a9ux30f3ux30c8ux3092ux5909ux66f4ux3059ux308b}{}
-
-\begin{itemize}
-\tightlist
-\item
-  \LaTeX コマンドを埋め込む必要あり
-
-  \begin{itemize}
-  \tightlist
-  \item
-    参考: \href{http://zrbabbler.sp.land.to/xelatex.html}{詳しい話}
-  \end{itemize}
-\end{itemize}
-
-\begin{enumerate}
-\tightlist
-\item
-  yamlヘッダ末尾に以下の記述追加
-\end{enumerate}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{header-includes}\KeywordTok{:}
-\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}usepackage\{fontspec\}}
-\AttributeTok{  }\KeywordTok{-}\AttributeTok{ \textbackslash{}newfontfamily\textbackslash{}IPAMin\{IPAMincho\}}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{enumerate}
-\setcounter{enumi}{1}
-\tightlist
-\item
-  本文中で以下のようにして一部のみ変更
-\end{enumerate}
-
-\begin{itemize}
-\tightlist
-\item
-  フォント名や指定コマンドは自由に変更可
-\end{itemize}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{ここは標準フォント. }\BaseNTok{`\{\textbackslash{}IPAMin ここだけIPA明朝\}`}\NormalTok{\{=latex\}}
-\end{Highlighting}
-\end{Shaded}
-
-ここは標準フォント. {\IPAMin ここだけIPA明朝}
 
 \end{frame}
 
