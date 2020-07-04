@@ -4,22 +4,57 @@ author: "ill-identified"
 date: "`r Sys.Date()`"
 output:
   rmdCJK::beamer_presentation_CJK:
+    latex_engine: lualatex
     keep_md: false
+    keep_tex: true
+    toc: false
+    fonttheme: professionalfonts
     theme: metropolis
-    highlight: tango
-    citation_options: numbers
+    colortheme: default
+    innertheme: default
+    outertheme: default
+    highlight: default
+    fig_width: 5.03937
+    fig_height: 3.77953
+    out.width: "100%"
+    out.height: "100%"
+    fig_crop: true
+    fig_caption: true
+    figurename: "図"
+    tablename: "表"
+    number_sections: false
+    slide_level: 2
+    incremental: false
+    fontsize: 12pt
+themeoptions: 
+  - progressbar=frametitle
+  - block=fill
+citation_package: natbib
+natbiboptions: numbers
 fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
-mainfont: Roboto
-sansfont: Noto Sans CJK JP
+mainfont: Roboto Slab
+sansfont: Roboto
 monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+jfontpreset: noto-otf
+jfontpresetoptions:
+ - match
+ - deluxe
+ - expert
+linkcolor: blue
+citecolor: blue
+urlcolor: magenta
+header-includes:
+  - \makeatletter
+  - \setlength{\metropolis@progressinheadfoot@linewidth}{2pt}
+  - \patchcmd{\beamer@sectionintoc}{\vskip1.5em}{\vskip0.5em}{}{}
+  - \makeatother
+
 ---
 
 ```{r setup-document, include=F}
 options(tinytex.latexmk.emulation = F)
-file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
 # 上記は日本語引用文献リストのために必要
 
 # サンプル画像等を参照するパス
@@ -31,6 +66,7 @@ knitr::opts_chunk$set(cache = T)
 ```
 
 ## 目次
+
 \tableofcontents[hideallsubsections]
 
 # イントロダクション
@@ -109,13 +145,13 @@ remotes::install_github(
 
 2. TeXLive (>= 2018)のインストール
   + 分からなければ[TeX wiki のページ](https://texwiki.texjp.org/?TeX%20Live)を参考に
-3. (オプション) [metropolisテーマ](https://github.com/matze/mtheme)のインストール
 
 ## 基本
 1. yamlヘッダに以下を書く
+  + 詳しくは`example/`のテンプレートを参考に
 
 ```yaml
-output:  rmdCKL::beamer_presentation_CJK
+output: rmdCJK::beamer_presentation_CJK
 ```
 
 2. RStudioのツールバーの"Knit"を押す
@@ -124,16 +160,22 @@ output:  rmdCKL::beamer_presentation_CJK
 knitr::include_graphics(file.path(file_loc, "img/render.png"))
 ```
 
-## フォント指定
-* 使うマシンに応じて以下の箇所を適当に変える
-* 初期設定はRictyを除き全て[Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)で入手可
-* インラインでのフォント変更は**想定してない**
+## 最低限必要な設定
+
+* yamlヘッダは見本として書いただけで実際は**細かい設定不要**
+* 文献引用をしないなら `biblio*` も不要
+* 使えるフォントはマシン依存
+  + 参考: [Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)でフリーフォント入手可能
+  + インラインでのフォント変更は**未実装**(`rmarkdown`の修正待ち)
 
 ```yaml
-mainfont: Roboto
-sansfont: Noto Sans CJK JP
-monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+output:
+  rmdCJK::beamer_presentation_CJK:
+bibliography: <.bibファイル>
+biblio-style: <.bstファイル>
+mainfont: <欧文フォント>
+monofont: <等幅フォント>
+CJKmainfont: <和文フォント>
 ```
 
 ## 基本構文
@@ -533,12 +575,15 @@ plot(1:10, pch = "🍣")
 ## フォント変更
 
 * `XeCJK` パッケージで制御している
+  + 本当は `zxjatype`でやりたかった
+* `mainfont`は**セリフフォント**を指定する必要
+  + スライドでもサンセリフを使ってしまうため
 
 ```yaml
-mainfont: Roboto
-sansfont: Noto Sans CJK JP
-monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+mainfont: <欧文フォント>
+sansfont: <欧文サンセリフ体フォント>
+monofont: <等幅フォント>
+CJKmainfont: <和文フォント>
 ```
 
 ## スライドのテーマ変更
@@ -717,8 +762,8 @@ header-includes:
   + マルチバイト文字未対応 の\BibTeX 
   + 日本語は \upBibTeX 必要
   + `biblatex` ではフォーマットに不満
-* `knitr`は日本語書誌情報処理未対応
-  + 内部では自前の設定で`latexmk`を呼び出し
+* `rmarkdown`/`tinytex`は日本語書誌情報処理未対応
+  + 内部では自前の設定でTex Live + `latexmk`を呼び出し
   + 呼び出しているラッパにオプションなし
   + 積極的に改修の気配なし([参考](https://github.com/yihui/tinytex/issues/70))
 * 自前の設定を使用する([参考](https://github.com/kenjimyzk/bookdown_ja_template))

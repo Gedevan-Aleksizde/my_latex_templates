@@ -14,7 +14,7 @@
 2. このパッケージをインストールする
 
 ```
-remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzCJK')
+remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdCJK')
 ```
 
 3. `output::rmdCJK::beamer_presentation_CJK` でフォーマット指定
@@ -36,7 +36,7 @@ remotes::install_github('Gedevan-Aleksizde/my_latex_templates', subdir = 'rmdzCJ
 コピーする際には
 
 ```
-file.copy(file.path(system.file("examples", package = "rmdCKL"), "beamer_*.Rmd"), "HOGEHOGE")
+file.copy(file.path(system.file("examples", package = "rmdCJK"), "beamer_*.Rmd"), "HOGEHOGE")
 ```
 
 でコピーすると楽です.
