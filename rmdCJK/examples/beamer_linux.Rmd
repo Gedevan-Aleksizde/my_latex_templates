@@ -6,9 +6,28 @@ output:
   rmdCJK::beamer_presentation_CJK:
     keep_md: false
     keep_tex: true
+    toc: true
     theme: metropolis
-    highlight: tango
+    theme_options: progressbar=frametitle,block=fill
+    fonttheme: professionalfonts
+    colortheme: default
+    innertheme: default
+    outertheme: default
+    highlight: default
+    fig_width: 5.03937
+    fig_height: 3.77953
+    out.width: "100%"
+    out.height: "100%"
+    fig_crop: true
+    fig_caption: true
+    citation_package: natbib
     citation_options: numbers
+    figurename: "図"
+    tablename: "表"
+    number_sections: false
+    slide_level: 2
+    incremental: false
+    fontsize: 12pt
 fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
@@ -19,8 +38,6 @@ CJKmainfont: Noto Sans CJK JP
 linkcolor: blue
 citecolor: blue
 urlcolor: magenta
-header-includes:
-  - \newfontfamily\IPAMin{IPAMincho}
 ---
 
 ```{r setup-document, include=F}
@@ -130,16 +147,22 @@ output: rmdCJK::beamer_presentation_CJK
 knitr::include_graphics(file.path(file_loc, "img/render.png"))
 ```
 
-## フォント指定
-* 使うマシンに応じて以下の箇所を適当に変える
+## 最低限必要な設定
+
+* yamlヘッダは見本として書いただけで実際は**細かい設定不要**
+* 文献引用をしないなら `biblio*` も不要
+* 使えるフォントはマシン依存
   + 参考: [Google Fonts](https://fonts.google.com/?category=Sans+Serif#standard-styles)でフリーフォント入手可能
-  + インラインでのフォント変更は面倒(後述)
+  + インラインでのフォント変更は**未実装**(`rmarkdown`の修正待ち)
 
 ```yaml
-mainfont: Roboto
-sansfont: Noto Sans CJK JP
-monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+output:
+  rmdCJK::beamer_presentation_CJK:
+bibliography: <.bibファイル>
+biblio-style: <.bstファイル>
+mainfont: <欧文フォント>
+monofont: <等幅フォント>
+CJKmainfont: <和文フォント>
 ```
 
 ## 基本構文
@@ -544,33 +567,11 @@ plot(1:10, pch = "🍣")
   + スライドでもサンセリフを使ってしまうため
 
 ```yaml
-mainfont: Roboto
-sansfont: Roboto
-monofont: Ricty Diminished
-CJKmainfont: Noto Sans CJK JP
+mainfont: <欧文フォント>
+sansfont: <欧文サンセリフ体フォント>
+monofont: <等幅フォント>
+CJKmainfont: <和文フォント>
 ```
-
-## 一部だけフォントを変更する
-
-* \LaTeX コマンドを埋め込む必要あり
-  + 参考: [詳しい話](http://zrbabbler.sp.land.to/xelatex.html)
-1. yamlヘッダ末尾に以下の記述追加
-
-```yaml
-header-includes:
-  - \usepackage{fontspec}
-  - \newfontfamily\IPAMin{IPAMincho}
-```
-
-2. 本文中で以下のようにして一部のみ変更
-  + フォント名や指定コマンドは自由に変更可
-
-```md
-ここは標準フォント. `{\IPAMin ここだけIPA明朝}`{=latex}
-```
-
-ここは標準フォント. `{\IPAMin ここだけIPA明朝}`{=latex}
-
 
 ## スライドのテーマ変更
 

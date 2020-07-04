@@ -84,7 +84,7 @@ beamer_presentation_CJK <- function(
   }
   
   # ----- reshape arguments -----
-  fontsize <- as.integer(sub("[^0-9]+", "", rmarkdown::metadata$fontsize))
+  fontsize <- as.integer(regmatches(rmarkdown::metadata$fontsize, regexpr("^[0-9]+", rmarkdown::metadata$fontsize)))
 
   settings_subthemes <- list(
     fonttheme = list(theme = fonttheme),
@@ -109,29 +109,34 @@ beamer_presentation_CJK <- function(
       settings_subthemes[[thm]]$use <- paste0("\\use", thm, "{", settings_subthemes[[thm]]$theme, "}")
     }
   }
+  gen_latex_preamble <- function(header_theme, setting_subthemes, figurename, tablename, citation_package, citation_options){
+    header <- c(
+      header_theme,
+      "\\makeatletter",
+      "\\setlength{\\metropolis@progressinheadfoot@linewidth}{2pt}",
+      as.character(lapply(settings_subthemes, function(x) x$use)),
+      "\\patchcmd{\\beamer@sectionintoc}{\\vskip1.5em}{\\vskip0.5em}{}{}",
+      "\\makeatother",
+      paste0("\\renewcommand{\\figurename}{", figurename, "}"),
+      paste0("\\renewcommand{\\tablename}{", tablename, "}"),
+      "\\usepackage{bxtexlogo}",
+      "\\colorlet{shadecolor}{gray!20}",
+      paste0("\\usepackage[", citation_options, "]{", citation_package, "}"),
+      "\\ifdefined\\bibsection\\renewcommand{\\bibsection}{}\\fi",
+      "\\ifdefined\\bibfont\\renewcommand*{\\bibfont}{\\footnotesize}\\fi",
+      "\\usepackage{fmtcount}",
+      "\\ifdefined\\theFancyVerbLine\\renewcommand{\\theFancyVerbLine}{\\small \\padzeroes[2]{\\decimal{FancyVerbLine}}}\\fi",
+      "\\IfFileExists{bxcoloremoji.sty}{\\usepackage{bxcoloremoji}}{}",
+      "\\usepackage{fontspec}"
+    )
+    return(header)
+  }
 
-  header <- c(
-    header_theme,
-    "\\makeatletter",
-    "\\setlength{\\metropolis@progressinheadfoot@linewidth}{2pt}",
-    as.character(lapply(settings_subthemes, function(x) x$use)),
-    "\\patchcmd{\\beamer@sectionintoc}{\\vskip1.5em}{\\vskip0.5em}{}{}",
-    "\\makeatother",
-    paste0("\\renewcommand{\\figurename}{", figurename, "}"),
-    paste0("\\renewcommand{\\tablename}{", tablename, "}"),
-    "\\usepackage{bxtexlogo}",
-    "\\colorlet{shadecolor}{gray!20}",
-    paste0("\\usepackage[", citation_options, "]{", citation_package, "}"),
-    "\\ifdefined\\bibsection\\renewcommand{\\bibsection}{}\\fi",
-    "\\ifdefined\\bibfont\\renewcommand*{\\bibfont}{\\footnotesize}\\fi",
-    "\\usepackage{fmtcount}",
-    "\\ifdefined\\theFancyVerbLine\\renewcommand{\\theFancyVerbLine}{\\small \\padzeroes[2]{\\decimal{FancyVerbLine}}}\\fi",
-    "\\IfFileExists{bxcoloremoji.sty}{\\usepackage{bxcoloremoji}}{}",
-    "\\usepackage{fontspec}"
-  )
-  header <- c(header, includes)
   header_file <- tempfile(fileext = ".tex")
-  write(header, header_file)
+  write(
+    c(gen_latex_preamble(header_theme, setting_subthemes, figurename, tablename, citation_package, citation_options),
+      rmarkdown::metadata$`header-includes`), # FIXME
+    header_file)
   
   # ----- generate output format -----
   beamer_args <- list(
@@ -161,7 +166,9 @@ beamer_presentation_CJK <- function(
   base <- do.call(rmarkdown::beamer_presentation, beamer_args)
   # pandoc_args_keys <- unique(c(names(pandoc_args), names(base$pandoc)))
   # pandoc_args <- setNames(mapply(c, pandoc_args[pandoc_args_keys], base$pandoc[pandoc_args_keys]), pandoc_args_keys)
-  
+
+
+  # FIXME: I want to load rmarkdown::metadata directly.
   out <- rmarkdown::output_format(
     knitr = rmarkdown::knitr_options(
       opts_chunk = list(
@@ -179,7 +186,7 @@ beamer_presentation_CJK <- function(
         out.width = out.width,
         out.height = out.height,
         dev = dev,
-        dev.args = list(pointsize = 12)
+        dev.args = list(pointsize = 11) # FIXME
         ),
       ),
     pandoc = rmarkdown::pandoc_options(

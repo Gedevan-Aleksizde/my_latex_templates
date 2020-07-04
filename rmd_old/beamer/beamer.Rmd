@@ -15,6 +15,7 @@ output:
     citation_package: natbib
     keep_tex: true
     keep_md: true
+    fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
 fontsize: 12pt
