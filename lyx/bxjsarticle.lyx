@@ -182,7 +182,7 @@ End
 \pdf_colorlinks true
 \pdf_backref false
 \pdf_pdfusetitle true
-\pdf_quoted_options "linkcolor=cyan,citecolor=cyan,urlcolor=magenta"
+\pdf_quoted_options "linkcolor=blue,citecolor=blue,urlcolor=magenta"
 \papersize default
 \use_geometry false
 \use_package amsmath 1

@@ -15,6 +15,7 @@ output:
     citation_package: natbib
     keep_tex: true
     keep_md: true
+    fontsize: 12pt
 bibliography: examples.bib
 biblio-style: jecon
 fontsize: 12pt
@@ -43,6 +44,9 @@ header-includes:
   - \usepackage{fmtcount}
   - \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi
   - \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
+  - \usepackage{fontspec}
+  - \newfontfamily\IPAMin{IPAMincho}
+  - \setCJKfamilyfont{IPAMin}{IPAMincho}
 ---
 
 ```{r setup-document, include=F}
@@ -559,10 +563,34 @@ dev = "cairo_pdf", dev.args = list(family = "Noto Sans CJK JP", pointsize = base
 - \usefonttheme{professionalfonts}
 ```
 
+## 一部だけフォントを変更する
+
+1. yamlヘッダ末尾に以下の記述追加
+
+```yaml
+header-includes:
+  - \usepackage{fontspec}
+  - \newfontfamily\IPAMin{IPAMincho}
+  - \setCJKfamilyfont{IPAMin}{IPAMincho}
+```
+
+2. 本文中で以下のようにして一部のみ変更
+  + フォント名や指定コマンドは自由に変更可
+  + 欧文(英数字)と和文(それ以外)で**個別設定が必要**
+
+```md
+ここは標準フォント. `{\CJKfamily{IPAMin} ここだけ{\IPAMin IPA}明朝}`{=latex}
+```
+
+ここは標準フォント. `{\CJKfamily{IPAMin} ここだけ{\IPAMin IPA}明朝}`{=latex}
+
+* 参考: [詳しい話](http://zrbabbler.sp.land.to/zxjatype.html#ssec-basic-cmd), [`XeCJK`のフォールバックフォントの設定](https://tex.stackexchange.com/questions/45331/combining-chinese-japanese-and-korean-text-with-xecjk)
+
 ## シンタックスハイライトのテーマ変更
 * テーマは以下が用意されている
   + `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, `breezedark`, `textmate`
     + 参考[Xie Yihui のドキュメント](https://bookdown.org/yihui/rmarkdown/html-document.html)
+
 ```yaml
 highlight: tango
 ```
