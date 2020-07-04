@@ -85,8 +85,7 @@ beamer_presentation_CJK <- function(
   
   # ----- reshape arguments -----
   fontsize <- as.integer(sub("[^0-9]+", "", rmarkdown::metadata$fontsize))
-  print(fontsize)
-  
+
   settings_subthemes <- list(
     fonttheme = list(theme = fonttheme),
     colortheme = list(theme = colortheme),
@@ -145,7 +144,7 @@ beamer_presentation_CJK <- function(
     fig_crop = fig_crop,
     fig_caption = fig_caption,
     dev = dev,
-    theme = theme,
+    theme = NULL,
     colortheme = "default",
     fonttheme = "default",
     highlight = highlight,
@@ -160,6 +159,9 @@ beamer_presentation_CJK <- function(
     pandoc_args = NULL
   )
   base <- do.call(rmarkdown::beamer_presentation, beamer_args)
+  # pandoc_args_keys <- unique(c(names(pandoc_args), names(base$pandoc)))
+  # pandoc_args <- setNames(mapply(c, pandoc_args[pandoc_args_keys], base$pandoc[pandoc_args_keys]), pandoc_args_keys)
+  
   out <- rmarkdown::output_format(
     knitr = rmarkdown::knitr_options(
       opts_chunk = list(
@@ -196,6 +198,5 @@ beamer_presentation_CJK <- function(
   if(!file.exists("./.latexmkrc")){
     file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
   }
-  print(rmarkdown::metadata$fontsize)
   return(out)
 }
