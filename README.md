@@ -5,7 +5,7 @@
 	+ `bxjsarticle.lyx`: BXJsarticle 用
 	+ `beamer.lyx` Beamer 用
 * Rmarkdown用beamerテンプレート (`rmdCJK/`)
-	+ XeLaTeX + beamer で作成するためのパッケージ
+	+ LuaLaTeX/XeLaTeX + beamer で日本語スライドを作成するためのパッケージ
 * コピペ用だけで使えるテンプレート (`rmd_old`)
 	+ `rmd_old/beamer/beamer.Rmd` は上記のパッケージ化前のテンプレート
 	+ `rmd_old/bookdown/` は作りかけ

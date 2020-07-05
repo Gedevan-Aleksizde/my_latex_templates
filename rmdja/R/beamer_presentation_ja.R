@@ -19,7 +19,8 @@
 #' @param fig_crop logical. pdfcrop を使ってpdf画像の余白を削るかどうか. デフォルト: TRUE
 #' @param out.width character. 画像を貼り付ける際のサイズ. チャンクごとに指定することも可能. デフォルト: "100%"
 #' @param out.heigt character. `out.height` 参照. デフォルト: "100%"
-#' @param highlight character. シンタックスハイライトのデザイン. `rmarkdown::beamer_presentation` 参照. デフォルト: default
+#' @param highlight character. チャンク内のコードのシンタックスハイライトのデザイン. `rmarkdown::beamer_presentation` 参照. デフォルト: default
+#' @param rownumber_chunk logical チャンクに行番号を付けるかどうか. デフォルト: FALSE
 #' @param citation_package character.  本文中の引用トークンに関するパッケージ. デフォルト: default
 #' @param citation_options character. `citation_package` のオプション. デフォルトの natbib+numbersでは "[1]" のような引用トークンが生成される. デフォルト: numbers.
 #' @param figurename character. 図X の「図」の部分のテキスト. デフォルト: "図"
@@ -28,7 +29,7 @@
 #' @param number_sections logical. セクション番号を付けるかどうか. デフォルト: FALSE
 #' @param incremental logical. 箇条書きが順番に現れるやつ. 文字が回転するアニメーション機能はない. デフォルト: FALSE『...遠慮のないマッポ関係者が失笑した。ナムサン！プレゼンテーションにおける典型的なセンスレス文字操作だ。』--- B. ボンド& F. モーゼズ
 #' @param self_contained logical. (TRUE) LaTeX のプリアンブルも生成する, (FALSE)本文のみ生成する. デフォルト: TRUE
-#' @param includes named list. プリアンブルに追加する記述. 詳細は `rmarkdown::includes` 参照. デフォルト: NULL
+#' @param includes named list. texファイルに追加するファイルパス. `in_header`, `before_body`, `after_body`, にはファイルパス, `preamble` は `document` 環境直前のプリアンブル記述をインラインで書くことができる. 詳細は `rmarkdown::includes` 参照. デフォルト: NULL
 #' @param template character. ユーザー定義のpandocテンプレートを使いたい場合はパスを指定する. デフォルト: default
 #' @param latex_engine character. LaTeXエンジンの指定. デフォルト以外の値にすることは**非推奨**. デフォルト: xelatex
 #' @param dev character. グラフィックデバイス. 日本語を使う限りデフォルト値から変更する意義はほぼない. デフォルト: cairo_pdf
@@ -53,6 +54,7 @@ beamer_presentation_ja <- function(
   out.width = "100%",
   out.height = "100%",
   highlight = "default",
+  rownumber_chunk = FALSE,
   citation_package = "default",
   citation_options = "default",
   figurename = "図",
@@ -73,9 +75,13 @@ beamer_presentation_ja <- function(
   match.arg(latex_engine, c("xelatex", "lualatex"))
   
   # ----- reshape arguments -----
-  pandoc_args_base <- c()
-  print(theme_options)
   
+  fontsize_as_integer <- function(fontsize = "12pt"){
+    return(as.integer(regmatches(fontsize, regexpr("^[0-9]+", fontsize))))
+  }
+
+  pandoc_args_base <- c()
+
   if(!identical(theme_options, "default")){
     if(!is.null(theme_options) && !identical(theme_options, "")){
       pandoc_args_base <- c(pandoc_args_base, "-V", paste0('themeoptions:', paste0(theme_options, collapse = ","))) #FIXME: how to handle '=' contained values/what does mean the """list""" in Pandoc commandline arguments?  
@@ -86,7 +92,7 @@ beamer_presentation_ja <- function(
       pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("natbiboptions", citation_options))
     }
   }
-  if(!missing(figurename) || !identical(figure_name, "")){
+  if(!missing(figurename) || !identical(figurename, "")){
     pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("figurename", figurename))
   } else {
     pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("figurename", "図"))
@@ -97,18 +103,21 @@ beamer_presentation_ja <- function(
     pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("tablename", "図"))
   }
   if(missing(template) || identical(template, "") || identical(template, "default")){
-    template <- file.path(system.file("extdata", package = "rmdCJK"), "pandoc-template/beamer-ja.template")
+    template <- file.path(system.file("extdata", package = "rmdja"), "pandoc-template/beamer-ja.template")
   }
-  fontsize <- as.integer(regmatches(rmarkdown::metadata$fontsize, regexpr("^[0-9]+", rmarkdown::metadata$fontsize)))
-  if(length(fontsize) == 0) fontsize = 11
   
-  header_file <- tempfile(fileext = ".tex")
-  write(
-    c("", rmarkdown::metadata$`header-includes`), # FIXME
-    header_file)
+  if("preamble" %in% names(includes)){
+    file_in_header_extra <- tempfile(fileext = ".tex")
+    if(!is.null(includes$in_header)){
+      txt_in_header <- readLines(includes$in_header)
+      write(txt_in_header, file_in_header_extra)
+    }
+    write(includes$preamble, file_in_header_extra, append = T)
+    includes$in_header <- file_in_header_extra
+  }
   
   # ----- generate output format -----
-  beamer_args <- list(
+  args_beamer <- list(
     toc = toc,
     slide_level = slide_level,
     number_sections = number_sections,
@@ -128,48 +137,50 @@ beamer_presentation_ja <- function(
     latex_engine = latex_engine,
     citation_package = citation_package,
     self_contained = self_contained,
-    includes = list(in_header = header_file),
+    includes = includes,
     md_extensions = md_extensions,
     pandoc_args = c(pandoc_args_base, pandoc_args)
   )
-  base <- do.call(rmarkdown::beamer_presentation, beamer_args)
+  base <- do.call(rmarkdown::beamer_presentation, args_beamer)
 
+  args_opts_chunk <- list(
+    include = TRUE,
+    eval = TRUE,
+    echo = FALSE,
+    message = FALSE,
+    warning = TRUE,
+    error = TRUE,
+    comment = NA,
+    tidy.opts = list(width.cutoff = 40),
+    tidy = F,
+    fig.align = "center",
+    out.width = out.width,
+    out.height = out.height,
+    dev = dev
+    )
+  if(rownumber_chunk) args_opts_chunk$class.source <- "numberLines LineAnchors"
+  
+  args_pandoc_options <- list(to = "beamer",
+                              from = rmarkdown::from_rmarkdown(fig_caption, md_extensions),
+                              args = NULL,
+                              keep_tex = keep_tex,
+                              latex_engine = latex_engine)
+  
   # FIXME: I want to load rmarkdown::metadata directly.
   out <- rmarkdown::output_format(
-    knitr = rmarkdown::knitr_options(
-      opts_chunk = list(
-        include = TRUE,
-        eval = TRUE,
-        echo = FALSE,
-        message = FALSE,
-        warning = TRUE,
-        error = TRUE,
-        comment = NA,
-        tidy.opts = list(width.cutoff = 40),
-        tidy = F,
-        fig.align = "center",
-        fig.show = 'hold',
-        out.width = out.width,
-        out.height = out.height,
-        dev = dev,
-        dev.args = list(pointsize = fontsize) # FIXME
-        ),
-      ),
-    pandoc = rmarkdown::pandoc_options(
-      to = "beamer",
-      from = rmarkdown::from_rmarkdown(fig_caption, md_extensions),
-      args = NULL,
-      keep_tex = keep_tex,
-      latex_engine = latex_engine
-      ),
-    # pre_processor = NULL,
-    # intermediates_generator = NULL,
+    pre_knit = function(input, ...) {
+      print(rmarkdown::metadata$fontsize)
+      knitr::opts_chunk$set(dev.args = list(pointsize = fontsize_as_integer(rmarkdown::metadata$fontsize)))
+      return(input)
+    },
+    knitr = do.call(rmarkdown::knitr_options, list(opts_chunk = args_opts_chunk)),
+    pandoc = do.call(rmarkdown::pandoc_options, args_pandoc_options),
     clean_supporting = !keep_tex,
     keep_md = keep_md,
     base_format = base
     )
   if(!file.exists("./.latexmkrc")){
-    file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
+    file.copy(file.path(system.file("extdata", package = "rmdja"), "latexmk/.latexmkrc"), to = "./")
   }
   return(out)
 }

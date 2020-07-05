@@ -140,10 +140,13 @@ $endif$
 $if(jfontpreset)$
 % if the preset is specified
 \ifxetex
-  \usepackage[$for(jfontpresetoptions)$$jfontpresetoptions$$sep$,$endfor$,$jfontpreset$]{zxjafont}
+  \usepackage{zxjatype}
+  \usepackage[$jfontpreset$,$for(jfontpresetoptions)$$jfontpresetoptions$$sep$,$endfor$]{zxjafont}
+  \usepackage{xeCJKfntef}
 \fi
 \ifluatex
   \usepackage[$for(jfontpresetoptions)$$jfontpresetoptions$$sep$,$endfor$,$jfontpreset$]{luatexja-preset}
+  \renewcommand{\kanjifamilydefault}{\gtdefault}
 \fi
 $else$
 % if fonts are set by each family
@@ -160,7 +163,8 @@ $if(jmonofont)$
 $endif$
 \fi
 \ifluatex
-  \usepackage{luatexja-fontspec}
+  \usepackage[$for(jfontpresetoptions)$$jfontpresetoptions$$sep$,$endfor$]{luatexja-fontspec}
+  \renewcommand{\kanjifamilydefault}{\gtdefault}
 $if(jmainfont)$
   \setmainjfont[$for(jmainoptions)$$jmainoptions$$sep$,$endfor$]{$jmainfont$}
 $endif$
@@ -173,11 +177,14 @@ $endif$
 \fi
 $endif$
 
-\ifxetex
   \IfFileExists{pxrubrica.sty}{\usepackage{pxrubrica}}{}
-\fi
 \ifluatex
-  \IfFileExists{luatexja-ruby.sty}{\usepackage{luatexja-ruby}}{}
+  \ltjsetparameter{%
+    jacharrange={-2,-3},
+    alxspmode={`/,allow},
+    alxspmode={`#,allow},
+    alxspmode={92,allow}
+  }
 \fi
 
 $if(latex_engine.luatex)$
@@ -279,7 +286,7 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 $if(tables)$
-\usepackage{longtable,booktabs}
+\usepackage{longtable,booktabs,dcolumn}
 $if(beamer)$
 \usepackage{caption}
 % Make caption package work with longtable
@@ -318,6 +325,11 @@ $if(links-as-notes)$
 $endif$
 $if(strikeout)$
 \usepackage[normalem]{ulem}
+\usepackage{xpatch}
+\xpatchcmd{\sout}
+  {\bgroup}
+  {\bgroup\def\ULthickness{2pt}}
+  {}{}
 % Avoid problems with \sout in headers with hyperref
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
@@ -425,7 +437,20 @@ $endif$
 \usepackage{fmtcount}
 \ifdefined\theFancyVerbLine\renewcommand{\theFancyVerbLine}{\small \padzeroes[2]{\decimal{FancyVerbLine}}}\fi % adjust row number position
 \IfFileExists{bxcoloremoji.sty}{\usepackage{bxcoloremoji}}{}
-\usepackage{fontspec}
+
+$if(figurename)$
+\renewcommand{\figurename}{$figurename$}
+$endif$
+$if(tablename)$
+\renewcommand{\tablename}{$tablename$}
+$endif$
+
+% redefine quote format as modern
+\makeatletter
+\@ifpackageloaded{framed}{}{\usepackage{framed}}
+\definecolor{quotebarcolor}{rgb}{0.2,0.2,0.2}
+\renewenvironment{quote}{\def\FrameCommand{{\color{quotebarcolor}{\vrule width 3pt}}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}{\endMakeFramed}
+\makeatother
 
 \begin{document}
 $if(has-frontmatter)$
@@ -483,40 +508,51 @@ $if(has-frontmatter)$
 $endif$
 $body$
 
+$-- References part
+% Refrences Part
+
 $if(has-frontmatter)$
 \backmatter
 $endif$
 $if(natbib)$
-$if(bibliography)$
-$if(biblio-title)$
-$if(has-chapters)$
+  % if natbib
+  $if(bibliography)$
+    $if(biblio-title)$
+      $if(has-chapters)$
 \renewcommand\bibname{$biblio-title$}
-$else$
+      $else$
 \renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-$if(beamer)$
-\begin{frame}[allowframebreaks]{$biblio-title$}
+\section*{$biblio-title$}
+    $endif$
+  $endif$
+  $if(beamer)$
+  % if beamer
+\begin{frame}[allowframebreaks]
   \bibliographytrue
-$endif$
+  $endif$
   \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
-$if(beamer)$
+  $if(beamer)$
 \end{frame}
+  $endif$
+$endif$
 $endif$
 
-$endif$
-$endif$
 $if(biblatex)$
-$if(beamer)$
-\begin{frame}[allowframebreaks]{$biblio-title$}
+% if biblatex
+  $if(beamer)$
+\section*{$biblio-title$}
+\begin{frame}[allowframebreaks]
   \bibliographytrue
   \printbibliography[heading=none]
 \end{frame}
-$else$
+  $else$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
 $endif$
 
+
 $endif$
+$-- after body
+
 $for(include-after)$
 $include-after$
 

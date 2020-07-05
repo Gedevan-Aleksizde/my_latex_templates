@@ -19,6 +19,7 @@ beamer_presentation_ja(
   out.width = "100\%",
   out.height = "100\%",
   highlight = "default",
+  rownumber_chunk = FALSE,
   citation_package = "default",
   citation_options = "default",
   figurename = "図",
@@ -61,7 +62,9 @@ beamer_presentation_ja(
 
 \item{out.width}{character. 画像を貼り付ける際のサイズ. チャンクごとに指定することも可能. デフォルト: "100\%"}
 
-\item{highlight}{character. シンタックスハイライトのデザイン. \code{rmarkdown::beamer_presentation} 参照. デフォルト: default}
+\item{highlight}{character. チャンク内のコードのシンタックスハイライトのデザイン. \code{rmarkdown::beamer_presentation} 参照. デフォルト: default}
+
+\item{rownumber_chunk}{logical チャンクに行番号を付けるかどうか. デフォルト: FALSE}
 
 \item{citation_package}{character.  本文中の引用トークンに関するパッケージ. デフォルト: default}
 
@@ -79,7 +82,7 @@ beamer_presentation_ja(
 
 \item{self_contained}{logical. (TRUE) LaTeX のプリアンブルも生成する, (FALSE)本文のみ生成する. デフォルト: TRUE}
 
-\item{includes}{named list. プリアンブルに追加する記述. 詳細は \code{rmarkdown::includes} 参照. デフォルト: NULL}
+\item{includes}{named list. texファイルに追加するファイルパス. \code{in_header}, \code{before_body}, \code{after_body}, にはファイルパス, \code{preamble} は \code{document} 環境直前のプリアンブル記述をインラインで書くことができる. 詳細は \code{rmarkdown::includes} 参照. デフォルト: NULL}
 
 \item{latex_engine}{character. LaTeXエンジンの指定. デフォルト以外の値にすることは\strong{非推奨}. デフォルト: xelatex}
 
