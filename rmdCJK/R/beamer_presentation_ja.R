@@ -8,25 +8,19 @@
 #' @param keep_tex logical. 出力時に .tex ファイルを残すかどうか. 経験的にknit時エラーのほとんどは生成された.texファイルに問題があるためデバッグ用に **TRUEを推奨する**. デフォルト: TRUE
 #' @param keep_md logical. 出力時に .md ファイルを残すかどうか. デフォルト: FALSE
 #' @param theme chracter. beamer テーマ. デフォルトは "default"
+#' @param theme_options character. テーマオプション. デフォルトはフレームタイトルの下にプログレスバーをつけて, ブロックの背景色を描画するというもの
+#' @param fonttheme character. フォントテーマ. デフォルトでは数式にローマン体を使う. デフォルト: "default"
+#' @param colortheme character. 色テーマ. デフォルト: "default"
 #' @param toc logical. 目次をスライド冒頭に出力するかどうか. 白紙フレームになるので見栄えが悪い. examples のように自分で書いたほうが良いと思う. デフォルト: FALSE
+#' @param df_print character. チャンク出力のデータフレーム表示方法. 詳細は `rmarkdown::beamer_presentation` 参照. デフォルト: default
 #' @param fig_width numeric. 画像保存時の幅. 単位インチ. デフォルトはbeamerのデフォルト幅と同じ 5.03937
 #' @param fig_height numeric. 画像保存時の高さ. 単位インチ. デフォルトはbeamerのデフォルト高と同じ 3.77953
-#' @param fig_caption logical. 画像キャプションの有無. デフォルト: TRUE
-#' @param df_print character. チャンク出力のデータフレーム表示方法. 詳細は `rmarkdown::beamer_presentation` 参照. デフォルト: default
-#' @param theme_options character. テーマオプション. デフォルトはフレームタイトルの下にプログレスバーをつけて, ブロックの背景色を描画するというもの
-#' @param fonttheme character. フォントテーマ. デフォルトでは数式にローマン体を使う. デフォルト: "professional"
-#' @param colortheme character. 色テーマ. デフォルト: "default"
-#' @param innertheme character.  `colortheme` に同じ
-#' @param outertheme character. `outertheme` に同じ
-#' @param fontsize character. beamer の規定フォントサイズ. デフォルト: "11pt"
-#' @param fig_width numeric. 画像保存時の幅. 単位インチ. デフォルトはbeamerのデフォルト幅と同じ. デフォルト: 5.03937
-#' @param fig_height numeric. `fig_width` 参照. デフォルト: 3.77953
+#' @param fig_caption logical. 画像にキャプションを付けるか否か. デフォルト: TRUE
+#' @param fig_crop logical. pdfcrop を使ってpdf画像の余白を削るかどうか. デフォルト: TRUE
 #' @param out.width character. 画像を貼り付ける際のサイズ. チャンクごとに指定することも可能. デフォルト: "100%"
 #' @param out.heigt character. `out.height` 参照. デフォルト: "100%"
-#' @param fig_crop logical. pdfcrop を使ってpdf画像の余白を削るかどうか. デフォルト: TRUE
-#' @param fig_caption logical. 画像にキャプションを付けるか否か. デフォルト: TRUE
 #' @param highlight character. シンタックスハイライトのデザイン. `rmarkdown::beamer_presentation` 参照. デフォルト: default
-#' @param citation_package character.  本文中の引用トークンに関するパッケージ. デフォルト: natbib
+#' @param citation_package character.  本文中の引用トークンに関するパッケージ. デフォルト: default
 #' @param citation_options character. `citation_package` のオプション. デフォルトの natbib+numbersでは "[1]" のような引用トークンが生成される. デフォルト: numbers.
 #' @param figurename character. 図X の「図」の部分のテキスト. デフォルト: "図"
 #' @param tablename character. 表Y の「表」の部分のテキスト. デフォルト: "表"
@@ -39,31 +33,28 @@
 #' @param latex_engine character. LaTeXエンジンの指定. デフォルト以外の値にすることは**非推奨**. デフォルト: xelatex
 #' @param dev character. グラフィックデバイス. 日本語を使う限りデフォルト値から変更する意義はほぼない. デフォルト: cairo_pdf
 #' @param pandoc_args. named list. pandoc に渡す引数. yamlヘッダのトップレベルに概ね対応する. 詳細は `rmarkdown::pdf_document`, `rmarkdown::rmd_metadata` や pandoc の公式ドキュメント参照. デフォルト: NULL
-#' @param md_extensions. named_list. pandoc 変換の際にmdに付けるオプション. 詳細は `rmarkdown::rmarkdown_format` 参照. デフォルト: NULL
+#' @param md_extensions. named_list. pandoc 変換の際にmdフォーマットに付けるオプション. 詳細は `rmarkdown::rmarkdown_format` 参照. デフォルト: NULL
 #' @param opts_chunk named list. Rmdファイルのチャンク内で `knitr::opts_chunk$set(...)` で記入するものと同じ. 画像サイズなどチャンク出力の設定がbeamer向けになるようデフォルト値を変更している 主なデフォルト: list(message = FALSE, echo = FALSE, comment = NA, fig.align = "center")
 #' @return rmarkdown_output_format
 
 #' @export
-beamer_presentation_CJK <- function(
+beamer_presentation_ja <- function(
   keep_tex = TRUE,
   keep_md = FALSE,
-  toc = FALSE,
   theme = "default",
-  theme_options = "progressbar=frametitle,block=fill",
-  fonttheme = "professionalfonts",
+  theme_options = "default",
+  fonttheme = "default",
   colortheme = "default",
-  innertheme = "default",
-  outertheme = "default",
-  fontsize = "11pt",
+  toc = FALSE,
   fig_width = 5.03937,
   fig_height = 3.77953,
-  out.width = "100%",
-  out.height = "100%",
   fig_crop = TRUE,
   fig_caption = TRUE,
+  out.width = "100%",
+  out.height = "100%",
   highlight = "default",
-  citation_package = "natbib",
-  citation_options = "numbers",
+  citation_package = "default",
+  citation_options = "default",
   figurename = "図",
   tablename = "表",
   number_sections = FALSE,
@@ -71,7 +62,7 @@ beamer_presentation_CJK <- function(
   incremental = FALSE,
   self_contained = TRUE,
   includes = NULL,
-  latex_engine = c("xelatex", "xelatex"),
+  latex_engine = c("lualatex", "xelatex"),
   dev = "cairo_pdf",
   template = "default",
   md_extensions = NULL,
@@ -82,46 +73,38 @@ beamer_presentation_CJK <- function(
   match.arg(latex_engine, c("xelatex", "lualatex"))
   
   # ----- reshape arguments -----
-  if(missing(template) || identical(template, "")){
+  pandoc_args_base <- c()
+  print(theme_options)
+  
+  if(!identical(theme_options, "default")){
+    if(!is.null(theme_options) && !identical(theme_options, "")){
+      pandoc_args_base <- c(pandoc_args_base, "-V", paste0('themeoptions:', paste0(theme_options, collapse = ","))) #FIXME: how to handle '=' contained values/what does mean the """list""" in Pandoc commandline arguments?  
+    }
+  }
+  if(identical(citation_package, "natbib")){
+    if(!identical(citation_options, "default")){
+      pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("natbiboptions", citation_options))
+    }
+  }
+  if(!missing(figurename) || !identical(figure_name, "")){
+    pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("figurename", figurename))
+  } else {
+    pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("figurename", "図"))
+  }
+  if(!missing(tablename) || !identical(tablename, "")){
+    pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("tablename", tablename))
+  } else {
+    pandoc_args_base <- c(pandoc_args_base, rmarkdown::pandoc_variable_arg("tablename", "図"))
+  }
+  if(missing(template) || identical(template, "") || identical(template, "default")){
     template <- file.path(system.file("extdata", package = "rmdCJK"), "pandoc-template/beamer-ja.template")
   }
   fontsize <- as.integer(regmatches(rmarkdown::metadata$fontsize, regexpr("^[0-9]+", rmarkdown::metadata$fontsize)))
-
-  settings_subthemes <- list(
-    fonttheme = list(theme = fonttheme),
-    colortheme = list(theme = colortheme),
-    innertheme = list(theme = innertheme),
-    outertheme = list(theme = outertheme)
-  )
-  if(is.null(theme) || identical(theme, "") || missing(theme)){
-    theme <- "default"
-  }
-  if(is.null(theme_options) || missing(theme_options) || identical(theme_options, "")){
-    header_theme <- paste0("{",  theme, "}")
-  } else {
-    header_theme <- paste0("[", theme_options, "]{",  theme, "}")
-  }
-  header_theme <- paste0("\\usetheme", header_theme)
-  # add sub themes
-  for(thm in names(settings_subthemes)){
-    if(is.null(settings_subthemes[[thm]]) || is.na(settings_subthemes[[thm]]) || identical(settings_subthemes[[thm]], "")){
-      settings_subthemes[[thm]]$use <- paste0("\\use", thm, "{default}")
-    } else {
-      settings_subthemes[[thm]]$use <- paste0("\\use", thm, "{", settings_subthemes[[thm]]$theme, "}")
-    }
-  }
-  gen_latex_preamble <- function(figurename, tablename){
-    header <- c(
-      paste0("\\renewcommand{\\figurename}{", figurename, "}"),
-      paste0("\\renewcommand{\\tablename}{", tablename, "}")
-    )
-    return(header)
-  }
-
+  if(length(fontsize) == 0) fontsize = 11
+  
   header_file <- tempfile(fileext = ".tex")
   write(
-    c(gen_latex_preamble(figurename, tablename),
-      rmarkdown::metadata$`header-includes`), # FIXME
+    c("", rmarkdown::metadata$`header-includes`), # FIXME
     header_file)
   
   # ----- generate output format -----
@@ -136,8 +119,8 @@ beamer_presentation_CJK <- function(
     fig_caption = fig_caption,
     dev = dev,
     theme = theme,
-    colortheme = "default",
-    fonttheme = "default",
+    colortheme = colortheme,
+    fonttheme = fonttheme,
     highlight = highlight,
     template = template,
     keep_tex = keep_tex,
@@ -146,13 +129,10 @@ beamer_presentation_CJK <- function(
     citation_package = citation_package,
     self_contained = self_contained,
     includes = list(in_header = header_file),
-    md_extensions = NULL,
-    pandoc_args = NULL
+    md_extensions = md_extensions,
+    pandoc_args = c(pandoc_args_base, pandoc_args)
   )
   base <- do.call(rmarkdown::beamer_presentation, beamer_args)
-  # pandoc_args_keys <- unique(c(names(pandoc_args), names(base$pandoc)))
-  # pandoc_args <- setNames(mapply(c, pandoc_args[pandoc_args_keys], base$pandoc[pandoc_args_keys]), pandoc_args_keys)
-
 
   # FIXME: I want to load rmarkdown::metadata directly.
   out <- rmarkdown::output_format(
@@ -172,18 +152,18 @@ beamer_presentation_CJK <- function(
         out.width = out.width,
         out.height = out.height,
         dev = dev,
-        dev.args = list(pointsize = 11) # FIXME
+        dev.args = list(pointsize = fontsize) # FIXME
         ),
       ),
     pandoc = rmarkdown::pandoc_options(
       to = "beamer",
       from = rmarkdown::from_rmarkdown(fig_caption, md_extensions),
-      args = pandoc_args,
+      args = NULL,
       keep_tex = keep_tex,
       latex_engine = latex_engine
       ),
-    pre_processor = NULL,
-    intermediates_generator = NULL,
+    # pre_processor = NULL,
+    # intermediates_generator = NULL,
     clean_supporting = !keep_tex,
     keep_md = keep_md,
     base_format = base
@@ -191,6 +171,5 @@ beamer_presentation_CJK <- function(
   if(!file.exists("./.latexmkrc")){
     file.copy(file.path(system.file("extdata", package = "rmdCJK"), "latexmk/.latexmkrc"), to = "./")
   }
-  print(out$pandoc)
   return(out)
 }
