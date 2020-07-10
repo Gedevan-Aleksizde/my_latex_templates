@@ -13,7 +13,6 @@
 %===============================================================================
 
 ((*- block docclass -*))
-% Python 3.6 article template
 \documentclass{bxjsarticle}
 \usepackage{zxjatype}
 %\setjamainfont{Noto Serif CJK JP}
