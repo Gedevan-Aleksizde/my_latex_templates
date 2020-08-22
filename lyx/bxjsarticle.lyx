@@ -10,6 +10,7 @@
 % ifplatform を使用するために, 形式 -> 「外部プログラムの実行を許可」にチェックを入れる
 % やりたくないなら ifplatform でフォント指定分岐しているところを書き換える
 \usepackage[AutoFallBack=true]{zxjatype}
+\usepackage{xeCJKfntef}
 \usepackage{ifthen}
 \usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
 
