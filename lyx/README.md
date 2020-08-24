@@ -8,17 +8,17 @@
 * TeXLive 2018 以降が必要
 
 # 使い方
-1. LyX テンプレートディレクトリに`.lyx`ファイルを置く
-	+ Linux 系なら
-  ```
-  /usr/share/lyx/templates
-  ```
-	+ Mac なら
-		```
-	~/Library/Application Support/Lyx-<VERSION>/templates
-	```
-	に .lyx を配置します.
-	+ `.tex` ファイルはtex読める人向けに内容確認するために置いているだけでインストールには関係ありません.
+1. LyX テンプレートディレクトリに`.lyx`ファイルを置く 
+Linux 系なら
+```
+/usr/share/lyx/templates
+```
+Mac なら
+```
+~/Library/Application Support/Lyx-<VERSION>/templates
+```
+に .lyx を配置します. `.tex` ファイルはtex読める人向けに内容確認するために置いているだけでインストールには関係ありません.
+
 2. LyXを起動し「ファイル」 -> 「新規(ひな型使用)」でこのファイルを選ぶ
 3.  編集時に 「文書」-> 「プリアンブル」を開き, OSに合ったフォントを書き換える
 	+ デフォルト設定のほとんどはフリーウェアかOSプリインストールのもののはずですが一応確認してください
