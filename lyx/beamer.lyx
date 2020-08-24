@@ -12,6 +12,7 @@
 \usepackage{ifthen}
 \usepackage{ifplatform} % 環境依存で記述を条件分岐させるために必要
 \usepackage[AutoFallBack=true]{zxjatype} % bsjs* でないので明示的に指定が必要
+\usepackage{xeCJKfntef}
 
 % document 環境内で \label 使わないと LyX が使用判定してくれず, エラーになるので以下で必ず読み込み
 \usepackage{listings}
