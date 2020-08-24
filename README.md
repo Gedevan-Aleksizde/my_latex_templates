@@ -6,7 +6,8 @@
 	+ `beamer.lyx` Beamer 用
 * Rmarkdown用beamerテンプレート (`rmdCJK/`)
 	+ LuaLaTeX/XeLaTeX + beamer で日本語スライドを作成するためのパッケージ
-* コピペ用だけで使えるテンプレート (`rmd_old`)
+* コピペだけで使えるテンプレート (`rmd_old`)
+	+ **現在はちゃんとメンテナンスしてないガラクタ置き場と化している**
 	+ `rmd_old/beamer/beamer.Rmd` は上記のパッケージ化前のテンプレート
 	+ `rmd_old/bookdown/` は作りかけ
 * Jupyter Notebook 用 (`jupyter/`)
