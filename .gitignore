@@ -20,3 +20,6 @@ memo
 rmd_bookdown
 rmdja/inst/resources/examples/img
 rmdja/inst/resources/examples/styles
+rmdja/inst/resources/examples/bookdown/_book
+rmdja/inst/resources/examples/bookdown/inst
+rmdja/inst/resources/examples/bookdown/_bookdown_files
