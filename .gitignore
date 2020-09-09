@@ -18,3 +18,5 @@ memo
 *.ps
 *fdb.latexmk
 rmd_bookdown
+rmdja/inst/resources/examples/img
+rmdja/inst/resources/examples/styles
