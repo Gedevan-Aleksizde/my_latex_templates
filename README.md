@@ -14,6 +14,6 @@
 	+ Jupyter Notebook で日本語埋め込んでエクスポートするためのテンプレート
 	+ かなりやっつけ
 * `rmdja`
-	+ R Markdown / Bookdown の日本語向け設定フォーマット (リポジトリを独立)
+	+ R Markdown / Bookdown の日本語向け設定フォーマット ([リポジトリを独立](https://github.com/Gedevan-Aleksizde/rmdja))
 ## 使い方
 各フォルダの `README.md` 参照
