@@ -118,6 +118,18 @@
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
 }{}
 % ------
+
+% 引用ブロックの強調を今風に
+\makeatletter
+\@ifpackageloaded{framed}{}{\usepackage{framed}}
+\definecolor{quotebarcolor}{rgb}{0.2,0.2,0.2}
+\renewenvironment{quote}{\def\FrameCommand{{\color{quotebarcolor}{\vrule width 3pt}}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}{\endMakeFramed}
+\makeatother
+
+% 画像はすべて中央揃え
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
 \end_preamble
 \use_default_options false
 \begin_modules

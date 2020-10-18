@@ -1,4 +1,4 @@
-%% LyX 2.3.5-1 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.5.2 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass{bxjsarticle}
 \usepackage{amsmath}
@@ -129,6 +129,18 @@
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
 }{}
 % ------
+
+% 引用ブロックの強調を今風に
+\makeatletter
+\@ifpackageloaded{framed}{}{\usepackage{framed}}
+\definecolor{quotebarcolor}{rgb}{0.2,0.2,0.2}
+\renewenvironment{quote}{\def\FrameCommand{{\color{quotebarcolor}{\vrule width 3pt}}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}{\endMakeFramed}
+\makeatother
+
+% 画像はすべて中央揃え
+\makeatletter
+\g@addto@macro\@floatboxreset\centering
+\makeatother
 
 \makeatother
 
