@@ -1,4 +1,4 @@
-%% LyX 2.3.5.2 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.6.1 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \documentclass{bxjsarticle}
 \usepackage{amsmath}
@@ -50,7 +50,7 @@
 % ifplatform でOSごとに違うフォントを指定しているため, -shell-escape をつけてコンパイルする必要あり
 \iflinux
   \setmainfont[Ligatures=TeX]{DejaVu Serif}
-  \setsansfont[Ligatures=TeX]{DejaVu Sans}
+  \setsansfont[Ligatures=TeX]{DejaVus Sans}
   \setmonofont{Ricty Diminished}
   \setjamainfont{Noto Serif CJK JP} %和文フォント指定
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
@@ -65,18 +65,19 @@
   \setjasansfont{Noto Sans CJK JP} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
 }{}
+
 \ifmacosx
   \setmainfont[Ligatures=TeX]{DejaVu Serif} %欧文フォント族指定
   \setsansfont[Ligatures=TeX]{DejaVu Sans} %欧文サンセリフフォント指定
   \setmonofont{Ricty Diminished} %欧文等幅フォント指定
   \setjamainfont[BoldFont=Hiragino Mincho ProN W6]{Hiragino Mincho ProN W3} %和文フォント指定
   \setjasansfont[BoldFont=Hiragino Kaku Gothic ProN W6]{Hiragino Maru Gothic ProN W4} %和文サンセリフ指定
-  \setjamonofont[BoldFont=Ricty Diminished]{Ricty Diminished} %和文等幅フォント
+  \setjamonofont{Ricty Diminished} %和文等幅フォント
 \fi
 \ifwindows
-  \setmainfont[Ligatures=TeX]{Times}
+  \setmainfont[Ligatures=TeX]{Times New Roman}
   \setsansfont[Ligatures=TeX]{Arial}
-  \setmonofont{Ricty Diminished}
+  \setmonofont{Migu 1M}
   \setjamainfont{游明朝} %和文フォント指定
   \setjasansfont{游ゴシック} %和文サンセリフ指定
   \setjamonofont{Ricty Diminished} %和文等幅フォント
@@ -110,6 +111,11 @@
 % 小数点を揃えるアラインメントを定義 \begin{tabular}{r....} のように使う.
 % ------
 
+
+% scale image by 75% of text width as default
+\@ifpackageloaded{graphicx}{\setkeys{Gin}{width=.75\textwidth,keepaspectratio}}{}
+% ------
+
 % ---- prettyref 用の設定 ----
 % label を \label{<CATEGORY>:<Reference ID>} のように書くと,
 % 参照する際に <CATEGORY> に応じてフォーマットが変わる.
@@ -128,19 +134,15 @@
   \newrefformat{tabp}{\pageref{#1} ページの表\ref{#1}}%
   \newrefformat{figb}{\pageref{#1} ページの図 \ref{#1}}%
 }{}
-% ------
 
-% 引用ブロックの強調を今風に
-\makeatletter
-\@ifpackageloaded{framed}{}{\usepackage{framed}}
-\definecolor{quotebarcolor}{rgb}{0.2,0.2,0.2}
-\renewenvironment{quote}{\def\FrameCommand{{\color{quotebarcolor}{\vrule width 3pt}}\hspace{10pt}}\MakeFramed{\advance\hsize-\width\FrameRestore}}{\endMakeFramed}
-\makeatother
+\usepackage[totoc]{idxlayout} % 索引を目次に追加
 
-% 画像はすべて中央揃え
+% centering images as default
 \makeatletter
 \g@addto@macro\@floatboxreset\centering
 \makeatother
+
+% ------
 
 \makeatother
 
